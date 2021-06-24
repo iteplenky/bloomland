@@ -7,7 +7,7 @@ namespace iStickers;
     use pocketmine\plugin\PluginBase;
     use pocketmine\event\Listener;
 
-	use pocketmine\utils\Config;
+    use pocketmine\utils\Config;
     
     use pocketmine\event\player\PlayerChatEvent;
 
@@ -27,13 +27,13 @@ namespace iStickers;
 
             foreach ($stickers as $sticker) {
 
-				if ($this->getConfig()->exists($sticker)) {
+		if ($this->getConfig()->exists($sticker)) {
 
-					$new = str_replace($sticker, $this->getConfig()->get($sticker), $message);
+			$new = str_replace($sticker, $this->getConfig()->get($sticker), $message);
 
-					$event->setMessage($new);
+			$event->setMessage($new);
 
-				}
+		}
 
             }
 
