@@ -2,8 +2,11 @@
 name: iStickers
 version: 1.0.0
 
+description: Специально для проекта BloomLand 1.17
+
 main: iStickers\Main
 api: 4.0.0
 
+website: vk.com/iteplenky
 author: Denis Klyuyev
 ...
