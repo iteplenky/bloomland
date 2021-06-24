@@ -1,0 +1,27 @@
+name: RegUI
+version: 1.0.0
+
+description: Специально для проекта BloomLand 1.17
+
+main: iteplenky\RegUI\Main
+api: 4.0.0
+
+website: vk.com/iteplenky
+author: Denis Klyuyev
+
+softdepend:
+ - FormAPI
+ 
+permissions:
+  register.cmd:
+    default: true
+  login.cmd:
+    default: true
+  logout.cmd:
+    default: true
+  logout.player.cmd:
+    default: op
+  changepassword.cmd:
+    default: true
+  vk.cmd:
+    default: true

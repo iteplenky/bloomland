@@ -1,0 +1,45 @@
+form:
+  register:
+    title: "Регистрация"
+    password: "\n §l§b> §rПридумайте сложный пароль"
+    passwordSub: "Пароль"
+    vkId: "\n §l§b> §rПридумайте кодовое слово"
+    vkIdSub: "Кодовое слово §7(для восстановления)"
+  login:
+    title: "Авторизация"
+    password: " §l§b> §rВведите пароль который Вы вводили при регистрации в поле ниже"
+    passwordSub: "Пароль"
+  cp:
+    title: "Сменить пароль"
+    oldPassword: " §l§b> §rВведите свой старый пароль в поле ниже"
+    oldPasswordSub: "Старый пароль"
+    newPassword: " §l§b> §rВведите новый пароль в поле ниже"
+    newPasswordSub: "Новый пароль"
+
+error:
+  registered: " §l§b> §rВы уже зарегистрированы!"
+  logined: " §l§b> §rВы уже авторизованы!"
+  notLogined: " §l§b> §rВы не авторизованы"
+  login: " §l§b> §rВойдите в систему! /register, /login"
+  emptyPassword: "Придумайте пароль"
+  emptyEmail: "Придумайте кодовое слово"
+  numericPassword: "Добавьте хотя-бы одну букву в ваш пароль"
+  incorrectPassword: " §l§b> §rНеверный пароль! Попробуйте снова"
+  isPlaying: "§c* §rИгрок §c{player} §rиграет на сервере §c*"
+  isPlayingWithoutPass: "§c* §rИгрок §c{player} §rв игре по причине того, что Вы не успели войти. §c*"
+  minLength: "Минимальная длина §b5 §rсимволов"
+  ctype: "Используйте только буквы и цифры"
+  logCount: " §l§b> §rВы превысили количество попыток"
+  noPermission: " §l§b> §rВы §cне можете§r сбрасывать аккаунты других игроков"
+  emptyOldPassword: " §l§b> §rВведите свой старый пароль"
+  emptyNewPassword: " §l§b> §rВведите новый пароль"
+
+success: 
+  register: " §l§b> §rВы зарегистрировались! Постарайтесь не забыть свой пароль"
+  login: " §l§b> §rВы авторизовались!"
+  logout: "Вы сбросили аккаунт"
+  cp: " §l§b> §rВы изменили пароль"
+  broadcast: " §l§b> §rВаш профиль: §b{player} §rстановится по счёту #§e{count} §rигроком сервера §b§lBLOOM§dLAND§r.\n §l§b> §rОзнакомьтесь с §bправилами игры §rна сервере, чтобы избежать случайных нарушений."
+
+minLength: 5
+hashPassword: false
