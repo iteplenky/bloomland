@@ -1,0 +1,9 @@
+---
+name: iStickers
+version: 1.0.0
+
+main: iStickers\Main
+api: 4.0.0
+
+author: Denis Klyuyev
+...
