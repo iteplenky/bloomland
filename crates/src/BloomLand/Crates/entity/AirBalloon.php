@@ -64,12 +64,6 @@ namespace BloomLand\Crates\entity;
         {
             return new EntitySizeInfo(0.9, 0.9, 0); /* height, width, eyeHeight */
         }
-
-        public static function createNBT(Vector3 $pos) : CompoundTag
-        {
-            $nbt = EntityDataHelper::createBaseNBT($pos->floor()->add(0.5, 0, 0.5), null, 0, 0);
-            return $nbt;
-        }
         
         public function __construct(Location $location, Skin $skin, ?CompoundTag $nbt = null)
         {
