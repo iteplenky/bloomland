@@ -45,50 +45,24 @@ namespace BloomLand\Crates;
 
         public function modelsControl(Player $player, $value) : void 
         {
-            $path = $this->getFile() . '/resources/';
-
             switch ($value) {
                 case 0:
-                     $skin = $this->makeSkin(
-                        'patrick_chest', 
-                        'patrick_chest', 
-                        $path, 
-                        'patrick_chest', 
-                        'PatrickChest'
-                    );
+                    $skin = $this->makeSkin('patrick_chest', 'PatrickChest');
                     $entity = new PatrickCrate($player->getLocation(), $skin, CompoundTag::create());
                     break;
 
                 case 1:
-                     $skin = $this->makeSkin(
-                        'air_balloon', 
-                        'air_balloon', 
-                        $path, 
-                        'air_balloon', 
-                        'AirBalloon'
-                    );
+                    $skin = $this->makeSkin('air_balloon', 'AirBalloon');
                     $entity = new AirBalloon($player->getLocation(), $skin, CompoundTag::create());
                     break;
 
                 case 2:
-                    $skin = $this->makeSkin(
-                        'enchanted_ash', 
-                        'enchanted_ash', 
-                        $path, 
-                        'enchanted_ash', 
-                        'EnchantedAsh'
-                    );
+                    $skin = $this->makeSkin('enchanted_ash', 'EnchantedAsh');
                     $entity = new EnchantedAsh($player->getLocation(), $skin, CompoundTag::create());
                     break;
 
                 case 3:
-                    $skin = $this->makeSkin(
-                        'trader', 
-                        'trader', 
-                        $path, 
-                        'trader', 
-                        'Trader'
-                    );
+                    $skin = $this->makeSkin('trader', 'Trader');
                     $entity = new Trader($player->getLocation(), $skin, CompoundTag::create());
                     break;
             }
@@ -122,18 +96,18 @@ namespace BloomLand\Crates;
 
         }
 
-        private function makeSkin(string $skinFileName, string $geometryFileName, string $path, string $geometryName, string $folderName) : Skin 
+        private function makeSkin(string $geometryName, string $folderName) : Skin 
         {
-            $path = $path . $folderName . '/';
+            $path = $this->getFile() . '/resources/' . $folderName . '/';
 
-            $img = @imagecreatefrompng($path . $skinFileName . '.png');
-            $size = (int) @getimagesize($path . $skinFileName . '.png')[1];
+            $img = @imagecreatefrompng($path . $geometryName . '.png');
+            $size = (int) @getimagesize($path . $geometryName . '.png')[1];
     
             $bytes = $this->getBytes($size, $img);
     
             @imagedestroy($img);
     
-            return new Skin($folderName, $bytes, '' ,'geometry.' . $geometryName, file_get_contents($path . $geometryFileName . '.json'));
+            return new Skin($folderName, $bytes, '' ,'geometry.' . $geometryName, file_get_contents($path . $geometryName . '.json'));
         }
 
         private function getBytes(int $size, $img) : string 
