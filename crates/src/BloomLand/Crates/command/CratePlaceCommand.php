@@ -7,7 +7,7 @@ namespace BloomLand\Crates\command;
     use BloomLand\Crates\Main;
 
     use Frago9876543210\EasyForms\elements\Button;
-	use Frago9876543210\EasyForms\elements\Image;
+    use Frago9876543210\EasyForms\elements\Image;
     use Frago9876543210\EasyForms\forms\MenuForm;
 
     use pocketmine\command\Command;
