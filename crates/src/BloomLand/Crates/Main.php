@@ -6,10 +6,6 @@ namespace BloomLand\Crates;
     
     use BloomLand\Core\Core;
 
-    use pocketmine\player\Player;
-
-    use pocketmine\plugin\PluginBase;
-
     use BloomLand\Crates\command\CratePlaceCommand;
 
     use BloomLand\Crates\crate\manager\CrateManager;
@@ -18,61 +14,52 @@ namespace BloomLand\Crates;
     use BloomLand\Crates\crate\AirBalloon;
     use BloomLand\Crates\crate\EnchantedAsh;
 
+    use pocketmine\plugin\PluginBase;
+    
+    use pocketmine\player\Player;
+    
+    use pocketmine\world\World;
+    use pocketmine\entity\Human;
     use pocketmine\nbt\tag\CompoundTag;
 
-    use pocketmine\entity\Human;
     use pocketmine\entity\EntityFactory;
     use pocketmine\entity\EntityDataHelper;
-    use pocketmine\world\World;
 
     class Main extends PluginBase 
     {
-        private static $api;
-        
+        public function onEnable() : void
+        {
+            $this->initCrates();
+
+            $this->getLogger()->notice('Crates initialized!');
+
+            $this->getServer()->getCommandMap()->register($this->getName(), new CratePlaceCommand($this));
+        }
+
         public static function getPrefix() : string
         {
             return Core::getAPI()->getPrefix();
         }
 
-        public function onLoad() : void 
-        {
-            self::$api = $this;
-        }
-
-        public function onEnable() : void
-        {
-            self::initCrates();
-
-            $this->getLogger()->notice('Crates initialized!');
-
-            $this->getServer()->getCommandMap()->registerAll($this->getName(), [new CratePlaceCommand($this)]);
-        }
-
         public function modelsControl(Player $player, $value) : void 
         {
+            $nbt = $player->getLocation(), $player->getSkin(), CompoundTag::create();
+
             switch ($value) {
                 case 0:
-                    $location = $player->getLocation();
-                    $entity = new PatrickCrate($location, $player->getSkin(), CompoundTag::create());
-                    $entity->spawnToAll();
+                    $entity = new PatrickCrate($nbt);
                     break;
 
                 case 1:
-                    $location = $player->getLocation();
-                    $entity = new AirBalloon($location, $player->getSkin(), CompoundTag::create());
-                    $entity->spawnToAll();
+                    $entity = new AirBalloon($nbt);
                     break;
 
                 case 2:
-                    $location = $player->getLocation();
-                    $entity = new EnchantedAsh($location, $player->getSkin(), CompoundTag::create());
-                    $entity->spawnToAll();
-                    break;
-                
-                default:
-                    $player->sendMessage(' ');
+                    $entity = new EnchantedAsh($nbt);
                     break;
             }
+
+            $entity->spawnToAll();
         }
 
         private function initCrates() : void
@@ -97,27 +84,23 @@ namespace BloomLand\Crates;
 
         }
 
-        public function onDisable() : void
+        public function makeSkin(string $skinFileName, string $geometryFileName, string $path, string $geometryName, string $folderName) : Skin 
         {
-        	$world = $this->getServer()->getWorldManager()->getWorldByName('world');
-            
-        }
+            $path = $path . $folderName . '/';
 
-        public function makeSkin(string $skinFileName, string $geometryFileName, string $path, string $geometryName) : Skin 
-        {
-            $img = @imagecreatefrompng($path . $skinFileName . ".png");
-            $size = (int) @getimagesize($path . $skinFileName . ".png")[1];
+            $img = @imagecreatefrompng($path . $skinFileName . '.png');
+            $size = (int) @getimagesize($path . $skinFileName . '.png')[1];
     
-            $bytes = self::getBytes($size, $img);
+            $bytes = $this->getBytes($size, $img);
     
             @imagedestroy($img);
     
-            return new Skin("name", $bytes, "" ,"geometry.". $geometryName, file_get_contents($path. $geometryFileName. ".json"));
+            return new Skin($folderName, $bytes, '' ,'geometry.' . $geometryName, file_get_contents($path . $geometryFileName . '.json'));
         }
 
         public function getBytes(int $size, $img) : string 
         {
-            $bytes = "";
+            $bytes = '';
     
             for ($y = 0; $y < $size; $y ++) {
         
