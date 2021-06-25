@@ -36,25 +36,49 @@ namespace BloomLand\Crates;
             $this->getServer()->getCommandMap()->register($this->getName(), new CratePlaceCommand($this));
         }
 
-        public static function getPrefix() : string
+        public function getPrefix() : string
         {
             return Core::getAPI()->getPrefix();
         }
 
         public function modelsControl(Player $player, $value) : void 
         {
-            $nbt = $player->getLocation(), $player->getSkin(), CompoundTag::create();
+            $path = $this->getFile() . '/resources/';
 
             switch ($value) {
                 case 0:
+                     $skin = $this->makeSkin(
+                        patrick_chest, 
+                        patrick_chest, 
+                        $path, 
+                        patrick_chest, 
+                        PatrickChest
+                    );
+                    $nbt = ($player->getLocation(), $player->getSkin(), CompoundTag::create());
                     $entity = new PatrickCrate($nbt);
                     break;
 
                 case 1:
+                     $skin = $this->makeSkin(
+                        patrick_chest, 
+                        patrick_chest, 
+                        $path, 
+                        patrick_chest, 
+                        PatrickChest
+                    );
+                    $nbt = ($player->getLocation(), $player->getSkin(), CompoundTag::create());
                     $entity = new AirBalloon($nbt);
                     break;
 
                 case 2:
+                    $skin = $this->makeSkin(
+                        patrick_chest, 
+                        patrick_chest, 
+                        $path, 
+                        patrick_chest, 
+                        PatrickChest
+                    );
+                    $nbt = ($player->getLocation(), $player->getSkin(), CompoundTag::create());
                     $entity = new EnchantedAsh($nbt);
                     break;
             }
@@ -84,7 +108,7 @@ namespace BloomLand\Crates;
 
         }
 
-        public function makeSkin(string $skinFileName, string $geometryFileName, string $path, string $geometryName, string $folderName) : Skin 
+        private function makeSkin(string $skinFileName, string $geometryFileName, string $path, string $geometryName, string $folderName) : Skin 
         {
             $path = $path . $folderName . '/';
 
@@ -98,7 +122,7 @@ namespace BloomLand\Crates;
             return new Skin($folderName, $bytes, '' ,'geometry.' . $geometryName, file_get_contents($path . $geometryFileName . '.json'));
         }
 
-        public function getBytes(int $size, $img) : string 
+        private function getBytes(int $size, $img) : string 
         {
             $bytes = '';
     
