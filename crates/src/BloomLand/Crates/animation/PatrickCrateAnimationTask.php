@@ -7,7 +7,7 @@ namespace BloomLand\Crates\animation;
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
 
-    use BloomLand\Crates\crate\PatrickCrate;
+    use BloomLand\Crates\entity\crate\PatrickCrate;
 
     use BloomLand\Core\utils\API;
 

@@ -13,6 +13,7 @@ namespace BloomLand\Crates;
 
     use BloomLand\Crates\entity\AirBalloon;
     use BloomLand\Crates\entity\EnchantedAsh;
+    use BloomLand\Crates\entity\Trader;
 
     use pocketmine\plugin\PluginBase;
     
@@ -79,6 +80,17 @@ namespace BloomLand\Crates;
                     );
                     $entity = new EnchantedAsh($player->getLocation(), $skin, CompoundTag::create());
                     break;
+
+                case 3:
+                    $skin = $this->makeSkin(
+                        'trader', 
+                        'trader', 
+                        $path, 
+                        'trader', 
+                        'Trader'
+                    );
+                    $entity = new Trader($player->getLocation(), $skin, CompoundTag::create());
+                    break;
             }
 
             $entity->spawnToAll();
@@ -103,6 +115,10 @@ namespace BloomLand\Crates;
             $factory->register(EnchantedAsh::class, function(World $world, CompoundTag $nbt) : EnchantedAsh {
                 return new EnchantedAsh(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
             }, ['EnchantedAsh']);
+
+            $factory->register(Trader::class, function(World $world, CompoundTag $nbt) : Trader {
+                return new Trader(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
+            }, ['Trader']);
 
         }
 
