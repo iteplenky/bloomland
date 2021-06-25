@@ -11,7 +11,6 @@ namespace BloomLand\Crates;
     use BloomLand\Crates\entity\crate\manager\CrateManager;
     use BloomLand\Crates\entity\crate\PatrickCrate;
 
-    use BloomLand\Crates\entity\AirBalloon;
     use BloomLand\Crates\entity\EnchantedAsh;
     use BloomLand\Crates\entity\Trader;
 
@@ -52,16 +51,11 @@ namespace BloomLand\Crates;
                     break;
 
                 case 1:
-                    $skin = $this->makeSkin('air_balloon', 'AirBalloon');
-                    $entity = new AirBalloon($player->getLocation(), $skin, CompoundTag::create());
-                    break;
-
-                case 2:
                     $skin = $this->makeSkin('enchanted_ash', 'EnchantedAsh');
                     $entity = new EnchantedAsh($player->getLocation(), $skin, CompoundTag::create());
                     break;
 
-                case 3:
+                case 2:
                     $skin = $this->makeSkin('trader', 'Trader');
                     $entity = new Trader($player->getLocation(), $skin, CompoundTag::create());
                     break;
@@ -81,10 +75,6 @@ namespace BloomLand\Crates;
             $factory->register(PatrickCrate::class, function(World $world, CompoundTag $nbt) : PatrickCrate {
                 return new PatrickCrate(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
             }, ['PatrickCrate']);
-
-            $factory->register(AirBalloon::class, function(World $world, CompoundTag $nbt) : AirBalloon {
-                return new AirBalloon(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
-            }, ['AirBalloon']);
 
             $factory->register(EnchantedAsh::class, function(World $world, CompoundTag $nbt) : EnchantedAsh {
                 return new EnchantedAsh(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
