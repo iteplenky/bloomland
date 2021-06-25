@@ -7,11 +7,9 @@ namespace BloomLand\Crates\entity\crate;
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
 
-    use BloomLand\Core\resources\LoadResources;
     use BloomLand\Crates\animation\PatrickCrateAnimationTask;
 
     use BloomLand\Core\utils\API;
-    use BloomLand\GenericSound;
 
     use pocketmine\entity\Skin;
     use pocketmine\entity\Human;
@@ -21,16 +19,11 @@ namespace BloomLand\Crates\entity\crate;
     use pocketmine\nbt\tag\CompoundTag;
 
     use pocketmine\entity\EntitySizeInfo;
-    use pocketmine\entity\EntityDataHelper;
 
     use pocketmine\event\entity\EntityDamageEvent;
     use pocketmine\event\entity\EntityDamageByEntityEvent;
-    use pocketmine\network\mcpe\protocol\types\ParticleIds;
-    use pocketmine\world\particle\FlameParticle;
-    use pocketmine\color\Color;
-    use pocketmine\world\particle\DustParticle;
-    use pocketmine\network\mcpe\protocol\LevelEventPacket;
-    use pocketmine\world\particle\Particle;
+
+    // use pocketmine\network\mcpe\protocol\LevelEventPacket;
 
     class PatrickCrate extends Human 
     {
@@ -158,17 +151,6 @@ namespace BloomLand\Crates\entity\crate;
             return new EntitySizeInfo(0.9, 0.9, 0); /* height, width, eyeHeight */
         }
 
-        public static function createNBT(Vector3 $pos) : CompoundTag
-        {
-            $nbt = EntityDataHelper::createBaseNBT($pos->floor()->add(0.5, 0, 0.5), null, 0, 0);
-            return $nbt;
-        }
-        
-        public static function getCustomSkin() : ?Skin
-        {
-            return new Skin('MoneyCrate', LoadResources::PNGtoBYTES('patrick_chest'), '', 'geometry.patrick_chest', LoadResources::getGeometry('patrick_chest'));
-        }
-
         public function checkCooldown($player) : bool 
         {
             if (isset($this->crateCooldown[$player->getLowerCaseName()])) {
@@ -197,14 +179,7 @@ namespace BloomLand\Crates\entity\crate;
         {
             parent::__construct($location, $skin, $nbt);
 
-            if (!is_null(self::getCustomSkin())) {
-
-                $this->setSkin(self::getCustomSkin());
-
-            }
-
             $this->setScale(1.1);
-            // $this->setNameTagAlwaysVisible();
 
             $this->spawnToAll();
         }
