@@ -7,8 +7,6 @@ namespace BloomLand\Crates\entity;
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
 
-    use BloomLand\Core\resources\LoadResources;
-
     use pocketmine\entity\Skin;
     use pocketmine\entity\Human;
 
@@ -19,7 +17,6 @@ namespace BloomLand\Crates\entity;
     use pocketmine\item\Durable;
 
     use pocketmine\entity\EntitySizeInfo;
-    use pocketmine\entity\EntityDataHelper;
 
     use pocketmine\event\entity\EntityDamageEvent;
     use pocketmine\event\entity\EntityDamageByEntityEvent;
