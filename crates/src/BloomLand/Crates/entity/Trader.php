@@ -24,15 +24,15 @@ namespace BloomLand\Crates\entity;
     class Trader extends Human 
     {
         // Предметы по дешевой цене
-		private $low_cost = [1, 2, 3, 4, 5, 14, 15, 16, 17, 18, 24, 263, 295];
+	private $low_cost = [1, 2, 3, 4, 5, 14, 15, 16, 17, 18, 24, 263, 295];
 
-		// Предметы по средней цене
-		private $medium_cost = [35, 41, 42, 45, 81, 130, 152, 157, 158, 159, 388];
+	// Предметы по средней цене
+	private $medium_cost = [35, 41, 42, 45, 81, 130, 152, 157, 158, 159, 388];
 
-		// Предметы по дорогой цене
-		private $high_cost = [165, 173, 276, 277, 278, 279, 310, 311, 312, 313, 368];
+	// Предметы по дорогой цене
+	private $high_cost = [165, 173, 276, 277, 278, 279, 310, 311, 312, 313, 368];
 
-        public function onClick(BLPlayer $player) : void
+        private function onClick(BLPlayer $player) : void
         {
             if ($player->isSurvival()) {
 
