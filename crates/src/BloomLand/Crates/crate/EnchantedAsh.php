@@ -148,20 +148,9 @@ namespace BloomLand\Crates\crate;
             return new EntitySizeInfo(0.9, 0.9, 0); /* height, width, eyeHeight */
         }
         
-        public static function getCustomSkin() : ?Skin
-        {
-            return new Skin('EnchantedAsh', LoadResources::PNGtoBYTES('enchanted_ash_tray'), '', 'geometry.enchanted_ash', LoadResources::getGeometry('enchanted_ash_tray'));
-        }
-
         public function __construct(Location $location, Skin $skin, ?CompoundTag $nbt = null)
         {
             parent::__construct($location, $skin, $nbt);
-
-            if (!is_null(self::getCustomSkin())) {
-
-                $this->setSkin(self::getCustomSkin());
-
-            }
 
             $this->setScale(1.1);
 
