@@ -6,23 +6,24 @@ namespace BloomLand\Crates\animation;
     
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
+
+    use BloomLand\Crates\crate\PatrickCrate;
+
     use BloomLand\Core\utils\API;
 
     use pocketmine\scheduler\Task;
 
-    use BloomLand\Crates\crate\PatrickCrate;
-    use BloomLand\Core\sqlite3\SQLite3;
+    use pocketmine\math\Vector3;
+    use pocketmine\utils\TextFormat;
 
     use pocketmine\network\mcpe\protocol\AnimateEntityPacket;
-    use pocketmine\utils\TextFormat;
-    use pocketmine\math\Vector3;
 
     class PatrickCrateAnimationTask extends Task
     {
-        public $entity;
-        public $player;
+        private $entity;
+        private $player;
 
-        public $time = 50;
+        private $time = 50;
 
         public function __construct(PatrickCrate $entity, BLPlayer $player)
         {
@@ -31,17 +32,17 @@ namespace BloomLand\Crates\animation;
             Core::getAPI()->getScheduler()->scheduleRepeatingTask($this, 20 / 4);
         }
 
-        public function getPlayer() : BLPlayer
+        private function getPlayer() : BLPlayer
         {
             return $this->player;
         }
 
-        public function getCrate() : PatrickCrate
+        private function getCrate() : PatrickCrate
         {
             return $this->entity;
         }
 
-        public function crateAnimate() : void
+        private function crateAnimate() : void
         {
             $pk = AnimateEntityPacket::create('animation.patrick_chest.new', '', '', '', 0, [$this->getCrate()->getId()]);
 
@@ -83,11 +84,10 @@ namespace BloomLand\Crates\animation;
     
                     API::sendParticlePacket($this->getCrate(), $vector, 'bloomland:moneycrate_money');
                     
-                    SQLite3::updateValue($player->getLowerCaseName(), 'coins', $player->getMoney() + str_replace(' ', '', (TextFormat::clean($this->result))));
-                    
+                    $player->addMoney(str_replace(' ', '', (TextFormat::clean($this->result))));
+                                        
                     Core::getAPI()->getServer()->broadcastMessage(Core::getAPI()->getPrefix() . 'Игроку §b' . $player->getName() .
                     ' §rиз §7<§eСундук с монетами§7> §rвыпало §l' . $this->result . '§r монет!');
-                    
                     break;
             
                 case 8:
@@ -127,7 +127,7 @@ namespace BloomLand\Crates\animation;
     
                     }
                     break;
-                
+                    
             }
 
         }
