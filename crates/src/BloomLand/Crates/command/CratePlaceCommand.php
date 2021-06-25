@@ -19,7 +19,7 @@ namespace BloomLand\Crates\command;
     {
         private $plugin;
 
-        public function __construct(Main $plugin, ) 
+        public function __construct(Main $plugin) 
         {
             $this->plugin = $plugin;
 
