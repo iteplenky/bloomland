@@ -40,7 +40,6 @@ namespace BloomLand\Crates\command;
                     "§e>> §7Выбери действие", 
                     [
                         new Button('Монетный сундук', new Image('textures/ui/buttons/unlocked_button', Image::TYPE_PATH)), 
-                        new Button('Воздушный шар', new Image('textures/ui/buttons/unlocked_button', Image::TYPE_PATH)), 
                         new Button('Стол зачарований', new Image('textures/ui/buttons/unlocked_button', Image::TYPE_PATH)), 
                         new Button('Скупщик', new Image('textures/ui/buttons/unlocked_button', Image::TYPE_PATH)), 
                     ],
