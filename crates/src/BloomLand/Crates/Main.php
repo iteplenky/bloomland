@@ -8,11 +8,11 @@ namespace BloomLand\Crates;
 
     use BloomLand\Crates\command\CratePlaceCommand;
 
-    use BloomLand\Crates\crate\manager\CrateManager;
+    use BloomLand\Crates\entity\crate\manager\CrateManager;
+    use BloomLand\Crates\entity\crate\PatrickCrate;
 
-    use BloomLand\Crates\crate\PatrickCrate;
-    use BloomLand\Crates\crate\AirBalloon;
-    use BloomLand\Crates\crate\EnchantedAsh;
+    use BloomLand\Crates\entity\AirBalloon;
+    use BloomLand\Crates\entity\EnchantedAsh;
 
     use pocketmine\plugin\PluginBase;
     
