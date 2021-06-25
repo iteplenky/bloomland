@@ -41,8 +41,9 @@ namespace BloomLand\Crates\entity;
                 $player = $source->getDamager();
                 
                 if ($player instanceof BLPlayer) {
-
-                   
+                    
+                    // nothing..
+                    
                 }
 
             }
@@ -70,22 +71,11 @@ namespace BloomLand\Crates\entity;
             return $nbt;
         }
         
-        public static function getCustomSkin() : ?Skin
-        {
-            return new Skin('AirBalloon', LoadResources::PNGtoBYTES('air_balloon'), '', 'geometry.unknown', LoadResources::getGeometry('air_balloon'));
-        }
-
         public function __construct(Location $location, Skin $skin, ?CompoundTag $nbt = null)
         {
             parent::__construct($location, $skin, $nbt);
 
-            if (!is_null(self::getCustomSkin())) {
-
-                $this->setSkin(self::getCustomSkin());
-
-            }
-
-            $this->setScale(1.1);
+            $this->setScale(2);
 
             $this->spawnToAll();
         }
