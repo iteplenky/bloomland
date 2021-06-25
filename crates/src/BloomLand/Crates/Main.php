@@ -17,6 +17,7 @@ namespace BloomLand\Crates;
     use pocketmine\plugin\PluginBase;
     
     use pocketmine\player\Player;
+    use pocketmine\entity\Skin;
     
     use pocketmine\world\World;
     use pocketmine\entity\Human;
@@ -48,38 +49,35 @@ namespace BloomLand\Crates;
             switch ($value) {
                 case 0:
                      $skin = $this->makeSkin(
-                        patrick_chest, 
-                        patrick_chest, 
+                        'patrick_chest', 
+                        'patrick_chest', 
                         $path, 
-                        patrick_chest, 
-                        PatrickChest
+                        'patrick_chest', 
+                        'PatrickChest'
                     );
-                    $nbt = ($player->getLocation(), $player->getSkin(), CompoundTag::create());
-                    $entity = new PatrickCrate($nbt);
+                    $entity = new PatrickCrate($player->getLocation(), $skin, CompoundTag::create());
                     break;
 
                 case 1:
                      $skin = $this->makeSkin(
-                        patrick_chest, 
-                        patrick_chest, 
+                        'air_balloon', 
+                        'air_balloon', 
                         $path, 
-                        patrick_chest, 
-                        PatrickChest
+                        'air_balloon', 
+                        'AirBalloon'
                     );
-                    $nbt = ($player->getLocation(), $player->getSkin(), CompoundTag::create());
-                    $entity = new AirBalloon($nbt);
+                    $entity = new AirBalloon($player->getLocation(), $skin, CompoundTag::create());
                     break;
 
                 case 2:
                     $skin = $this->makeSkin(
-                        patrick_chest, 
-                        patrick_chest, 
+                        'enchanted_ash', 
+                        'enchanted_ash', 
                         $path, 
-                        patrick_chest, 
-                        PatrickChest
+                        'enchanted_ash', 
+                        'EnchantedAsh'
                     );
-                    $nbt = ($player->getLocation(), $player->getSkin(), CompoundTag::create());
-                    $entity = new EnchantedAsh($nbt);
+                    $entity = new EnchantedAsh($player->getLocation(), $skin, CompoundTag::create());
                     break;
             }
 
