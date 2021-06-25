@@ -37,6 +37,11 @@
 					]
 				},
 				{
+					"name": "bone2",
+					"parent": "body1",
+					"pivot": [0, 20, 0]
+				},
+				{
 					"name": "head_chest",
 					"parent": "bone",
 					"pivot": [0, 8, 8.05],
