@@ -76,18 +76,6 @@ namespace BloomLand\Core;
         SpyManager,
         CombatListener
     };
-    
-    use BloomLand\Core\entity\{
-        MoneyCrate,
-        Booster,
-        OverClock,
-        Bin,
-        Quester,
-        Buyer,
-        Yoda,
-        Head,
-        DonateCrate
-    };
 
     use BloomLand\Core\item\{
         Hammer
@@ -151,9 +139,7 @@ namespace BloomLand\Core;
             $this->chatFilter = new ChatFilter($this);
             
             self::getAPI()->updateServerName();
-            
-            self::getAPI()->initEntity();
-          
+
             self::getAPI()->loadTasks();
 
             self::getAPI()->loadEvents();
@@ -288,13 +274,6 @@ namespace BloomLand\Core;
             ]);
         }
 
-        private function initEntity() : void
-        {
-            $factory = EntityFactory::getInstance();
-            
-           
-        }
-
         private function loadItems() : void 
         {
             self::getAPI()->saveResource("id.json");
@@ -385,7 +364,9 @@ namespace BloomLand\Core;
                     $command->setLabel("old_" . $cmd);
                     $map->unregister($command);
                 }
+		    
             }
+		
         }
 
         public function updateServerName() : void
