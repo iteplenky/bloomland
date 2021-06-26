@@ -15,7 +15,8 @@ namespace BloomLand\Core;
         /** @var BLPlayer */
         private $player;
 
-        public function __construct(BLPlayer $player){
+        public function __construct(BLPlayer $player)
+        {
             $this->player = $player;
         }
 
@@ -76,16 +77,15 @@ namespace BloomLand\Core;
             $this->timestamp = $timestamp ?? time();
         }
 
-        public function dateToString(BLPlayer $player) : string{
+        public function dateToString(BLPlayer $player) : string
+        {
             $diff = time() - $this->timestamp;
 
-            if($diff > 3600){ // 60 * 60
-                $translate = ['message.time.hour', [floor($diff / 3600)]];
-            }elseif($diff > 60){ // 60
-                $translate = ['message.time.minute', [floor($diff / 60)]];
-            }else{
-                $translate = ['message.time.second', [$diff]];
-            }
+            if ($diff > 3600) $translate = ['message.time.hour', [floor($diff / 3600)]];
+            
+            elseif ($diff > 60) $translate = ['message.time.minute', [floor($diff / 60)]];
+            
+            else $translate = ['message.time.second', [$diff]];
 
             return "[" . $player->translate(...$translate) . "]";
         }
