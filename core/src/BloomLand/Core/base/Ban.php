@@ -11,14 +11,14 @@ namespace BloomLand\Core\base;
         
     class Ban
     {
-        public static function add(string $intruder, string $player, mixed $args) : void
+        public static function add(string $intruder, string $player, array $args) : void
         {
-            SQLite3::addIntruder($intruder, $player, $args);
+            Core::getDatabase()->query("INSERT INTO `intruders` (`username`, `sender`, `reason`) VALUES ('$intruder', '$player', '$args')");
         }
 
         public static function remove(string $intruder) : void
         {
-            SQLite3::removeIntruder($intruder);
+             Core::getDatabase()->query("DELETE FROM `intruders` WHERE `username` = '{$intruder}'");
         }
 
         public static function get(string $intruder, string $type) : mixed 
