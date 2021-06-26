@@ -12,7 +12,7 @@
 			},
 			"bones": [
 				{
-					"name": "head",
+					"name": "head1",
 					"pivot": [0, 24, 0],
 					"cubes": [
 						{
@@ -30,7 +30,7 @@
 					]
 				},
 				{
-					"name": "nose",
+					"name": "nose1",
 					"pivot": [0, 26, 0],
 					"cubes": [
 						{
@@ -48,7 +48,7 @@
 					]
 				},
 				{
-					"name": "body",
+					"name": "body1",
 					"pivot": [0, 24, 0],
 					"cubes": [
 						{
@@ -115,7 +115,7 @@
 					]
 				},
 				{
-					"name": "arms",
+					"name": "arms1",
 					"pivot": [0, 22, 0],
 					"rotation": [-52.5, 0, 0],
 					"cubes": [
