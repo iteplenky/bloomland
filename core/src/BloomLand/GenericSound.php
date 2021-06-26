@@ -25,7 +25,7 @@ namespace BloomLand;
 		 *
 		 * @return ClientboundPacket|ClientboundPacket[]
 		 */
-		public function encode(?Vector3 $pos): array
+		public function encode(?Vector3 $pos) : array
 		{
 			return [LevelSoundEventPacket::create($this->id, $pos)];
 		}
