@@ -42,7 +42,6 @@ namespace BloomLand\Core;
         settings\XYZCommand,
 
         staff\StopCommand,
-        staff\NpcCommand,
         staff\BanCommand,
         staff\TimeCommand,
         staff\RepairCommand,
@@ -240,7 +239,6 @@ namespace BloomLand\Core;
                 new XYZCommand(),
                 new PayCommand(),
                 new TopCoinsCommand(),
-                new NpcCommand(),
                 // new DeathPosCommand(),
                 new BanCommand(),
                 new PingCommand(),
