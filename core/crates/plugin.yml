@@ -1,0 +1,14 @@
+---
+name: Crates
+description: Специально для проекта BloomLand 1.17
+
+version: 1.0.0
+api: 4.0.0
+
+main: BloomLand\Crates\Main
+
+load: POSTWORLD
+
+author: Denis Klyuyev
+website: vk.com/iteplenky
+...

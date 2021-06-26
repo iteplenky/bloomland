@@ -1,0 +1,16 @@
+---
+name: BloomLand
+description: Специально для проекта BloomLand 1.17
+
+version: 1.0.0
+api: 4.0.0
+
+main: BloomLand\Core\Core
+
+author: Denis Klyuyev
+website: vk.com/iteplenky
+
+permissions:
+  clearinventory.cmd:
+    description: "Allows you to set group for a user."
+...
