@@ -97,17 +97,17 @@ namespace BloomLand\Core;
 
         public function addMoney(int $count) : void
         {
-            Economy::addMoney($this->getLowerCaseName(), $count);
+            Economy::set($this->getLowerCaseName(), 'coins', $this->getMoney() + $count);
         }
 
         public function removeMoney(int $count) : void
         {
-            Economy::removeMoney($this->getLowerCaseName(), $count);
+            Economy::set($this->getLowerCaseName(), 'coins', $this->getMoney() - $count);
         }
 
         public function setMoney(int $count) : void
         {
-            Economy::setMoney($this->getLowerCaseName(), $count);
+            Economy::set($this->getLowerCaseName(), 'coins', $count);
         }
 
         public function isBanned() : bool
