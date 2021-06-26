@@ -1,15 +1,14 @@
 <?php
 
 
-declare(strict_types=1);
-
-
 namespace BloomLand;
 
+
 	use pocketmine\math\Vector3;
+	use pocketmine\world\sound\Sound;
+
 	use pocketmine\network\mcpe\protocol\ClientboundPacket;
 	use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
-	use pocketmine\world\sound\Sound;
 
 	class GenericSound implements Sound
 	{
