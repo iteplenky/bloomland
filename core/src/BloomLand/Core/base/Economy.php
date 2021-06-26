@@ -35,7 +35,6 @@ namespace BloomLand\Core\base;
             
             else 
                 $prepare = Core::getDatabase()->prepare("UPDATE `data` SET coins = :coins WHERE username = :username");
-            
 
             $prepare->bindValue('username', $username);
             $prepare->bindValue('coins', $value);
