@@ -44,26 +44,6 @@ namespace BloomLand\Core\base;
             return false;
         }
 
-        public static function getSender(string $username) : string
-        {
-            $prepare = Core::getDatabase()->prepare("SELECT * FROM `intruders` WHERE username = :username");
-            $prepare->bindValue('username', $username);
-
-            $resource = $prepare->execute()->fetchArray(1);
-
-            return $resource['sender'];
-        }
-
-        public static function getReason(string $username) : string
-        {
-            $prepare = Core::getDatabase()->prepare("SELECT * FROM `intruders` WHERE username = :username");
-            $prepare->bindValue('username', $username);
-
-            $resource = $prepare->execute()->fetchArray(1);
-
-            return $resource['reason'];
-        }
-
     }
 
 ?>
