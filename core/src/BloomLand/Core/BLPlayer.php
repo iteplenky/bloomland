@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 
 namespace BloomLand\Core;
+
 
     use BloomLand\Core\Core;
 
@@ -21,28 +20,14 @@ namespace BloomLand\Core;
 
     class BLPlayer extends Player 
     {
-        public const SCOREBOARD_MONEY = 5;
-        public const SCOREBOARD_COINS = 8;
-        public const SCOREBOARD_RANK = 11;
-        public const SCOREBOARD_TITLE_PREFIX = ' §r> ';
-        public const SCOREBOARD_SUBTITLE_PREFIX = ' §r> ';
-
-        public const MONEY_LIMIT = 5000000;
-
-        public const MODE_PLAYER = 0;
-	    public const MODE_TUTORIAL = 1;
-
-        /** @var int */
-	    private $mode = self::MODE_PLAYER;
-
         /** @var bool */
-	    public $firstLogin = false;
+	public $firstLogin = false;
 
         /** @var int */
-	    private $kills, $deaths;
+	private $kills, $deaths;
 
         /** @var Scoreboard */
-	    public $scoreboard;
+	public $scoreboard;
 
         /** @var int */
         public $timePlayed, $joinTime;
@@ -54,7 +39,7 @@ namespace BloomLand\Core;
         public $device = '';
 
         /** @var int */
-	    protected $lastChatTime = 0;
+	protected $lastChatTime = 0;
 
         private $combatTag = 0;
 
@@ -70,7 +55,7 @@ namespace BloomLand\Core;
 
         protected $lastAttacker = null;
 
-        public function getCore() : Core
+        public function getPlugin() : Core
         {
             return Core::getAPI();
         }
@@ -80,18 +65,9 @@ namespace BloomLand\Core;
             return strtolower($this->username);
         }
 
-        public function loadBLPlayer() : void 
+        public function loadPlayer() : void 
         {
-            $db = Core::getDatabase();
             $this->messages = new MessageEntry($this);
-            $this->loadScoreboard();
-
-            // $nickname = $this->getLowerCaseName();
-            // $data = Core::getDatabase()->query("SELECT *  FROM `intruders` WHERE `username` = '$nickname'")->fetchArray(SQLITE3_ASSOC);
-            // if ($result['username']) {
-            //     $this->criminalRecord = new CriminalRecord($this, $data[2], $data[1]);
-            // }
-
         }
 
         public function getCriminalRecord() : CriminalRecord
@@ -99,36 +75,19 @@ namespace BloomLand\Core;
             return $this->criminalRecord;
         }
 
-        private function loadScoreboard() : void{
-            $this->scoreboard = new Scoreboard($this, '§bStorm§fGames');
-            $sbOptions = [
-                '§e@scoreboard.you' => $this->getName(),
-                '§a@scoreboard.money' => SQLite3::getIntValue($this->getLowerCaseName(), 'coins'),
-                '§6@scoreboard.coins' => SQLite3::getIntValue($this->getLowerCaseName(), 'coins')
-            ];
-            $i = 0;
-            foreach($sbOptions as $text => $value){
-                if($i !== 0){
-                    $this->scoreboard->setLine(++$i, str_repeat('  ', $i + 1));
-                }
-                $this->scoreboard->setLine(++$i, self::SCOREBOARD_TITLE_PREFIX . $text);
-                $this->scoreboard->setLine(++$i, self::SCOREBOARD_SUBTITLE_PREFIX . $value);
-            }
-        }
-
         public function getDatabase() : SQLite3
         {
             return Core::getDatabase();
         }
-    
-        public function getLastDevice() : string
-        {
-            return $this->lastDevice;
-        }
 
         public function getDevice() : string
         {
-            return $this->device ?? "unknown";
+            return $this->device ?? 'unknown';
+        }
+
+        public function getLastDevice() : string
+        {
+            return $this->lastDevice;
         }
 
         public function getMoney() : int
@@ -138,26 +97,17 @@ namespace BloomLand\Core;
 
         public function addMoney(int $count) : void
         {
-            $this->transactionCount += 1;
             Economy::addMoney($this->getLowerCaseName(), $count);
-
-            Core::getAPI()->getLogger()->notice('Транзакция #' . $this->transactionCount . ' проведена на сумму ' . $count . ' монет. (' . $this->getMoney() . ')');
         }
 
         public function removeMoney(int $count) : void
         {
-            $this->transactionCount += 1;
             Economy::removeMoney($this->getLowerCaseName(), $count);
-
-            Core::getAPI()->getLogger()->notice('Транзакция #' . $this->transactionCount . ' проведена на сумму ' . $count . ' монет. (' . $this->getMoney() . ')');
         }
 
         public function setMoney(int $count) : void
         {
-            $this->transactionCount += 1;
             Economy::setMoney($this->getLowerCaseName(), $count);
-
-            Core::getAPI()->getLogger()->notice('Транзакция #' . $this->transactionCount . ' проведена на сумму ' . $count . ' монет. (' . $this->getMoney() . ')');
         }
 
         public function isBanned() : bool
@@ -165,33 +115,26 @@ namespace BloomLand\Core;
             return Ban::isBanned($this->getLowerCaseName());
         }
     
-        public function getLang() : string
+        public function getLanguage() : string
         {
             return $this->language;
         }
     
         public function setLanguage(string $language, bool $update = true) : void
         {
-            $this->language = Language::getLang($language);
+            $this->language = Language::getLanguage($language);
     
-            if ($update)
-                $this->updateDatabase('lang', $this->language);
-            
-        }
-
-        public function updateDatabase(string $key, $value) : void 
-        {
-            SQLite3::updateValue($this->getLowerCaseName(), $key, $value);
+            if ($update) $this->updateDatabase('lang', $this->language);
         }
 
         public function translate(string $message, array $parameters = []) : string
         {
-            return Language::translate($this->getLang(), $message, $parameters);
+            return Language::translate($this->getLanguage(), $message, $parameters);
         }
     
         public function translateExtended(string $message, array $args = [], string $separator = '%') : string
         {
-            return Language::translateExtended($this->getLang(), $message, $args, $separator);
+            return Language::translateExtended($this->getLanguage(), $message, $args, $separator);
         }
     
         public function getTimePlayedNow() : int
@@ -214,14 +157,14 @@ namespace BloomLand\Core;
             $this->lastChatTime = $lastChatTime;
         }
 
-        public function setLastAttacker(?BLPlayer $lastAttacker) : void
-        {
-            $this->lastAttacker = $lastAttacker;
-        }
-
         public function getLastAttacker() : ?BLPlayer
         {
             return $this->lastAttacker;
+        }
+
+        public function setLastAttacker(?BLPlayer $lastAttacker) : void
+        {
+            $this->lastAttacker = $lastAttacker;
         }
 
         public function reset(bool $updateName = true, bool $clearInventory = true, GameMode $gameMode = null) : void
@@ -231,7 +174,7 @@ namespace BloomLand\Core;
                 $this->armorInventory->clearAll();
             }
     
-            $this->setGamemode($gameMode ?? GameMode::ADVENTURE());
+            $this->setGamemode($gameMode ?? GameMode::SURVIVAL());
         
             $this->setMaxHealth(20);
             $this->setHealth(20);
@@ -251,23 +194,17 @@ namespace BloomLand\Core;
             $this->combatTag = 0;
         }
 
-        /**
-         * @return bool
-         */
+	    
         public function isTagged() : bool
         {
             return (time() - $this->combatTag) <= 15 ? true : false;
         }
 
-        /**
-         * @return int
-         */
         public function getCombatTagTime() : int
         {
             return $this->combatTag;
         }
-        public function onKill() : void
-        {
-            // todo
-        }
+        
     }
+
+?>
