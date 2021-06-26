@@ -23,7 +23,7 @@ namespace BloomLand\Core;
         public function sendMessage(BLPlayer $target, string $message) : void
         {
             if (empty($message)) 
-                $this->player->sendMessage(Core::getAPI()->getPrefix() . TextFormat::RED . $this->player->translate("forms.message.notBlank"));
+                $this->player->sendMessage(Core::getAPI()->getPrefix() . TextFormat::RED . $this->player->translate('forms.message.notBlank'));
         
             else {
                 $message = TextFormat::clean($message);
@@ -32,11 +32,11 @@ namespace BloomLand\Core;
 
                     $message = new Message($message, $this->player->getName());
                     $target->messages->takeMessage($this->player, $message);
-                    $this->player->sendMessage(Core::getAPI()->getPrefix() . TextFormat::GREEN . $this->player->translate("message.sendMessage.success", 
+                    $this->player->sendMessage(Core::getAPI()->getPrefix() . TextFormat::GREEN . $this->player->translate('message.sendMessage.success', 
                     [TextFormat::YELLOW . $target->getName() . TextFormat::GRAY]));
                 
                 } else 
-                    $this->player->sendMessage(Core::getAPI()->getPrefix() . TextFormat::RED . $this->player->translate("message.sendMessage.offline"));
+                    $this->player->sendMessage(Core::getAPI()->getPrefix() . TextFormat::RED . $this->player->translate('message.sendMessage.offline'));
             }
 
         }
@@ -87,7 +87,7 @@ namespace BloomLand\Core;
             
             else $translate = ['message.time.second', [$diff]];
 
-            return "[" . $player->translate(...$translate) . "]";
+            return '[' . $player->translate(...$translate) . ']';
         }
 
     }
