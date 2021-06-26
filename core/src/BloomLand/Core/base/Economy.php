@@ -23,7 +23,7 @@ namespace BloomLand\Core\base;
             return 0;
         }
 
-        public static function set($username, $table, $value) : void 
+        public static function set($username, $value) : void 
         {
             $prepare = Core::getDatabase()->prepare("SELECT * FROM `data` WHERE username = :username");
             $prepare->bindValue('username', $username);
