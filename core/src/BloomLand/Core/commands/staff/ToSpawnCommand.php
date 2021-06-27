@@ -40,13 +40,13 @@ namespace BloomLand\Core\commands\staff;
                             if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
     
                                 $player->sendMessage($prefix . 'Вы переместили §bсамого себя§r на спавн§r.');
-                                self::teleport($player);
+                                $this->teleport($player);
                                 
                             } else {
     
                                 $target->sendMessage($prefix . 'Игрок §b' . $player->getName() . ' §rперенес вас на точку §bвозрождения§r при помощи команды.');
                                 $player->sendMessage($prefix . 'Вы перенесли §b' . $target->getName() . ' §rна точку §bвозрождения §rпри помощи команды.');
-                                self::teleport($target);
+                                $this->teleport($target);
                             }
                             
                         } else {
@@ -68,7 +68,7 @@ namespace BloomLand\Core\commands\staff;
                         if (($target = $this->getPlugin()->getServer()->getPlayerByPrefix($args[0])) instanceof BLPlayer) {
 
                             $this->getPlugin()->getServer()->getLogger()->notice('Игрок ' . $target->getName() . ' перенесен в точку возраждения.');
-                            self::teleport($target);
+                            $this->teleport($target);
 
                         }  else {
                             
@@ -85,7 +85,7 @@ namespace BloomLand\Core\commands\staff;
             return true;
         }
 
-        public static function teleport(BLPlayer $player) : void 
+        public function teleport(BLPlayer $player) : void 
         {
             $config = $this->getPlugin()->getConfig();
 
