@@ -194,6 +194,11 @@ namespace BloomLand\Core;
             return $this->interlocutor ?? 'unknown';
         }
 
+        public function setInterlocutor(string $username) : string
+        {
+            return $this->interlocutor = $username;
+        }
+
         public function combatTag(bool $value = true) : void
         {
             if ($value) {
