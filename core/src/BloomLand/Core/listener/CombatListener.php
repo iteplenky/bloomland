@@ -207,6 +207,24 @@ namespace BloomLand\Core\listener;
                         return;
                     
                     }
+                    
+                    if ($damager->isVanished()) {
+
+                        $event->cancel();
+                        return;
+                    }
+                    
+                    if ($entity->isVanished()) {
+                     
+                        $event->cancel()
+                        
+                        if ($damager->isOp()) {
+                         
+                            $damager->sendMessage(Core::getAPI()->getPrefix() . 'В невидимости игрок - §b' . $entity->getName() . '§r.');
+                        }
+                            
+                        return;
+                    }
 
                     if ($damager->isCreative() or $entity->isCreative()) {
 
@@ -240,7 +258,7 @@ namespace BloomLand\Core\listener;
                     
                         $entity->combatTag();
                         $entity->sendMessage(Core::getAPI()->getPrefix() . 'Вы в режиме §bсражения§r. Если Вы покинете игру, то§b погибните§r.');
-                        $entity->sendMessage(Core::getAPI()->getPrefix() . 'Ваш соперник играет с §b' . $entity->getDevice() . '§r.');
+                        $entity->sendMessage(Core::getAPI()->getPrefix() . 'Ваш соперник играет с §b' . $damager->getDevice() . '§r.');
 
                     }
 
@@ -252,7 +270,7 @@ namespace BloomLand\Core\listener;
                         
                         $damager->combatTag();
                         $damager->sendMessage(Core::getAPI()->getPrefix() . 'Вы в режиме §bсражения§r. Если Вы покинете игру, то§b погибните§r.');
-                        $damager->sendMessage(Core::getAPI()->getPrefix() . 'Ваш соперник играет с §b' . $damager->getDevice() . '§r.');
+                        $damager->sendMessage(Core::getAPI()->getPrefix() . 'Ваш соперник играет с §b' . $entity->getDevice() . '§r.');
                         
                     }
 
