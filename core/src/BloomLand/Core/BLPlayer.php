@@ -119,26 +119,26 @@ namespace BloomLand\Core;
             return Ban::isBanned($this->getLowerCaseName());
         }
     
-        public function getLanguage() : string
+        public function getLang() : string
         {
             return $this->language;
         }
     
         public function setLanguage(string $language, bool $update = true) : void
         {
-            $this->language = Language::getLanguage($language);
+            $this->language = Language::getLang($language);
     
             if ($update) $this->updateDatabase('lang', $this->language);
         }
 
         public function translate(string $message, array $parameters = []) : string
         {
-            return Language::translate($this->getLanguage(), $message, $parameters);
+            return Language::translate($this->getLang(), $message, $parameters);
         }
     
         public function translateExtended(string $message, array $args = [], string $separator = '%') : string
         {
-            return Language::translateExtended($this->getLanguage(), $message, $args, $separator);
+            return Language::translateExtended($this->getLang(), $message, $args, $separator);
         }
     
         public function getTimePlayedNow() : int
