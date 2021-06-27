@@ -9,8 +9,6 @@ namespace iteplenky\RegUI;
 
 	use BloomLand\Core\BLPlayer;
 	
-	use muqsit\fakeplayer\Loader;
-
 	use pocketmine\player\Player;
 	
 	use pocketmine\event\Listener;
@@ -39,7 +37,6 @@ namespace iteplenky\RegUI;
 		public function __construct(Main $main)
 		{
 			$this->main = $main;
-			$this->player = $main->getServer()->getPluginManager()->getPlugin("FakePlayer"); 
 		}
 		
 		/**
@@ -78,8 +75,6 @@ namespace iteplenky\RegUI;
 			$main = $this->main;
 			$player = $event->getPlayer();
 			$nick = $player->getName();
-
-			if ($this->player->isFakePlayer($player)) return;
 			
 			if (!$main->isRegistered($nick)) {
 			
@@ -126,8 +121,6 @@ namespace iteplenky\RegUI;
 		 */
 		public function handleChat(PlayerChatEvent $event) : void
 		{
-			if ($this->player->isFakePlayer($event->getPlayer())) return;
-
 			if (!$this->main->isLogined($event->getPlayer()->getName())) {
 		
 				$event->getPlayer()->sendMessage($this->main->config['error']['login']);
@@ -144,9 +137,7 @@ namespace iteplenky\RegUI;
 		public function handleCommandPreprocess(PlayerCommandPreprocessEvent $event) : void
 		{
 			$player = $event->getPlayer();
-		
-			if ($this->player->isFakePlayer($player)) return;
-			
+					
 			$args = explode(' ', $event->getMessage());
 			$cmd = array_shift($args);
 		
