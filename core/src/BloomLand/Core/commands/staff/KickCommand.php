@@ -43,7 +43,6 @@ namespace BloomLand\Core\commands\staff;
                         
                         }
                         
-                        
                         $intruder->kick('§l| §rВы выгнаны игроком §b' . $player->getName() . '§r.' . PHP_EOL . 
                         '§l| §rПричина: §e' . implode(" ", $args) . PHP_EOL . PHP_EOL . '§l| §rОставить жалобу: §bvk.com/bl_pe');
 
