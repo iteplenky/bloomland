@@ -6,10 +6,11 @@ namespace BloomLand\Core\commands\player;
 
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
-    use BloomLand\Core\sqlite3\SQLite3;
-
+    
     use pocketmine\command\Command;
     use pocketmine\command\CommandSender;
+    
+    use BloomLand\Core\sqlite3\SQLite3;
 
     class SeeMoneyCommand extends Command
     {
@@ -18,15 +19,20 @@ namespace BloomLand\Core\commands\player;
             parent::__construct('seemoney', 'Просмотреть баланс другого игрока', '/seemoney', ['checkmoney']);
         }
 
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $prefix = Core::getAPI()->getPrefix();
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if (isset($args[0])) {
 
-                    if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($args[0])) instanceof BLPlayer) {
+                    if (($target = $this->getPlugin()->getServer()->getPlayerByPrefix($args[0])) instanceof BLPlayer) {
 
                         if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
