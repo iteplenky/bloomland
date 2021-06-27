@@ -15,27 +15,11 @@ namespace BloomLand\Core\commands\staff;
         public function __construct()
         {
             parent::__construct('ci', 'Очистить игровой инвентарь', '/ci', ['clearinventory']);
-            // $this->setPermission("clearinventory.cmd");
         }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
             if (Core::getAPI()->isEnabled()) {
-
-                // if(!$this->testPermission($player))
-                // {
-                //     $player->sendMessage(' опа');
-
-                //     return false;
-                // }
-
-                // $player->sendMessage(' §r>>>> Было удалено §b');
-
-                if (!$player->hasPermission('clearinventory.cmd')) {
-
-                    $player->sendMessage(Core::getAPI()->getPrefix() . 'У Вас §cнедостаточно прав§r для использования этой команды.');
-                    return false;
-                }
 
                 $cleared = 0;
 
