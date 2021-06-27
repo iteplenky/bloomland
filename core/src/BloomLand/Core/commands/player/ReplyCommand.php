@@ -16,32 +16,50 @@ namespace BloomLand\Core\commands\player;
         {
             parent::__construct('reply', 'Быстрый ответ на тайное сообщение', '/reply');
         }
+        
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $prefix = Core::getAPI()->getPrefix();
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if (isset($args[0])) {
 
                     if ($player->hasInterlocutor()) {
 
-                        if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($player->getInterlocutor())) instanceof BLPlayer) {
+                        if (($target = $this->getPlugin()->getServer()->getPlayerByPrefix($player->getInterlocutor())) instanceof BLPlayer) {
 
                             $target->sendMessage(PHP_EOL . $prefix . 'Игрок §b' . $player->getName() . ' §rответил Вам §e' . implode(" ", $args) . '§r.' . PHP_EOL);
                             $player->sendMessage($prefix . 'Вы ответили сообщением: §e' . implode(" ", $args) . '§r игроку §d' . $target->getName() . ' §r');
                             
-                        } else $player->sendMessage($prefix . 'Игрок сейчас §cне в игре§r.');
+                        } else {
+                            
+                            $player->sendMessage($prefix . 'Игрок сейчас §cне в игре§r.');
 
-                    } else $player->sendMessage($prefix . 'Вам еще §bникто не написал§r, чтобы Вы смогли ответить на его сообщение§r.');
+                        }
+
+                    } else {
+                        
+                        $player->sendMessage($prefix . 'Вам еще §bникто не написал§r, чтобы Вы смогли ответить на его сообщение§r.');
                     
-                } else $player->sendMessage($prefix . 'Чтобы ответить на §bличное сообщение§r, используйте: /reply <§7...§bсообщение§r>');
+                    }
+
+                } else {
                     
+                    $player->sendMessage($prefix . 'Чтобы ответить на §bличное сообщение§r, используйте: /reply <§7...§bсообщение§r>');
+                    
+                }
+
             }
 
             return true;
         }
+        
     }
 
 ?>
