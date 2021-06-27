@@ -17,11 +17,16 @@ namespace BloomLand\Core\commands\player;
             parent::__construct('pay', 'Передать сумму от баланса', '/pay');
         }
 
+        public function getPlugin() : Core 
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $prefix = Core::getAPI()->getPrefix();
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if ($player instanceof BLPlayer) {
 
@@ -31,11 +36,11 @@ namespace BloomLand\Core\commands\player;
 
                         if (is_numeric($amount) and $amount > 0 and $amount % 1 == 0 and !is_float($amount)) {
                             
-                            if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($target)) instanceof BLPlayer) {
+                            if (($target = $this->getPlugin()->getServer()->getPlayerByPrefix($target)) instanceof BLPlayer) {
 
                                 if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
-                                    $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы пытаетесь передать монеты §bсамому себе§r.');
+                                    $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы пытаетесь передать монеты §bсамому себе§r.');
                                     return false;
                                 
                                 }
