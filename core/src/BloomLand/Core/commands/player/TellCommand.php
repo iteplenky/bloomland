@@ -21,13 +21,15 @@ namespace BloomLand\Core\commands\player;
         {
             if (Core::getAPI()->isEnabled()) {
 
+                $prefix = Core::getAPI()->getPrefix();
+
                 if (isset($args[0])) {
 
                     if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($args[0])) instanceof BLPlayer) {
 
                         if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
-                            $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы пытаетесь §bотправить сообщение§r самому себе§r.');
+                            $player->sendMessage($prefix . 'Вы пытаетесь §bотправить сообщение§r самому себе§r.');
                             
                         } else {
 
@@ -35,31 +37,31 @@ namespace BloomLand\Core\commands\player;
 
                             if (empty($args[0])) {
                                 
-                                $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы отправили §cпустое сообщение§r игроку §b' . $target->getName() . '§r.');
-                                $target->sendMessage(PHP_EOL . Core::getAPI()->getPrefix() . 'Игрок §b' . $player->getName() . ' §rотправил Вам §cпустое сообщение§r. ' . 
-                                PHP_EOL . Core::getAPI()->getPrefix() .'Чтобы §bответить §rна него, используйте: /reply <...§bсообщение§r>');
+                                $player->sendMessage($prefix . 'Вы отправили §cпустое сообщение§r игроку §b' . $target->getName() . '§r.');
+                                $target->sendMessage(PHP_EOL . $prefix . 'Игрок §b' . $player->getName() . ' §rотправил Вам §cпустое сообщение§r. ' . 
+                                PHP_EOL . $prefix .'Чтобы §bответить §rна него, используйте: /reply <...§bсообщение§r>');
                                 
                             } else {
 
-                                $target->sendMessage(PHP_EOL . Core::getAPI()->getPrefix() . 'Игрок §b' . $player->getName() . ' §rотправил Вам §e' . implode(" ", $args) . '§r. ' . 
-                                PHP_EOL . Core::getAPI()->getPrefix() .'Чтобы §bответить §rна него, используйте: /reply <...§bсообщение§r>');
-                                $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы отправили §e' . implode(" ", $args) . ' §rигроку §b' . $target->getName() . '§r.');
+                                $target->sendMessage(PHP_EOL . $prefix . 'Игрок §b' . $player->getName() . ' §rотправил Вам §e' . implode(" ", $args) . '§r. ' . 
+                                PHP_EOL . $prefix .'Чтобы §bответить §rна него, используйте: /reply <...§bсообщение§r>');
+                                $player->sendMessage($prefix . 'Вы отправили §e' . implode(" ", $args) . ' §rигроку §b' . $target->getName() . '§r.');
 
                             }
-
-                            Core::getAPI()->setLastTalkers($player->getLowerCaseName(), $target->getLowerCaseName());
+                            
+                            $player->setInterlocutor($target->getLowerCaseName()); $target->setInterlocutor($player->getLowerCaseName());
 
                         }
                         
                     } else {
                         
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Игрок сейчас §cне в игре§r.');
+                        $player->sendMessage($prefix . 'Игрок сейчас §cне в игре§r.');
                         
                     }
                     
                 } else {
                     
-                    $player->sendMessage(Core::getAPI()->getPrefix() . 'Чтобы отправить §bличное сообщение§r, используйте: /tell <§cигрок§r> <§7...§bсообщение§r>');
+                    $player->sendMessage($prefix . 'Чтобы отправить §bличное сообщение§r, используйте: /tell <§cигрок§r> <§7...§bсообщение§r>');
                     
                 }
                     
@@ -67,6 +69,7 @@ namespace BloomLand\Core\commands\player;
 
             return true;
         }
+
     }
 
 ?>
