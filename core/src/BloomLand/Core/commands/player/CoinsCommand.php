@@ -32,7 +32,7 @@ namespace BloomLand\Core\commands\player;
 
                 if ($player instanceof BLPlayer) {
 
-                    if (count($args) == 3 and $this->getPlugin()->getServer()->isOp($player->getName())) {
+                    if (count($args) == 3 and $player->is()) {
 
                         $target = $args[1];
                         
@@ -67,9 +67,12 @@ namespace BloomLand\Core\commands\player;
 
                         }
 
-                    } else 
+                    } else {
+                        
                         $player->sendMessage($prefix . $player->translate('coins.get', [number_format($player->getMoney(), 0, '', ' ')]));
 
+                    }
+                    
                 }
 
             }
