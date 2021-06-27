@@ -17,23 +17,30 @@ namespace BloomLand\Core\commands\player;
             parent::__construct('offdrop', 'Переместиться на место появления', '/offdrop');
         }
         
+        public function getPlugin() : Core 
+        {
+            return Core::getAPI();
+        }
+        
         // move function to BLPlayer.php
 
         public function execute(CommandSender $player, string $label, array $args): bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
+
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if ($player instanceof BLPlayer) {
                     
-                    if (isset(Core::getAPI()->offdrop[$player->getLowerCaseName()])) {
+                    if (isset($this->getPlugin()->offdrop[$player->getLowerCaseName()])) {
                         
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы теперь§b можете§r поднимать ресурсы с земли.');
-                        // unset(Core::getAPI()->offdrop[$player->getLowerCaseName()]);
+                        $player->sendMessage($prefix . 'Вы теперь§b можете§r поднимать ресурсы с земли.');
+                        // unset($this->getPlugin()\->offdrop[$player->getLowerCaseName()]);
                         
                     } else {
                      
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы теперь §bне можете§r поднимать ресурсы с земли.');
-                        // Core::getAPI()->offdrop[$player->getLowerCaseName()] = 1;
+                        $player->sendMessage($prefix . 'Вы теперь §bне можете§r поднимать ресурсы с земли.');
+                        // $this->getPlugin()->offdrop[$player->getLowerCaseName()] = 1;
                         
                     }
 
