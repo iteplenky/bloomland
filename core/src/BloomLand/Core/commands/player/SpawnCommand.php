@@ -26,7 +26,7 @@ namespace BloomLand\Core\commands\player;
             return Core::getAPI();
         }
 
-        public function execute(CommandSender $player, string $label, array $args): bool
+        public function execute(CommandSender $player, string $label, array $args) : bool
         {
             if ($this->getPlugin()->isEnabled()) {
 
@@ -35,7 +35,7 @@ namespace BloomLand\Core\commands\player;
                 if ($player instanceof BLPlayer) {
 
                     if (!isset($args[0])) 
-                        self::teleport($player);
+                        $this->teleport($player);
 
                     else {
 
@@ -66,7 +66,7 @@ namespace BloomLand\Core\commands\player;
                                     break;
 
                                 default:
-                                    self::helpMessage($player);
+                                    $this->helpMessage($player);
                                     break;
                             }
 
@@ -81,12 +81,12 @@ namespace BloomLand\Core\commands\player;
             return true;
         }
 
-        protected static function helpMessage(CommandSender $player): void 
+        protected function helpMessage(CommandSender $player) : void 
         {
             $player->sendMessage($this->getPlugin()->getPrefix() . $player->translate('spawn.manage'));
         }
 
-        public static function teleport(CommandSender $player): void 
+        public function teleport(CommandSender $player) : void 
         {
             $config = $this->getPlugin()->getConfig();
 
