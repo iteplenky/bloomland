@@ -17,15 +17,20 @@ namespace BloomLand\Core\commands\player;
             parent::__construct('tell', 'Тайное общение друг с другом', '/tell', ["msg", "whisper", "w"]);
         }
 
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $prefix = Core::getAPI()->getPrefix();
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if (isset($args[0])) {
 
-                    if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($args[0])) instanceof BLPlayer) {
+                    if (($target = $this->getPlugin()->getServer()->getPlayerByPrefix($args[0])) instanceof BLPlayer) {
 
                         if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
