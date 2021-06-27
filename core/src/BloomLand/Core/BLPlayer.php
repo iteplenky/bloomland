@@ -189,6 +189,13 @@ namespace BloomLand\Core;
             return $this->mode;
         }
 
+        public function hasInterlocutor() : bool 
+        {
+            if ($this->interlocutor != '') return true;
+
+            return false;
+        }
+
         public function getInterlocutor() : string
         {
             return $this->interlocutor ?? 'unknown';
