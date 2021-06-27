@@ -1,86 +1,94 @@
 <?php
 
-declare(strict_types=1);
 
 namespace BloomLand\Core\plugin;
 
-use BloomLand\Core\BLPlayer;
-use BloomLand\Core\Core;
-use pocketmine\scheduler\AsyncTask;
-use pocketmine\Server;
 
-use pocketmine\utils\TextFormat;
-use Tools\tool\Words\Words;
+    use BloomLand\Core\Core;
+    use BloomLand\Core\BLPlayer;
 
-class AsyncTopsUpdate extends AsyncTask {
+    use pocketmine\scheduler\AsyncTask;
 
-    private const MAX = 5;
+    use pocketmine\Server;
 
-    private $folder;
-    private $id;
-    private $needle;
-
-    public function __construct(string $folder, int $id, int $needle = 5) 
+    class AsyncTopsUpdate extends AsyncTask 
     {
-        $this->folder = $folder;
-        $this->id = $id;
-        $this->needle = $needle;
-    }
+        private const MAX = 5;
 
-    /**
-     * @param string $folder
-     *
-     * @return \SQLite3
-     */
-    private static function defineDatabase(string $folder): \SQLite3 
-    {
-        return new \SQLite3($folder. 'users.db');
-    }
+        private $folder;
+        private $id;
+        private $needle;
 
-    public function onRun(): void 
-    {
-        $db = self::defineDatabase($this->folder);
-        $prepare = $db->query('SELECT * FROM data ORDER BY coins DESC limit ' . $this->needle);
-
-        $keys = [];
-        $i = 0;
-
-        while ($item = $prepare->fetchArray(SQLITE3_ASSOC)) {
-            $keys[$i++] = $item;
+        public function __construct(string $folder, int $id, int $needle = 5) 
+        {
+            $this->folder = $folder;
+            $this->id = $id;
+            $this->needle = $needle;
         }
 
-        $this->setResult($keys);
-    }
+        public function getPlugin() : Core 
+        {
+            return Core::getAPI();
+        }
 
-    public function onCompletion(): void 
-    {
-        $player = Core::getAPI()->getServer()->getWorldManager()->findEntity($this->id);
+        /**
+         * @param string $folder
+         *
+         * @return \SQLite3
+         */
+        private static function defineDatabase(string $folder) : \SQLite3 
+        {
+            return new \SQLite3($folder. 'users.db');
+        }
 
-        if ($player instanceof BLPlayer) {
+        public function onRun() : void 
+        {
+            $db = self::defineDatabase($this->folder);
+            $prepare = $db->query('SELECT * FROM data ORDER BY coins DESC limit ' . $this->needle);
 
-            $result = $this->getResult();
-            $msg = Core::PREFIX . $player->translate('rich.players') . PHP_EOL; 
+            $keys = [];
+            $i = 0;
 
-            for ($i = ($this->needle - self::MAX); $i < $this->needle; $i++) {
+            while ($item = $prepare->fetchArray(SQLITE3_ASSOC)) {
+                $keys[$i++] = $item;
+            }
 
-                if (isset($result[$i])) {
+            $this->setResult($keys);
+        }
 
-                    if (!is_numeric($result[$i]['coins'])) {
+        public function onCompletion() : void 
+        {
+            $player = $this->getPlugin()->getServer()->getWorldManager()->findEntity($this->id);
 
-                        $result[$i]['coins'] = 0;
+            if ($player instanceof BLPlayer) {
+
+                $result = $this->getResult();
+                $msg = $this->getPlugin()->getPrefix() . $player->translate('rich.players') . PHP_EOL; 
+
+                for ($i = ($this->needle - self::MAX); $i < $this->needle; $i++) {
+
+                    if (isset($result[$i])) {
+
+                        if (!is_numeric($result[$i]['coins'])) {
+
+                            $result[$i]['coins'] = 0;
+
+                        }
+
+                        $msg .=  ' §r#§a' . $a = $i + 1 . ' §r'. $result[$i]['username'] .' §7> §b'. number_format($result[$i]['coins'], 0, '', ' ') . ' ' . $player->translate('monetary.unit');
 
                     }
 
-                    $msg .=  ' §r#§a' . $a = $i + 1 . ' §r'. $result[$i]['username'] .' §7> §b'. number_format($result[$i]['coins'], 0, '', ' ') . ' ' . $player->translate('monetary.unit');
-                
+                    else 
+                        $msg .= ' §r#§a' . $a = $i + 1 . ' ' . $player->translate('rich.players.failed');
+
+                    $msg .= PHP_EOL;
                 }
-                
-                else 
-                    $msg .= ' §r#§a' . $a = $i + 1 . ' ' . $player->translate('rich.players.failed');
-                
-                $msg .= PHP_EOL;
+                $player->sendMessage($msg);
             }
-            $player->sendMessage($msg);
+            
         }
+        
     }
-}
+
+?>
