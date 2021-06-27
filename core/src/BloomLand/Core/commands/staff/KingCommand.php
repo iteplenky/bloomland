@@ -19,6 +19,11 @@ namespace BloomLand\Core\commands\staff;
         {
             parent::__construct('king', 'Создать партикл короны', '/king', ['crown']);
         }
+        
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
@@ -30,10 +35,9 @@ namespace BloomLand\Core\commands\staff;
 
                 $pk->position = $vector;
                 $pk->particleName = 'bloomland:crown';
-                Core::getAPI()->getServer()->broadcastPackets(Core::getAPI()->getServer()->getOnlinePlayers(), [$pk]);
+                $this->getPlugin()->getServer()->broadcastPackets($player->getViewers(), [$pk]);
 
-
-                $player->sendMessage(Core::getAPI()->getPrefix() . '§eКоролевский§r партикл! Вы создали §bпартикл§r с коронами.');
+                $player->sendMessage($this->getPlugin()->getPrefix() . '§eКоролевский§r партикл! Вы создали §bпартикл§r с коронами.');
                 
             }
 
