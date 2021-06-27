@@ -21,19 +21,21 @@ namespace BloomLand\Core\commands\player;
         {
             if (Core::getAPI()->isEnabled()) {
 
+                $prefix = Core::getAPI()->getPrefix();
+
                 if ($player instanceof BLPlayer) {
 
                     if (isset(Core::getAPI()->afk[$player->getLowerCaseName()]) and Core::getAPI()->afk[$player->getLowerCaseName()] == 1) {
 
                         unset(Core::getAPI()->afk[$player->getLowerCaseName()]);
 
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы вышли из режима §bАФК§r.');
+                        $player->sendMessage($prefix . 'Вы вышли из режима §bАФК§r.');
                         
                     } else {
 
                         Core::getAPI()->afk[$player->getLowerCaseName()] = 1;
 
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы вошли в режим §bАФК§r.');
+                        $player->sendMessage($prefix . 'Вы вошли в режим §bАФК§r.');
 
                     }
 
