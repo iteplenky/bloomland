@@ -25,7 +25,7 @@ namespace BloomLand\Core\commands\player;
 
                 if (isset($args[0])) {
 
-                    if ($player->hasIterlocutor()) {
+                    if ($player->hasInterlocutor()) {
 
                         if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($player->getInterlocutor())) instanceof BLPlayer) {
 

@@ -47,12 +47,12 @@ namespace BloomLand\Core\commands\player;
                                     switch ($args[0]) {
 
                                         case 'add':
-                                            SQLite3::updateValue(strtolower($target), 'coins', $balance + (int) $args[2]);
+                                            // SQLite3::updateValue(strtolower($target), 'coins', $balance + (int) $args[2]);
                                             $player->sendMessage($prefix . 'Баланс отредактирован пользователю: §b' . $target . '§r.');
                                             break;
             
                                         case 'remove':
-                                            SQLite3::updateValue(strtolower($target), 'coins', $balance - (int) $args[2]);
+                                            // SQLite3::updateValue(strtolower($target), 'coins', $balance - (int) $args[2]);
                                             $player->sendMessage($prefix . 'Баланс отредактирован пользователю: §b' . $target . '§r.');
                                             break;
             

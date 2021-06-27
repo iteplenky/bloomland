@@ -5,7 +5,7 @@ namespace BloomLand\Core\commands\player;
 
 
     use BloomLand\Core\Core;
-    use BloomLand\Core\BLPlayer
+    use BloomLand\Core\BLPlayer;
 
     use BloomLand\Core\utils\API;
 
