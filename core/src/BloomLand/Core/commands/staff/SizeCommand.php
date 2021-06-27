@@ -14,12 +14,19 @@ namespace BloomLand\Core\commands\staff;
     {
         public function __construct()
         {
-            parent::__construct('size', 'Переместиться на место появления', '/size');
+            parent::__construct('size', 'Изменить собственный размер', '/size');
+        }
+
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
         }
 
         public function execute(CommandSender $player, string $label, array $args): bool
         {
             if (Core::getAPI()->isEnabled()) {
+
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if ($player instanceof BLPlayer) {
 
@@ -39,14 +46,14 @@ namespace BloomLand\Core\commands\staff;
                                 break;
                             
                             default:
-                                $player->sendMessage(Core::getAPI()->getPrefix() . 'Убедитесь, что вводите §bправильно§r.');
-                                $player->sendMessage(Core::getAPI()->getPrefix() . 'Чтобы изменить свой §bразмер§r, используйте: /size <§bsmall§r/§breset§r/§bbig§r>');
+                                $player->sendMessage($prefix . 'Убедитесь, что вводите §bправильно§r.');
+                                $player->sendMessage($prefix . 'Чтобы изменить свой §bразмер§r, используйте: /size <§bsmall§r/§breset§r/§bbig§r>');
                                 break;
                         }                        
                         
                     } else {
                         
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Чтобы изменить свой §bразмер§r, используйте: /size <§bsmall§r/§breset§r/§bbig§r>');
+                        $player->sendMessage($prefix . 'Чтобы изменить свой §bразмер§r, используйте: /size <§bsmall§r/§breset§r/§bbig§r>');
                         
                     }
 
