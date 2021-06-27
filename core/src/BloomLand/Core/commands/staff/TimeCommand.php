@@ -6,8 +6,6 @@ namespace BloomLand\Core\commands\staff;
 
     use BloomLand\Core\Core;
 
-    use pocketmine\Server;
-
     use pocketmine\command\Command;
     use pocketmine\command\CommandSender;
 
@@ -18,30 +16,82 @@ namespace BloomLand\Core\commands\staff;
             parent::__construct('time', 'Управление временем в мире', '/time');
         }
 
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
                 if (isset($args[0])) {
+
+                    $server = $this->getPlugin()->getServer();
                 
-                    $level = Server::getInstance()->getWorldManager()->getWorldByName('world');
+                    $world = $server->getWorldManager()->getWorldByName('world');
                     
                     if (is_numeric($args[0])) {
-                        $level->setTime((int) $args[0]);
-                        Server::getInstance()->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
+
+                        $world->setTime((int) $args[0]);
+                        $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
+                    
                     } else {
-                        if ($args[0] == 'day') {
-                            $level->setTime(6000);
-                            Server::getInstance()->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
-                        } else if ($args[0] == 'night') {
-                            $level->setTime(16000);
-                            Server::getInstance()->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
-                        } else {
-                            $player->sendMessage(' §r> Убедитесь, что Вы правильно вводите §bвремя суток§r.');
+
+                        switch ($args[0]) {
+                            case 'day':
+                                $world->setTime(6000);
+                                $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
+                                break;
+
+                            case 'night':
+                                $world->setTime(14000);
+                                $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
+                                break;
+                            
+                            case 'set':
+
+                                if (isset($args[1])) {
+
+                                    if (is_numeric($args[0])) {
+
+                                        $world->setTime((int) $args[0]);
+                                        $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
+                                        return true;
+
+                                    }
+
+                                    switch ($args[1]) {
+                                        case 'day':
+                                            $world->setTime(6000);
+                                            $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
+                                            break;
+                                        
+                                        case 'night':
+                                            $world->setTime(14000);
+                                            $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
+                                            break;
+                                        
+                                        default:
+                                            $player->sendMessage(' §r> Убедитесь, что Вы правильно вводите §bвремя суток§r.');
+                                            break;
+                                    }
+
+                                }
+                                break;
+                            
+                            default:
+                                $player->sendMessage(' §r> Убедитесь, что Вы правильно вводите §bвремя суток§r.');
+                                break;
                         }
+                    
                     }
-                } else 
-                    $player->sendMessage(' §r> Чтобы сменить §bвремя §rв игре используйте: §b/time §r<§bday§r/§bnight§r/§bчисло§b>');
+
+                } else {
+
+                    $player->sendMessage(' §r> Чтобы сменить §bвремя §rв игре используйте: §b/time §r<§bday§r/§bnight§r/§bчисло§b>');  
+                    
+                } 
             }
 
             return true;
