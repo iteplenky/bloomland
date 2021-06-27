@@ -48,7 +48,7 @@ namespace BloomLand\Core\listener;
 
             }
 
-            $filter = $player->getCore()->getChatFilter()->check($message);
+            $filter = Core::getAPI()->getChatFilter()->check($message);
 
             if ($filter !== ChatFilter::CHAT_NONE) {
 
