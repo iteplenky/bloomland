@@ -37,22 +37,16 @@ namespace BloomLand\Core\commands\player;
         {
             $config = Core::getAPI()->getConfig();
 
-		    if ($config->exists('kitItems')) {
+	    if ($config->exists('kitItems')) {
 
                 foreach ($config->get('kitItems') as [$itemId, $meta, $count]) {
                 
-                    print_r($config->get('kitItems'));
-
                     $item = ItemFactory::getInstance()->get($itemId, $meta, $count);
                     $item->setCustomName('§r§7<§aНабор для новичков§7>' . PHP_EOL . '§fИгрока §b' . $player->getName());
 
                     if (!empty($player->getInventory()->addItem($item))) {
 
-                        $player->sendTitle('§c§lНАБОР', '§fВаш инвентарь §bполностью§f забился', 10, 30, 10);
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы получили неполный §bнабор§r. Следующий раз когда можно будет взять повторно: через§b 1 день§r.');
-
                         $player->getWorld()->dropItem($player->getEyePos(), $item);
-                        return;
             
                     }
     
