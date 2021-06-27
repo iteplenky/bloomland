@@ -36,11 +36,11 @@ namespace BloomLand\Core\listener;
         public $enderPearlCooldown = [];
 
         private const WHITELISTED = [
-            "/gamemode",
-            "/tp",
-            "/ban",
-            "/kick",
-            "/spawn"
+            '/gamemode',
+            '/tp',
+            '/ban',
+            '/kick',
+            '/spawn'
         ];
         
         public function __construct()
@@ -54,13 +54,13 @@ namespace BloomLand\Core\listener;
 
             if ($player instanceof BLPlayer) {
 
-                if (strpos($event->getMessage(), "/") !== 0) {
+                if (strpos($event->getMessage(), '/') !== 0) {
 
                     return;
     
                 }
     
-                if (in_array(explode(" ", $event->getMessage())[0], self::WHITELISTED)) {
+                if (in_array(explode(' ', $event->getMessage())[0], self::WHITELISTED)) {
     
                     return;
     
@@ -160,11 +160,11 @@ namespace BloomLand\Core\listener;
         }
 
         public function pearlLaunch(ProjectileLaunchEvent $event) : void
-		{
+        {
             if ($event->isCancelled()) return;
 
-			$player = $event->getEntity()->getOwningEntity();
-		
+            $player = $event->getEntity()->getOwningEntity();
+        
             if ($event->getEntity() instanceof EnderPearl) {
 
                 if ($player->isTagged()) {
@@ -181,7 +181,7 @@ namespace BloomLand\Core\listener;
 
             }
 
-		}
+        }
 
         public function handleEntityDamage(EntityDamageEvent $event) : void 
         {
