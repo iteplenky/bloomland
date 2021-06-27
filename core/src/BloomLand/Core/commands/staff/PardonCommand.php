@@ -5,9 +5,6 @@ namespace BloomLand\Core\commands\staff;
 
 
     use BloomLand\Core\Core;
-
-    use BloomLand\Core\utils\Network;
-    use BloomLand\Core\utils\API;
     
     use BloomLand\Core\base\Ban;
 
@@ -21,9 +18,16 @@ namespace BloomLand\Core\commands\staff;
             parent::__construct('pardon', 'Разблокировать игрока', '/pardon', ['unban']);
         }
 
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
             if (Core::getAPI()->isEnabled()) {
+
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if (!empty($args[0])) {
 
@@ -33,22 +37,27 @@ namespace BloomLand\Core\commands\staff;
 
                     if (!Ban::isBanned(strtolower($intruder))) {
 
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Игрок §b' . $intruder . ' §rне заблокирован.');
+                        $player->sendMessage($prefix . 'Игрок §b' . $intruder . ' §rне заблокирован.');
                         return false;
 
                     }
 
                     if (empty($args[0])) {
-                        $player->sendMessage(Core::getAPI()->getPrefix() . '§eГерой§r, Вы разблокировали §b' . $intruder . '§r, не указав причину, пожалуйста осведомите всех о причине.');
+
+                        $player->sendMessage($prefix . '§eГерой§r, Вы разблокировали §b' . $intruder . '§r, не указав причину, пожалуйста осведомите всех о причине.');
                         $args[0] = 'неизвестна';
+                    
                     }
 
                     Ban::remove(strtolower($intruder));
 
-                    Core::getAPI()->getServer()->broadcastMessage(Core::getAPI()->getPrefix() . 'Игрок §b' . $intruder . ' §rразблокирован от руки §d' . $player->getName() . '§r, по причине: §e' . implode(" ", $args) . '§r.');
+                    Core::getAPI()->getServer()->broadcastMessage($prefix . 'Игрок §b' . $intruder . ' §rразблокирован от руки §d' . $player->getName() . '§r, по причине: §e' . implode(" ", $args) . '§r.');
 
-                } else 
-                    $player->sendMessage(Core::getAPI()->getPrefix() . 'Чтобы §bразблокировать игрока §rиспользуйте: /pardon §r<§7"§bник игрока§7"§r> §r<§eпричина§r>');
+                } else {
+
+                    $player->sendMessage($prefix . 'Чтобы §bразблокировать игрока §rиспользуйте: /pardon §r<§7"§bник игрока§7"§r> §r<§eпричина§r>');
+
+                }
 
             } 
 
