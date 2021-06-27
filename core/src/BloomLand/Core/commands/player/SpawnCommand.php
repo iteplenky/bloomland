@@ -5,7 +5,8 @@ namespace BloomLand\Core\commands\player;
 
 
     use BloomLand\Core\Core;
-    use BloomLand\Core\BLPlayer;
+    use BloomLand\Core\BLPlayer
+
     use BloomLand\Core\utils\API;
 
     use pocketmine\command\Command;
@@ -32,11 +33,12 @@ namespace BloomLand\Core\commands\player;
                     else {
 
                         if (Core::getAPI()->getServer()->isOp($player->getName())) {
+				
+			    $config = Core::getAPI()->getConfig();
 
                             switch ($args[0]) {
                                 
                                 case 'setpos':
-                                    $config = Core::getAPI()->getConfig();
                                     $config->set('spawnPosition', API::packPositionToRaw($player->getPosition()));
                                     $config->save();
                 
@@ -45,14 +47,12 @@ namespace BloomLand\Core\commands\player;
                                 
 
                                 case 'pos1':
-                                    $config = Core::getAPI()->getConfig();
                                     $config->set('spawnPos1', API::packVectorToRaw($player->getLocation()->asVector3()));
 
                                     $player->sendMessage(Core::getPrefix() . 'Первая точка указана');
                                     break;
 
                                 case 'pos2':
-                                    $config = Core::getAPI()->getConfig();
                                     $config->set('spawnPos2', API::packVectorToRaw($player->getLocation()->asVector3()));
                                     $config->save();
                 
@@ -84,7 +84,7 @@ namespace BloomLand\Core\commands\player;
         {
             $config = Core::getAPI()->getConfig();
 
-		    if ($config->exists('spawnPosition')) {
+	    if ($config->exists('spawnPosition')) {
                 
                 $pos = API::unpackRawLocation($config->get('spawnPosition'));
 
@@ -94,12 +94,13 @@ namespace BloomLand\Core\commands\player;
                 $player->sendTitle($player->translate('spawn.teleport.title'), $player->translate('spawn.teleport.subtitle'), 5, 15, 5);
 
                 $pk = new OnScreenTextureAnimationPacket();
-                $pk->effectId = 29; // or 27
+                $pk->effectId = 29; 
                 $player->getNetworkSession()->sendDataPacket($pk);
 
             } else 
                 $player->sendMessage(Core::getPrefix() . $player->translate('spawn.teleport.failed'));
         }
+	    
     }
 
 ?>
