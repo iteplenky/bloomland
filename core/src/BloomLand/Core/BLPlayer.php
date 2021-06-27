@@ -73,7 +73,7 @@ namespace BloomLand\Core;
 	
 	public function isOp() : bool 
 	{
-	    return $this->getPlugin()->getServer()->isOp($this->getLowerCaseName());
+	    return $this->server->isOp($this->getLowerCaseName());
 	}
 
         public function loadPlayer() : void 
