@@ -7,10 +7,10 @@ namespace BloomLand\Core\commands\player;
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
 
-    use pocketmine\item\ItemFactory;
-
     use pocketmine\command\Command;
     use pocketmine\command\CommandSender;
+
+    use pocketmine\item\ItemFactory;
 
     class KitCommand extends Command
     {
@@ -19,9 +19,14 @@ namespace BloomLand\Core\commands\player;
             parent::__construct('kit', 'Получить стартовый набор для начала', '/kit');
         }
 
-        public function execute(CommandSender $player, string $label, array $args): bool
+        public function getPlugin() : Core 
         {
-            if (Core::getAPI()->isEnabled()) {
+            return Core::getAPI();
+        }
+
+        public function execute(CommandSender $player, string $label, array $args) : bool
+        {
+            if ($this->getPlugin()->isEnabled()) {
 
                 if ($player instanceof BLPlayer) {
 
@@ -33,9 +38,10 @@ namespace BloomLand\Core\commands\player;
             return true;
         }
 
-        private function addCustomItems(CommandSender $player): void 
+        private function addCustomItems(CommandSender $player) : void 
         {
-            $config = Core::getAPI()->getConfig();
+            $prefix = $this->getPlugin()->getPrefix();
+            $config = $this->getPlugin()->getConfig();
 
 	    if ($config->exists('kitItems')) {
 
@@ -53,11 +59,11 @@ namespace BloomLand\Core\commands\player;
                 }
     
                 $player->sendTitle('§a§lНАБОР', '§fДля начала игры получен!', 10, 25, 10);
-                $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы получили §bнабор§r. Следующий раз когда можно будет взять повторно: через§b 1 день§r.');
+                $player->sendMessage($prefix . 'Вы получили §bнабор§r. Следующий раз когда можно будет взять повторно: через§b 1 день§r.');
 
             } else {
 
-                $player->sendMessage(Core::getAPI()->getPrefix() . 'Начальный набор для игры еще §cне настроен§r.');
+                $player->sendMessage($prefix . 'Начальный набор для игры еще §cне настроен§r.');
                 
             }
 
