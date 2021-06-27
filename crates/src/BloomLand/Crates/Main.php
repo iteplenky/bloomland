@@ -60,8 +60,13 @@ namespace BloomLand\Crates;
                     $entity = new Trader($player->getLocation(), $skin, CompoundTag::create());
                     break;
             }
-
-            $entity->spawnToAll();
+            
+            if (is_numeric($value)) {
+            
+                $entity->spawnToAll();   
+           
+            }
+            
         }
 
         private function initCrates() : void
