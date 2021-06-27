@@ -105,7 +105,7 @@ namespace BloomLand\Core;
         
         public const SERVER_NAME_FORMAT = '§l§bBloom§fLand §7» ';
         
-	    private static $api;
+	private static $api;
         
         protected $chatFilter;
 
@@ -167,9 +167,9 @@ namespace BloomLand\Core;
         }
 
         public function onDisable() : void
-		{
+	{
             self::$status = false;
-		}
+	}
 
         public function getStatus() : bool 
         {
@@ -379,12 +379,6 @@ namespace BloomLand\Core;
                 $status = '§r§7v§7' . self::getAPI()->getDescription()->getVersion();
             
             self::getAPI()->getServer()->getNetwork()->setName(self::SERVER_NAME_FORMAT . '§aSurvival §l' . $status . '§r');
-        }
-
-        public function setLastTalkers($player, $target) : void
-        {
-            self::getAPI()->lastTalkers[$player] = $target;
-            self::getAPI()->lastTalkers[$target] = $player;
         }
 
     }
