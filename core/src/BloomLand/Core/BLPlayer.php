@@ -16,18 +16,19 @@ namespace BloomLand\Core;
 
     use pocketmine\player\Player;
     use pocketmine\player\GameMode;
+
     use pocketmine\world\Position;
 
     class BLPlayer extends Player 
     {
         /** @var bool */
-	public $firstLogin = false;
+        public $firstLogin = false;
 
         /** @var int */
-	private $kills, $deaths;
+        private $kills, $deaths;
 
         /** @var Scoreboard */
-	public $scoreboard;
+        public $scoreboard;
 
         /** @var int */
         public $timePlayed, $joinTime;
@@ -37,9 +38,12 @@ namespace BloomLand\Core;
 
         /** @var string */
         public $device = '';
+        
+        /** @var string */
+        private $interlocutor = '';
 
         /** @var int */
-	protected $lastChatTime = 0;
+        protected $lastChatTime = 0;
 
         private $combatTag = 0;
 
@@ -52,7 +56,7 @@ namespace BloomLand\Core;
 
         /** @var CriminalRecord */
         protected $criminalRecord;
-
+	    
         protected $lastAttacker = null;
 
         public function getPlugin() : Core
@@ -183,6 +187,11 @@ namespace BloomLand\Core;
         public function getMode() : int
         {
             return $this->mode;
+        }
+
+        public function getInterlocutor() : string
+        {
+            return $this->interlocutor ?? 'unknown';
         }
 
         public function combatTag(bool $value = true) : void
