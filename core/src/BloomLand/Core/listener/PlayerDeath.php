@@ -29,10 +29,11 @@ namespace BloomLand\Core\listener;
         {
             $event->setDeathMessage(null);
 
+            $prefix = Core::getAPI()->getPrefix();
+            $server = Core::getAPI()->getServer();
+
             $player = $event->getEntity();
             $cause = $player->getLastDamageCause();
-
-            $server = Core::getAPI()->getServer();
             
             $name = $player->getName();
 
@@ -47,16 +48,16 @@ namespace BloomLand\Core\listener;
 
                             if ($event instanceof BLPlayer) {
 
-                                $server->broadcastPopup('§fИгрок §b' . $name . ' §fубит игроком §d' . $event->getName() . '§f.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rубит игроком §d' . $event->getName() . '§r.');
                                 break;
 
                             } elseif ($event instanceof Living) {
 
-                                $server->broadcastPopup('§fИгрок §b' . $name . ' §fубит игроком §d' . $event->getName() . '§f.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rубит игроком §d' . $event->getName() . '§r.');
                                 break;
 
                             } else 
-                                $server->broadcastPopup('§fИгрок §b' . $name . ' §fубит стрелами.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rубит стрелами.');
                         }
                         break;
 
@@ -66,57 +67,57 @@ namespace BloomLand\Core\listener;
                             $event = $cause->getDamager();
                             
                             if ($event instanceof BLPlayer) 
-                                $server->broadcastPopup('§fИгрок §b' . $name . '§f застрелен игроком §d' . $event->getName() . '§f.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . '§r застрелен игроком §d' . $event->getName() . '§r.');
                             elseif ($event instanceof Living) {
-                                $server->broadcastPopup('§fИгрок §b' . $name . '§f убит стрелами.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . '§r убит стрелами.');
                                 break;
                             } else
-                                $server->broadcastPopup('§fИгрок §b' . $name . '§f убит стрелами.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . '§r убит стрелами.');
                         }
                         break;
 
                     case EntityDamageEvent::CAUSE_SUICIDE:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fсовершил самоубийство.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rсовершил самоубийство.');
                         break;
 
                     case EntityDamageEvent::CAUSE_VOID:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fпровалился в пропасть.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rпровалился в пропасть.');
                         break;
 
                     case EntityDamageEvent::CAUSE_FALL:
                         if ($cause instanceof EntityDamageEvent) {
                             if ($cause->getFinalDamage() > 2) {
-                                $server->broadcastPopup('§fИгрок §b' . $name . ' §fумер.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rумер.');
                                 break;
                             }
                         }
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fумер.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rумер.');
                         break;
 
                     case EntityDamageEvent::CAUSE_SUFFOCATION:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fпытался пройти сквозь блоки.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rпытался пройти сквозь блоки.');
                         break;
 
                     case EntityDamageEvent::CAUSE_LAVA:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fпринял ванну из лавы.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rпринял ванну из лавы.');
                         break;
 
                     case EntityDamageEvent::CAUSE_FIRE:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fподгорел.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rподгорел.');
                         break;
 
                     case EntityDamageEvent::CAUSE_FIRE_TICK:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fзажарился.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rзажарился.');
                         break;
 
                     case EntityDamageEvent::CAUSE_DROWNING:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fдумал что не глубоко и умер.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rдумал что не глубоко и умер.');
                         break;
 
                     case EntityDamageEvent::CAUSE_CONTACT:
                         if ($cause instanceof EntityDamageByBlockEvent){
                             if ($cause->getDamager()->getId() === VanillaBlocks::CACTUS()->getId())
-                                $server->broadcastPopup('§fИгрок §b' . $name . ' §fзадумался когда целовал кактус и умер.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rзадумался когда целовал кактус и умер.');
                         }
                         break;
 
@@ -127,22 +128,22 @@ namespace BloomLand\Core\listener;
                             $event = $cause->getDamager();
                             
                             if ($event instanceof BLPlayer)
-                                $server->broadcastPopup('§fИгрок §b' . $name . '§f застрелен взорван игроком §d' . $event->getName() . '§f.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . '§r взорван игроком §d' . $event->getName() . '§r.');
 
                             elseif ($event instanceof Living) {
-                                $server->broadcastPopup('§fИгрок §b' . $name . ' §fвзорвался.');
+                                $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rвзорвался.');
                                 break;
                             }
                         } else
-                            $server->broadcastPopup('§fИгрок §b' . $name . ' §fумер.');
+                            $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rумер.');
                         break;
 
                     case EntityDamageEvent::CAUSE_MAGIC:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fубит магией.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rубит магией.');
                         break;
 
                     case EntityDamageEvent::CAUSE_CUSTOM:
-                        $server->broadcastPopup('§fИгрок §b' . $name . ' §fумер.');
+                        $server->broadcastMessage($prefix . ' §rИгрок §b' . $name . ' §rумер.');
                         break;
                 }
 
