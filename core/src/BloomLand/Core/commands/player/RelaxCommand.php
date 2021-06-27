@@ -21,10 +21,15 @@ namespace BloomLand\Core\commands\player;
         {
             parent::__construct('relax', 'Почувствовать спокойствие на короткий срок', '/relax');
         }
+        
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
                API::playSoundPacket($player, 'ambient.outdoors');
                 
