@@ -21,32 +21,22 @@ namespace BloomLand\Core\commands\player;
         {
             if (Core::getAPI()->isEnabled()) {
 
+                $prefix = Core::getAPI()->getPrefix();
+
                 if (isset($args[0])) {
 
-                    if (!empty(Core::getAPI()->lastTalkers[$player->getLowerCaseName()])) {
+                    if ($player->hasIterlocutor()) {
 
-                        if (($target = Core::getAPI()->getServer()->getPlayerByPrefix(Core::getAPI()->lastTalkers[$player->getLowerCaseName()])) instanceof BLPlayer) {
+                        if (($target = Core::getAPI()->getServer()->getPlayerByPrefix($player->getInterlocutor())) instanceof BLPlayer) {
 
-                            $target->sendMessage(PHP_EOL . Core::getAPI()->getPrefix() . 'Игрок §b' . $player->getName() . ' §rответил Вам §e' . implode(" ", $args) . '§r.' . PHP_EOL);
-                            $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы ответили сообщением: §e' . implode(" ", $args) . '§r игроку §d' . $target->getName() . ' §r');
+                            $target->sendMessage(PHP_EOL . $prefix . 'Игрок §b' . $player->getName() . ' §rответил Вам §e' . implode(" ", $args) . '§r.' . PHP_EOL);
+                            $player->sendMessage($prefix . 'Вы ответили сообщением: §e' . implode(" ", $args) . '§r игроку §d' . $target->getName() . ' §r');
                             
-                        } else {
+                        } else $player->sendMessage($prefix . 'Игрок сейчас §cне в игре§r.');
 
-                            $player->sendMessage(Core::getAPI()->getPrefix() . 'Игрок сейчас §cне в игре§r.');
-
-                        }
-
-                    } else {
-
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Вам еще §bникто не написал§r, чтобы Вы смогли ответить на его сообщение§r.');
-                        
-                    }
+                    } else $player->sendMessage($prefix . 'Вам еще §bникто не написал§r, чтобы Вы смогли ответить на его сообщение§r.');
                     
-                } else {
-                    
-                    $player->sendMessage(Core::getAPI()->getPrefix() . 'Чтобы ответить на §bличное сообщение§r, используйте: /reply <§7...§bсообщение§r>');
-                    
-                }
+                } else $player->sendMessage($prefix . 'Чтобы ответить на §bличное сообщение§r, используйте: /reply <§7...§bсообщение§r>');
                     
             }
 
