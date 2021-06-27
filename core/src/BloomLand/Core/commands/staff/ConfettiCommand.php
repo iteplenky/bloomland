@@ -19,11 +19,15 @@ namespace BloomLand\Core\commands\staff;
         {
             parent::__construct('cf', 'Создать партикл конфетти', '/cf', ['confetti']);
         }
+        
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
-
+            if ($this->getPlugin()->isEnabled()) {
             
                 $pk = new SpawnParticleEffectPacket();
 
@@ -31,10 +35,10 @@ namespace BloomLand\Core\commands\staff;
 
                 $pk->position = $vector;
                 $pk->particleName = 'bloomland:confetti';
-                Core::getAPI()->getServer()->broadcastPackets(Core::getAPI()->getServer()->getOnlinePlayers(), [$pk]);
 
+                $this->getPlugin()->getServer()->broadcastPackets($player->getViewers(), [$pk]);
             
-                $player->sendMessage(Core::getAPI()->getPrefix() . 'Хлоп! Над Вами §bконфетти§r.');
+                $player->sendMessage($this->getPlugin()->getPrefix() . 'Хлоп! Над Вами §bконфетти§r.');
                 
             }
 
