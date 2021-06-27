@@ -15,6 +15,11 @@ namespace BloomLand\Core\commands\staff;
         {
             parent::__construct('heal', 'Восстановить параметры', '/heal', ['feed']);
         }
+        
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
@@ -23,7 +28,7 @@ namespace BloomLand\Core\commands\staff;
                 $player->setHealth($player->getMaxHealth());
                 $player->getHungerManager()->setFood($player->getHungerManager()->getMaxFood());
         
-                $player->sendMessage(' §r> Вы §bвосстановили§r свои параметры§r.');
+                $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы §bвосстановили§r свои параметры§r.');
 
             }
 
