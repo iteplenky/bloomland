@@ -16,12 +16,17 @@ namespace BloomLand\Core\commands\player;
         {
             parent::__construct('list', 'Список всех игроков', '/list');
         }
+        
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
 
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $player->sendMessage(Core::getAPI()->getPrefix() . 'Сейчас играет §b' . count($player->getServer()->getOnlinePlayers()) . 
+                $player->sendMessage($this->getPlugin()->getPrefix() . 'Сейчас играет §b' . count($player->getServer()->getOnlinePlayers()) . 
                 ' §rиз §3' . $player->getServer()->getMaxPlayers() . '§r.');
 
             }
