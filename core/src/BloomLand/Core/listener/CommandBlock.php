@@ -38,11 +38,11 @@ namespace BloomLand\Core\listener;
 
             if ($datum !== null) {
 
-                if(($datum["console"] ?? false) && $sender instanceof ConsoleCommandSender) {
+                if (($datum["console"] ?? false) && $sender instanceof ConsoleCommandSender) {
 
                     $event->cancel();
 
-                }else if(($datum["in-game"] ?? false) && $sender instanceof BLPlayer) {
+                } else if (($datum["in-game"] ?? false) && $sender instanceof BLPlayer) {
 
                     $event->cancel();
 
