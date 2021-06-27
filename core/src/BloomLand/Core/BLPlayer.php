@@ -19,6 +19,8 @@ namespace BloomLand\Core;
 
     use pocketmine\world\Position;
 
+    use pocketmine\entity\effect\VanillaEffects;
+
     class BLPlayer extends Player 
     {
         /** @var bool */
@@ -215,7 +217,6 @@ namespace BloomLand\Core;
             $this->combatTag = 0;
         }
 
-	    
         public function isTagged() : bool
         {
             return (time() - $this->combatTag) <= 15 ? true : false;
@@ -224,6 +225,25 @@ namespace BloomLand\Core;
         public function getCombatTagTime() : int
         {
             return $this->combatTag;
+        }
+
+        public function isVanished() : bool
+        {
+            return $this->effectManager->has(VanillaEffects::INVISIBILITY());
+        }
+
+        public function addVanish() : void
+        {
+            if ($this->isVanished()) return;
+
+            $this->effectManager->add(new EffectInstance(VanillaEffects::INVISIBILITY(), 100 * 100 * 20, 1, false, true));
+        }
+
+        public function removeVanish() : void
+        {
+            if (!$this->isVanished()) return;
+
+            $this->effectManager->remove($this, VanillaEffects::INVISIBILITY());
         }
         
     }
