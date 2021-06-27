@@ -25,6 +25,8 @@ namespace BloomLand\Core\commands\staff;
         {
             if ($this->getPlugin()->isEnabled()) {
 
+                $prefix = $this->getPlugin()->getPrefix();
+
                 if (isset($args[0])) {
 
                     $server = $this->getPlugin()->getServer();
@@ -34,19 +36,19 @@ namespace BloomLand\Core\commands\staff;
                     if (is_numeric($args[0])) {
 
                         $world->setTime((int) $args[0]);
-                        $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
+                        $server->broadcastMessage($prefix . 'Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
                     
                     } else {
 
                         switch ($args[0]) {
                             case 'day':
                                 $world->setTime(6000);
-                                $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
+                                $server->broadcastMessage($prefix . 'Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
                                 break;
 
                             case 'night':
                                 $world->setTime(14000);
-                                $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
+                                $server->broadcastMessage($prefix . 'Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
                                 break;
                             
                             case 'set':
@@ -56,7 +58,7 @@ namespace BloomLand\Core\commands\staff;
                                     if (is_numeric($args[0])) {
 
                                         $world->setTime((int) $args[0]);
-                                        $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
+                                        $server->broadcastMessage($prefix . 'Время в мире было изменено игроком §b' . $player->getName() . ' §rна §d' . $args[0] . '§r.');
                                         return true;
 
                                     }
@@ -64,16 +66,16 @@ namespace BloomLand\Core\commands\staff;
                                     switch ($args[1]) {
                                         case 'day':
                                             $world->setTime(6000);
-                                            $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
+                                            $server->broadcastMessage($prefix . 'Время в мире было изменено игроком §b' . $player->getName() . ' §rна §6день§r.');
                                             break;
                                         
                                         case 'night':
                                             $world->setTime(14000);
-                                            $server->broadcastMessage(' §r> Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
+                                            $server->broadcastMessage($prefix . 'Время в мире было изменено игроком §b' . $player->getName() . ' §rна §9ночь§r.');
                                             break;
                                         
                                         default:
-                                            $player->sendMessage(' §r> Убедитесь, что Вы правильно вводите §bвремя суток§r.');
+                                            $player->sendMessage($prefix . 'Убедитесь, что Вы правильно вводите §bвремя суток§r.');
                                             break;
                                     }
 
@@ -81,7 +83,7 @@ namespace BloomLand\Core\commands\staff;
                                 break;
                             
                             default:
-                                $player->sendMessage(' §r> Убедитесь, что Вы правильно вводите §bвремя суток§r.');
+                                $player->sendMessage($prefix . 'Убедитесь, что Вы правильно вводите §bвремя суток§r.');
                                 break;
                         }
                     
@@ -89,7 +91,7 @@ namespace BloomLand\Core\commands\staff;
 
                 } else {
 
-                    $player->sendMessage(' §r> Чтобы сменить §bвремя §rв игре используйте: §b/time §r<§bday§r/§bnight§r/§bчисло§b>');  
+                    $player->sendMessage($prefix . 'Чтобы сменить §bвремя §rв игре используйте: §b/time §r<§bday§r/§bnight§r/§bчисло§b>');  
                     
                 } 
             }
