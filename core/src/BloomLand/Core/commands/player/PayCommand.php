@@ -40,7 +40,7 @@ namespace BloomLand\Core\commands\player;
 
                                 if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
-                                    $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы пытаетесь передать монеты §bсамому себе§r.');
+                                    $player->sendMessage($prefix . 'Вы пытаетесь передать монеты §bсамому себе§r.');
                                     return false;
                                 
                                 }
@@ -63,13 +63,29 @@ namespace BloomLand\Core\commands\player;
 
                                     }
 
-                                } else $player->sendMessage($prefix . $player->translate('coins.nosuch.amount'));
+                                } else {
+                                    
+                                    $player->sendMessage($prefix . $player->translate('coins.nosuch.amount'));
                             
-                            } else $player->sendMessage($prefix . $player->translate('coins.pay.failed.target'));
+                                }
+                            
+                            } else {
+                                
+                                $player->sendMessage($prefix . $player->translate('coins.pay.failed.target'));
 
-                        } else $player->sendMessage($prefix . $player->translate('coins.pay.failed'));
+                            }
 
-                    } else $player->sendMessage($prefix . $player->translate('coins.usage'));
+                        } else {
+                            
+                            $player->sendMessage($prefix . $player->translate('coins.pay.failed'));
+
+                        }
+
+                    } else {
+                        
+                        $player->sendMessage($prefix . $player->translate('coins.usage'));
+
+                    }
 
                 }
 
