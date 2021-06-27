@@ -70,6 +70,11 @@ namespace BloomLand\Core;
         {
             return strtolower($this->username);
         }
+	
+	public function isOp() : bool 
+	{
+	    return $this->getPlugin()->getServer()->isOp($this->getLowerCaseName());
+	}
 
         public function loadPlayer() : void 
         {
