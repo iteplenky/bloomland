@@ -6,7 +6,6 @@ namespace BloomLand\Core\commands\player;
 
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
-    use BloomLand\Core\sqlite3\SQLite3;
 
     use pocketmine\command\Command;
     use pocketmine\command\CommandSender;
@@ -22,12 +21,13 @@ namespace BloomLand\Core\commands\player;
         {
             if (Core::getAPI()->isEnabled()) {
 
+                $prefix = Core::getAPI()->getPrefix();
+
                 if ($player instanceof BLPlayer) {
 
                     if (isset($args[1])) {
 
-                        $target = array_shift($args);
-		                $amount = array_shift($args);
+                        $target = array_shift($args); $amount = array_shift($args);
 
                         if (is_numeric($amount) and $amount > 0 and $amount % 1 == 0 and !is_float($amount)) {
                             
@@ -36,7 +36,7 @@ namespace BloomLand\Core\commands\player;
                                 if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
                                     $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы пытаетесь передать монеты §bсамому себе§r.');
-                                    return true;
+                                    return false;
                                 
                                 }
 
@@ -47,30 +47,32 @@ namespace BloomLand\Core\commands\player;
                                     $target->addMoney($amount);
                                     $player->removeMoney($amount); 
 
-                                    $player->sendMessage(Core::getPrefix() . $player->translate('coins.pay.success', [$target->getName(), $amount]));
+                                    $player->sendMessage($prefix . $player->translate('coins.pay.success', [$target->getName(), $amount]));
 
                                     $player->sendTitle($player->translate('coins.pay.player.title'), $player->translate('coins.pay.player.subtitle'), 10, 15, 5);
 
                                     if ($target instanceof BLPlayer) {
 
-                                        $target->sendMessage(Core::getPrefix() . $player->translate('coins.pay.success.target', [$player->getName(), $amount]));
+                                        $target->sendMessage($prefix . $player->translate('coins.pay.success.target', [$player->getName(), $amount]));
                                         $target->sendTitle($player->translate('coins.pay.target.title'), $player->translate('coins.pay.target.subtitle'), 10, 15, 5);
 
                                     }
 
-                                } else $player->sendMessage(Core::getPrefix() . $player->translate('coins.nosuch.amount'));
+                                } else $player->sendMessage($prefix . $player->translate('coins.nosuch.amount'));
                             
-                            } else $player->sendMessage(Core::getPrefix() . $player->translate('coins.pay.failed.target'));
+                            } else $player->sendMessage($prefix . $player->translate('coins.pay.failed.target'));
 
-                        } else $player->sendMessage(Core::getPrefix() . $player->translate('coins.pay.failed'));
+                        } else $player->sendMessage($prefix . $player->translate('coins.pay.failed'));
 
-                    } else $player->sendMessage(Core::getPrefix() . $player->translate('coins.usage'));
+                    } else $player->sendMessage($prefix . $player->translate('coins.usage'));
 
                 }
 
             }
+
             return true;
         }
+
     }
 
 ?>
