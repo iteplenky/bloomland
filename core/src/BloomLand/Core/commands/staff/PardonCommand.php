@@ -51,7 +51,8 @@ namespace BloomLand\Core\commands\staff;
 
                     Ban::remove(strtolower($intruder));
 
-                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Игрок §b' . $intruder . ' §rразблокирован от руки §d' . $player->getName() . '§r, по причине: §e' . implode(" ", $args) . '§r.');
+                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Игрок §b' . $intruder . ' §rразблокирован от руки §d' . $player->getName() . 
+                    '§r, по причине: §e' . implode(" ", $args) . '§r.');
 
                 } else {
 
