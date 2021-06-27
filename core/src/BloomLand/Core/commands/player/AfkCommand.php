@@ -17,23 +17,28 @@ namespace BloomLand\Core\commands\player;
             parent::__construct('afk', 'Войти в режим АФК', '/afk');
         }
 
+        public function getPlugin() : Core 
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args): bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $prefix = Core::getAPI()->getPrefix();
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if ($player instanceof BLPlayer) {
 
-                    if (isset(Core::getAPI()->afk[$player->getLowerCaseName()]) and Core::getAPI()->afk[$player->getLowerCaseName()] == 1) {
+                    if (isset($this->getPlugin()->afk[$player->getLowerCaseName()]) and $this->getPlugin()->afk[$player->getLowerCaseName()] == 1) {
 
-                        unset(Core::getAPI()->afk[$player->getLowerCaseName()]);
+                        unset($this->getPlugin()->afk[$player->getLowerCaseName()]);
 
                         $player->sendMessage($prefix . 'Вы вышли из режима §bАФК§r.');
                         
                     } else {
 
-                        Core::getAPI()->afk[$player->getLowerCaseName()] = 1;
+                        $this->getPlugin()->afk[$player->getLowerCaseName()] = 1;
 
                         $player->sendMessage($prefix . 'Вы вошли в режим §bАФК§r.');
 
