@@ -115,7 +115,7 @@ namespace BloomLand\Core\listener;
 
                     case EntityDamageEvent::CAUSE_CONTACT:
                         if ($cause instanceof EntityDamageByBlockEvent){
-                            if ($cause->getDamager()->getId() === VanillaBlocks::CACTUS())
+                            if ($cause->getDamager()->getId() === VanillaBlocks::CACTUS()->getId())
                                 $server->broadcastPopup('§fИгрок §b' . $name . ' §fзадумался когда целовал кактус и умер.');
                         }
                         break;
