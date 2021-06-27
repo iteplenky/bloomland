@@ -216,7 +216,7 @@ namespace BloomLand\Core\listener;
                     
                     if ($entity->isVanished()) {
                      
-                        $event->cancel()
+                        $event->cancel();
                         
                         if ($damager->isOp()) {
                          
