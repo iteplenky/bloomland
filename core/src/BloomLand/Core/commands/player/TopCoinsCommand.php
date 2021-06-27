@@ -6,14 +6,12 @@ namespace BloomLand\Core\commands\player;
 
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
-    use BloomLand\Core\sqlite3\SQLite3;
-    use BloomLand\Core\plugin\AsyncTopsUpdate;
-    use pocketmine\scheduler\AsyncTask;
-    use pocketmine\Server;
 
     use pocketmine\command\Command;
     use pocketmine\command\CommandSender;
     
+    use BloomLand\Core\plugin\AsyncTopsUpdate;
+
     class TopCoinsCommand extends Command
     {
         public function __construct()
@@ -27,7 +25,10 @@ namespace BloomLand\Core\commands\player;
 
                 if ($player instanceof BLPlayer) {
 
-                    Server::getInstance()->getAsyncPool()->submitTask(new AsyncTopsUpdate(Core::getAPI()->getDataFolder(), $player->getId()));
+                    Core::getAPI()->getServer()->getAsyncPool()->submitTask(new AsyncTopsUpdate(
+                        Core::getAPI()->getDataFolder(), 
+                        $player->getId()
+                    ));
                     
                 } 
 
