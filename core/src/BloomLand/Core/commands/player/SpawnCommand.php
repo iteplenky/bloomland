@@ -103,8 +103,9 @@ namespace BloomLand\Core\commands\player;
                     $pk->effectId = 29; 
                     $player->getNetworkSession()->sendDataPacket($pk);
 
-                } else 
-                    $player->sendMessage($this->getPlugin()->getPrefix() . $player->translate('spawn.teleport.failed'));
+            } else {
+
+                $player->sendMessage($this->getPlugin()->getPrefix() . $player->translate('spawn.teleport.failed'));
 
             }
             
