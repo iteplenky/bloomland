@@ -19,9 +19,16 @@ namespace BloomLand\Core\commands\staff;
             parent::__construct('kill', 'Совершить свое или чужое самоубийство', '/kill');
         }
 
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
             if (Core::getAPI()->isEnabled()) {
+
+                $prefix = $this->getPlugin()->getPrefix();
 
                 if (isset($args[0])) {
 
@@ -30,26 +37,26 @@ namespace BloomLand\Core\commands\staff;
                         if ($target->getLowerCaseName() == $player->getLowerCaseName()) {
 
                             $target->attack(new EntityDamageEvent($target, EntityDamageEvent::CAUSE_SUICIDE, 1000));
-                            $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы совершили §bсамоубийство§r.');
+                            $player->sendMessage($prefix . 'Вы совершили §bсамоубийство§r.');
                             
                         } else {
 
                             $target->attack(new EntityDamageEvent($target, EntityDamageEvent::CAUSE_SUICIDE, 1000));
-                            $target->sendMessage(Core::getAPI()->getPrefix() . 'Игрок §b' . $player->getName() . ' §rубил вас при помощи команды.');
-                            $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы убили §b' . $target->getName() . ' §rпри помощи команды.');
+                            $target->sendMessage($prefix . 'Игрок §b' . $player->getName() . ' §rубил вас при помощи команды.');
+                            $player->sendMessage($prefix . 'Вы убили §b' . $target->getName() . ' §rпри помощи команды.');
 
                         }
                         
                     } else {
                         
-                        $player->sendMessage(Core::getAPI()->getPrefix() . 'Игрок сейчас §cне в игре§r.');
+                        $player->sendMessage($prefix . 'Игрок сейчас §cне в игре§r.');
                         
                     }
                     
                 } else {
                     
                     $player->attack(new EntityDamageEvent($player, EntityDamageEvent::CAUSE_SUICIDE, 1000));
-                    $player->sendMessage(Core::getAPI()->getPrefix() . 'Вы совершили §bсамоубийство§r.');
+                    $player->sendMessage($prefix . 'Вы совершили §bсамоубийство§r.');
 
                 }
                     
@@ -57,6 +64,7 @@ namespace BloomLand\Core\commands\staff;
 
             return true;
         }
+        
     }
 
 ?>
