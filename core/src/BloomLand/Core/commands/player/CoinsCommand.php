@@ -32,7 +32,7 @@ namespace BloomLand\Core\commands\player;
 
                 if ($player instanceof BLPlayer) {
 
-                    if (count($args) == 3 and $player->is()) {
+                    if (count($args) == 3 and $player->isOp()) {
 
                         $target = $args[1];
                         
