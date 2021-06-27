@@ -60,13 +60,12 @@ namespace BloomLand\Crates;
                     $entity = new Trader($player->getLocation(), $skin, CompoundTag::create());
                     break;
             }
-            
+
             if (is_numeric($value)) {
             
                 $entity->spawnToAll();   
            
             }
-            
         }
 
         private function initCrates() : void
@@ -95,36 +94,41 @@ namespace BloomLand\Crates;
         {
             $path = $this->getFile() . '/resources/' . $folderName . '/';
 
-            $img = @imagecreatefrompng($path . $geometryName . '.png');
-            $size = (int) @getimagesize($path . $geometryName . '.png')[1];
-    
-            $bytes = $this->getBytes($size, $img);
-    
-            @imagedestroy($img);
-    
-            return new Skin($folderName, $bytes, '' ,'geometry.' . $geometryName, file_get_contents($path . $geometryName . '.json'));
+            $bytes = $this->getBytes($path . $geometryName .'.png', $geometryName);
+
+            return new Skin('name', $bytes, '' ,'geometry.' . $geometryName, file_get_contents($path . $geometryName . '.json'));
         }
 
-        private function getBytes(int $size, $img) : string 
+        private function getBytes(string $path, string $geometryName) : string
         {
+            $img = @imagecreatefrompng($path);
+
             $bytes = '';
-    
-            for ($y = 0; $y < $size; $y ++) {
-        
-                for ($x = 0; $x < 64; $x ++) {
-                    $color = imagecolorat($img, $x, $y);
-                    $a = ((~((int) ($color >> 24))) << 1) & 0xff;
-                    $r = ($color >> 16) & 0xff;
-                    $g = ($color >> 8) & 0xff;
-                    $b = $color & 0xff;
+
+            $L = (int) @getimagesize($path)[0];
+            $l = (int) @getimagesize($path)[1];
+
+            for ($y = 0; $y < $l; $y++) {
+
+                for ($x = 0; $x < $L; $x++) {
+
+                    $rgba = @imagecolorat($img, $x, $y);
+                    $a = ((~((int)($rgba >> 24))) << 1) & 0xff;
+                    $r = ($rgba >> 16) & 0xff;
+                    $g = ($rgba >> 8) & 0xff;
+                    $b = $rgba & 0xff;
                     $bytes .= chr($r) . chr($g) . chr($b) . chr($a);
+
                 }
-        
+
             }
-    
+
+            @imagedestroy($img);
+
             return $bytes;
         }
 
     }
 
 ?>
+      
