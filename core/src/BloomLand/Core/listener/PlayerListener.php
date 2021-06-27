@@ -167,9 +167,9 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
 
                 // $pp->updatePermissions($player);
 
-                $player->loadBLPlayer($this->getPlugin()->getDatabase());
+                $player->loadPlayer($this->getPlugin()->getDatabase());
                 
-                $player->setLanguage(SQLite3::getStringValue($player->getLowerCaseName(), 'lang'));
+                // $player->setLanguage(SQLite3::getStringValue($player->getLowerCaseName(), 'lang'));
 
                 $player->joinTime = time();
                 $player->device = $this->devices[$player->getLowerCaseName()];
