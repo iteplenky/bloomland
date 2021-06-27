@@ -11,7 +11,7 @@ namespace BloomLand\Core\base;
         
     class Ban
     {
-        public static function add(string $intruder, string $player, array $args) : void
+        public static function add(string $intruder, string $player, mixed $args) : void
         {
             Core::getDatabase()->query("INSERT INTO `intruders` (`username`, `sender`, `reason`) VALUES ('$intruder', '$player', '$args')");
         }
