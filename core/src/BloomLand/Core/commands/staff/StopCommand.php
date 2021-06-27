@@ -16,16 +16,21 @@ namespace BloomLand\Core\commands\staff;
             parent::__construct('stop', 'Управление сервером', '/stop');
         }
 
+        public function getPlugin() : Core
+        {
+            return Core::getAPI();
+        }
+
         public function execute(CommandSender $player, string $label, array $args) : bool
         {
-            if (Core::getAPI()->isEnabled()) {
+            if ($this->getPlugin()->isEnabled()) {
 
-                $server = Core::getAPI()->getServer();
+                $server = $this->getPlugin()->getServer();
 
-                foreach($server->getOnlinePlayers() as $player)
+                foreach ($server->getOnlinePlayers() as $player)
                     $player->save();
                 
-                foreach($server->getWorldManager()->getWorlds() as $world)
+                foreach ($server->getWorldManager()->getWorlds() as $world)
                     $world->save(true);
                 
                 
@@ -38,6 +43,7 @@ namespace BloomLand\Core\commands\staff;
 
             return true;
         }
+        
     }
 
 ?>
