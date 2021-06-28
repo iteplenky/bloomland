@@ -9,6 +9,7 @@ namespace BloomLand\Core\listener;
     use BloomLand\Core\AntiCheat;
     use BloomLand\Core\task\HealthTask;
     use BloomLand\Core\task\PickupTask;
+    use BloomLand\Core\task\BonusTask;
     use BloomLand\Core\item\Hammer;
 
     use BloomLand\Core\sqlite3\SQLite3;
@@ -28,7 +29,7 @@ namespace BloomLand\Core\listener;
 
     use pocketmine\event\player as event;
 
-	use pocketmine\event\entity\EntityDamageEvent;
+    use pocketmine\event\entity\EntityDamageEvent;
     use pocketmine\event\entity\EntityDamageByEntityEvent;
 
     use pocketmine\utils\TextFormat;
@@ -216,6 +217,8 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
                     ScoreboardFactory::createScoreboard($player);
 
                 }
+		    
+		Core::getAPI()->getScheduler()->scheduleRepeatingTask(new BonusTask($player), 20 * 30);
 
                 // Core::getAPI()->getScheduler()->scheduleDelayedTask(new HealthTask($player), 1); 
 
