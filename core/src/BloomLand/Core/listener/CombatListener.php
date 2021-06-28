@@ -150,8 +150,12 @@ namespace BloomLand\Core\listener;
             if ($player->isTagged()) {
 
                 if (Core::getAPI()->getStatus()) {
-
-                    $player->setHealth(0);
+                    
+                    if($player->isAlive() and $player->isConnected()) {
+                     
+                        $player->setHealth(0);
+                        
+                    }
 
                 } else $player->combatTag(false);
 
