@@ -1,18 +1,16 @@
 <?php
 
 
-namespace BloomLand\Core\task\restart;
+namespace BloomLand\Core\task;
 
     
     use BloomLand\Core\Core;
 
     use pocketmine\scheduler\Task;
 
-    use pocketmine\command\ConsoleCommandSender;
-
-    class MinutesTimer extends Task
+    class Restart extends Task
     {        
-        private $left = 119;
+        private $left = 120;
 
         public function getPlugin() : Core 
         {
@@ -23,23 +21,33 @@ namespace BloomLand\Core\task\restart;
         {
             $this->left--;
 
+            $prefix = $this->getPlugin()->getPrefix();
+
             switch ($this->left) {
+
+                case 60:
+                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Сервер будет §cперезагружен§r через§a 60§r минут.');
+                    break;
+
+                case 30:
+                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Сервер будет §cперезагружен§r через§a 30§r минут.');
+                    break;
                     
-                case 14:
-                    $this->gePlugin()->getServer()->broadcastMessage(' §r> Сервер будет §cперезагружен§r через§a 15§r минут');
+                case 15:
+                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Сервер будет §cперезагружен§r через§a 15§r минут.');
                     break;
                 
-                case 9:
-                    $this->gePlugin()->getServer()->broadcastMessage(' §r> Сервер будет §cперезагружен§r через§6 10§r минут');
+                case 10:
+                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Сервер будет §cперезагружен§r через§6 10§r минут.');
                     break;
-                
-                case 4:
-                    $this->gePlugin()->getServer()->broadcastMessage(' §r> Сервер будет §cперезагружен§r через§c 5§r минут');
+            
+                case 5:
+                    $this->getPlugin()->getServer()->broadcastMessage($prefix . 'Сервер будет §cперезагружен§r через§c 5§r минут.');
                     break;
 
                 case 0:
                     $this->getHandler()->cancel();
-                    $this->gePlugin()->getScheduler()->scheduleDelayedTask(new SecoundsTimer(), 20);
+                    $this->getPlugin()->getScheduler()->scheduleRepeatingTask(new SecoundsTimer(), 20);
                     break;
             }
             
@@ -51,11 +59,6 @@ namespace BloomLand\Core\task\restart;
     {        
         private $left = 60;
 
-        public function __construct()
-        {
-            $this->getPlugin()->getScheduler()->scheduleRepeatingTask($this, 20);
-        }
-
         public function getPlugin() : Core 
         {
             return Core::getAPI();
@@ -65,27 +68,42 @@ namespace BloomLand\Core\task\restart;
         {
             $this->left--;
 
-            if ($this->left <= 10) {
+            $server = $this->getPlugin()->getServer();
 
-                $this->gePlugin()->getServer()->dispatchCommand(new ConsoleCommandSender(), 'save-all');
 
+            if ($this->left <= 5) {
+
+                foreach ($server->getOnlinePlayers() as $player) {
+
+                    $player->save();
+                                    
+                }
+
+                foreach ($server->getWorldManager()->getWorlds() as $world) {
+
+                    $world->save(true);
+
+                }
+                
             }
 
-            $this->gePlugin()->getServer()->broadcastPopup('§fДо перезагрузки §c' . $this->left .'§r секунд');
+            $server->broadcastPopup('§fДо перезагрузки §c' . $this->left . '§f секунд.');
             
             if ($this->left <= 0) {
 
                 $this->getHandler()->cancel();
                
-                foreach ($this->gePlugin()->getServer()->getOnlinePlayers() as $player) {
+                foreach ($server->getOnlinePlayers() as $player) {
 
-                    $player->kick('Сервер перезагружается!\n \nПерезайди через§c 10 секунд§r..');
+                    $player->combatTag(false);
+                   
+                    $player->kick($player->translate('tasks.stopServer.restarting'));
                 
                 }
 
                 sleep(0.05);
 
-                $this->gePlugin()->getServer()->shutdown();
+                $server->shutdown();
             }
 
         }

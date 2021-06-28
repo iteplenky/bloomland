@@ -38,7 +38,7 @@ namespace BloomLand\Core\commands\staff;
                 
                 $this->getPlugin()->getServer()->broadcastPackets($player->getViewers(), [$pk]);
 
-                $player->>getNetworkSession()->sendDataPacket($pk);
+                $player->getNetworkSession()->sendDataPacket($pk);
                     
                 $player->sendMessage($this->getPlugin()->getPrefix() . '§eКоролевский§r партикл! Вы создали §bпартикл§r с коронами.');
                 

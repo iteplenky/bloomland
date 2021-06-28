@@ -27,8 +27,12 @@ namespace BloomLand\Core\commands\staff;
 
                 $server = $this->getPlugin()->getServer();
 
-                foreach ($server->getOnlinePlayers() as $player)
+                foreach ($server->getOnlinePlayers() as $player) {
+
+                    $player->combatTag(false);
                     $player->save();
+                    
+                }
                 
                 foreach ($server->getWorldManager()->getWorlds() as $world)
                     $world->save(true);
