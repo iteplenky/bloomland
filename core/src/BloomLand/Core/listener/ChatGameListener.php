@@ -31,12 +31,12 @@ namespace BloomLand\Core\listener;
                 
                 foreach (Core::getAPI()->getServer()->getOnlinePlayers() as $players) {
                     
-                    $players->sendMessage(Core::getAPI()->getPrefix() . ' Игрок §b' . $player->getName() . ' §rугадал число и получает монетный бонус.');
+                    $players->sendMessage(Core::getAPI()->getPrefix() . ' Игрок §b' . $player->getName() . ' §rугадал правильный ответ и получает монетный бонус.');
                     
                 }
 
                 $event->cancel();
-                Core::getAPI()->chatGame = '#chat_game';
+                Core::getAPI()->chatGame = '';
                 return;
 
             } 
