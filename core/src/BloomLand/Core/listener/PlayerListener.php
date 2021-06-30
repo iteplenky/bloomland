@@ -167,7 +167,7 @@ namespace BloomLand\Core\listener;
 
                 ScoreboardFactory::createScoreboard($player);
 
-                Core::getAPI()->getScheduler()->scheduleRepeatingTask(new TagTask($player, $this), 20);
+                $this->getPlugin()->getScheduler()->scheduleRepeatingTask(new TagTask($player, $this), 20);
 
             }
 
