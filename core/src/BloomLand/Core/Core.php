@@ -214,7 +214,7 @@ namespace BloomLand\Core;
             $scheduler->scheduleRepeatingTask(new CleanerTask(self::getAPI()->getServer()->getWorldManager()), 20 * 60 * 3); // 3 min
             $scheduler->scheduleRepeatingTask(new ChatGameTask(), 20 * 60 * 10); // 10 min
             $scheduler->scheduleRepeatingTask(new Restart(), 20 * 60); // 1 min
-            $scheduler->scheduleRepeatingTask(new BonusTask(), 20 * 300); 
+            $scheduler->scheduleRepeatingTask(new BonusTask(), 20 * 60 * 30); // 30 min
 	}
 
         private function loadEvents() : void
