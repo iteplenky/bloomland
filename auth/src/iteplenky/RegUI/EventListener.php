@@ -38,6 +38,11 @@ namespace iteplenky\RegUI;
         {
             $this->main = $main;
         }
+
+        public function getPlugin() : Main
+        {
+            return $this->main;
+        }
         
         /**
          * @param PlayerPreLoginEvent $event
@@ -45,17 +50,17 @@ namespace iteplenky\RegUI;
          */
         public function handleLogin(PlayerPreLoginEvent $event) : void
         {    
-            foreach ($this->main->getServer()->getOnlinePlayers() as $player) {
+            foreach ($this->getPlugin()->getServer()->getOnlinePlayers() as $player) {
             
                 if (strtolower($player->getName()) == strtolower($event->getPlayerInfo()->getUsername())) {
             
-                    if (!$this->main->isLogined($player->getName())) {
+                    if (!$this->getPlugin()->isLogined($player->getName())) {
             
-                        $player->kick(str_replace('{player}', $event->getPlayerInfo()->getUsername(), $this->main->config['error']['isPlayingWithoutPass']));
+                        $player->kick(str_replace('{player}', $event->getPlayerInfo()->getUsername(), $this->getPlugin()->config['error']['isPlayingWithoutPass']));
             
                     } else {
             
-                        $event->setKickReason(PlayerPreLoginEvent::KICK_REASON_BANNED, (str_replace('{player}', $player->getName(), $this->main->config['error']['isPlaying'])));
+                        $event->setKickReason(PlayerPreLoginEvent::KICK_REASON_BANNED, (str_replace('{player}', $player->getName(), $this->getPlugin()->config['error']['isPlaying'])));
             
                     }
             
@@ -107,9 +112,9 @@ namespace iteplenky\RegUI;
          */
         public function handleQuit(PlayerQuitEvent $event) : void
         {
-            if ($this->main->isLogined($event->getPlayer()->getName())) {
+            if ($this->getPlugin()->isLogined($event->getPlayer()->getName())) {
         
-                $this->main->setLogined($event->getPlayer()->getName(), false);
+                $this->getPlugin()->setLogined($event->getPlayer()->getName(), false);
         
             }
         
@@ -121,9 +126,9 @@ namespace iteplenky\RegUI;
          */
         public function handleChat(PlayerChatEvent $event) : void
         {
-            if (!$this->main->isLogined($event->getPlayer()->getName())) {
+            if (!$this->getPlugin()->isLogined($event->getPlayer()->getName())) {
         
-                $event->getPlayer()->sendMessage($this->main->config['error']['login']);
+                $event->getPlayer()->sendMessage($this->getPlugin()->config['error']['login']);
                 $event->cancel();
         
             }
@@ -149,9 +154,9 @@ namespace iteplenky\RegUI;
             
             if (strtolower($cmd) == 'register' or strtolower($cmd) == 'login') return;
             
-            if (!$this->main->isLogined($player->getName())) {
+            if (!$this->getPlugin()->isLogined($player->getName())) {
 
-                $player->sendMessage($this->main->config['error']['login']);
+                $player->sendMessage($this->getPlugin()->config['error']['login']);
                 $event->cancel();
             
             }
@@ -164,9 +169,9 @@ namespace iteplenky\RegUI;
          */
         public function handleDrop(PlayerDropItemEvent $event) : void
         {
-            if (!$this->main->isLogined($event->getPlayer()->getName())) {
+            if (!$this->getPlugin()->isLogined($event->getPlayer()->getName())) {
         
-                $event->getPlayer()->sendMessage($this->main->config['error']['login']);
+                $event->getPlayer()->sendMessage($this->getPlugin()->config['error']['login']);
                 $event->cancel();
         
             }
@@ -179,9 +184,9 @@ namespace iteplenky\RegUI;
          */
         public function handleBreak(BlockBreakEvent $event) : void
         {
-            if (!$this->main->isLogined($event->getPlayer()->getName())) {
+            if (!$this->getPlugin()->isLogined($event->getPlayer()->getName())) {
         
-                $event->getPlayer()->sendMessage($this->main->config['error']['login']);
+                $event->getPlayer()->sendMessage($this->getPlugin()->config['error']['login']);
                 $event->cancel();
         
             }
@@ -194,9 +199,9 @@ namespace iteplenky\RegUI;
          */
         public function handlePlace(BlockPlaceEvent $event) : void
         {
-            if (!$this->main->isLogined($event->getPlayer()->getName())) {
+            if (!$this->getPlugin()->isLogined($event->getPlayer()->getName())) {
         
-                $event->getPlayer()->sendMessage($this->main->config['error']['login']);
+                $event->getPlayer()->sendMessage($this->getPlugin()->config['error']['login']);
                 $event->cancel();
         
             }
@@ -209,9 +214,9 @@ namespace iteplenky\RegUI;
          */
         public function handleTransaction(InventoryTransactionEvent $event) : void
         {    
-            if (!$this->main->isLogined($event->getTransaction()->getSource()->getName())) {
+            if (!$this->getPlugin()->isLogined($event->getTransaction()->getSource()->getName())) {
         
-                $event->getTransaction()->getSource()->sendMessage($this->main->config['error']['login']);
+                $event->getTransaction()->getSource()->sendMessage($this->getPlugin()->config['error']['login']);
                 $event->cancel();
         
             }
@@ -222,11 +227,11 @@ namespace iteplenky\RegUI;
          * @param ProjectileLaunchEvent $event
          * @return void
          */
-        public function pearlLaunch(ProjectileLaunchEvent $event) : void
+        public function handleProjectile(ProjectileLaunchEvent $event) : void
         {
             $thrower = $event->getEntity()->getOwningEntity();
         
-            if (!$this->main->isLogined($thrower->getName())) $event->cancel();
+            if (!$this->getPlugin()->isLogined($thrower->getName())) $event->cancel();
         
         }
 
@@ -240,7 +245,7 @@ namespace iteplenky\RegUI;
 
             if ($entity instanceof BLPlayer) {
                 
-                if (!$this->main->isLogined($entity->getName())) $event->cancel();
+                if (!$this->getPlugin()->isLogined($entity->getName())) $event->cancel();
 
             }
         
