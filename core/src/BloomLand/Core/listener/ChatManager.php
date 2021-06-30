@@ -93,7 +93,7 @@ namespace BloomLand\Core\listener;
 
             if (!in_array($player->getName(), self::$tm)) {
     
-                Core::getAPI()->getScheduler()->scheduleRepeatingTask(new TagTask($player, $message, $this), 20);
+                // Core::getAPI()->getScheduler()->scheduleRepeatingTask(new TagTask($player, $message, $this), 20);
                 
                 if (in_array($player->getName(), self::$first)) self::$new[] = $player->getName();
                 

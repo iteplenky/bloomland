@@ -7,20 +7,24 @@ namespace BloomLand\Core\listener;
     use BloomLand\Core\Core;
     use BloomLand\Core\BLPlayer;
 
+    use BloomLand\Core\utils\API;
+
     use pocketmine\event\Listener;
 
     use pocketmine\item\VanillaItems;
 
     use pocketmine\event\player\PlayerCommandPreprocessEvent;
     use pocketmine\event\player\PlayerItemConsumeEvent;
-    use pocketmine\event\player\PlayerQuitEvent;
     use pocketmine\event\player\PlayerInteractEvent;
+    use pocketmine\event\player\PlayerQuitEvent;
     use pocketmine\event\player\PlayerDeathEvent;
     
     use pocketmine\event\entity\EntityDamageByEntityEvent;
     use pocketmine\event\entity\EntityDamageEvent;
+    use pocketmine\event\entity\ProjectileHitEvent;
     use pocketmine\event\entity\EntityTeleportEvent;
     use pocketmine\event\entity\ProjectileLaunchEvent;
+    use pocketmine\event\entity\ProjectileHitEntityEvent;
 
     use pocketmine\entity\projectile\EnderPearl;
 
@@ -173,15 +177,10 @@ namespace BloomLand\Core\listener;
 
                 if ($player->isTagged()) {
 
-                    $time = 40 - (time() - $this->enderPearlCooldown[$player->getUniqueId()->toString()]);
                     $player->sendMessage(Core::getAPI()->getPrefix() . '§bОпаньки§r! Вы не можете убегать со сражения.');
                     $event->cancel();
 
-                } else {
-
-                    $event->cancel();
-
-                }
+                } 
 
             }
 
@@ -282,6 +281,29 @@ namespace BloomLand\Core\listener;
                 
             }
 
+        }
+
+        public function handleProjectileHit(ProjectileHitEvent $event) : void
+        {
+            $projectile = $event->getEntity();
+            $entity = $projectile->getOwningEntity();
+       
+            if ($entity instanceof BLPlayer && $event instanceof ProjectileHitEntityEvent) {
+       
+                $target = $event->getEntityHit();
+               
+                if ($target instanceof BLPlayer) {
+
+                    if ($target->isSurvival() and $entity->isSurvival()) {
+
+                        API::playSoundPacket($entity, 'random.orb');
+
+                    }
+                    
+                }
+         
+            }
+        
         }
 
         public function handleEntityTeleport(EntityTeleportEvent $event) : void 

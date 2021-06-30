@@ -9,8 +9,8 @@ namespace BloomLand\Core\listener;
     use BloomLand\Core\AntiCheat;
     use BloomLand\Core\task\HealthTask;
     use BloomLand\Core\task\PickupTask;
-    use BloomLand\Core\task\BonusTask;
     use BloomLand\Core\item\Hammer;
+    use BloomLand\Core\task\TagTask; 
 
     use BloomLand\Core\sqlite3\SQLite3;
  
@@ -60,9 +60,6 @@ namespace BloomLand\Core\listener;
     use pocketmine\network\mcpe\protocol\AnimateEntityPacket;
     use pocketmine\scheduler\ClosureTask;
 
-
-
-
     use muqsit\fakeplayer\Loader;
 
 use pocketmine\resourcepacks\ResourcePack;
@@ -75,12 +72,17 @@ use pocketmine\network\mcpe\protocol\ResourcePackChunkDataPacket;
 use pocketmine\network\mcpe\protocol\ResourcePackDataInfoPacket;
 use pocketmine\network\mcpe\protocol\ResourcePacksInfoPacket;
 use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
-    
+use BloomLand\Crates\entity\Backpack;
+use BloomLand\Crates\animation\BackpackAnimation;
     class PlayerListener implements Listener
     {
         private $afk;
         private $plugin;
         private $time = [];
+
+        public static $tm = [];
+        public static $first = []; 
+        public static $new = []; 
 
         /** @var string[] */
         private $devices = [];
@@ -202,7 +204,6 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
                 $player->sendMessage(' §r> Добро пожаловать на сервер ');
                 $player->sendMessage(' ');
 
-
                 // $player->sendTitle('', '', 20, 30, 5);
 
                 // $player->getLocation()->getWorld()->addSound($player->getLocation(), new GenericSound(LevelSoundEventPacket::SOUND_RECORD_CHIRP)); 
@@ -217,39 +218,48 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
                     ScoreboardFactory::createScoreboard($player);
 
                 }
-		    
-		Core::getAPI()->getScheduler()->scheduleRepeatingTask(new BonusTask($player), 20 * 30);
-
-                // Core::getAPI()->getScheduler()->scheduleDelayedTask(new HealthTask($player), 1); 
-
+                
+                Core::getAPI()->getScheduler()->scheduleRepeatingTask(new TagTask($player, $this), 20);
+                // Core::getAPI()->getScheduler()->scheduleDelayedTask(new HealthTask($player), 20);
 
             }
 
         }
 
-        // public function handlePickBlock(PlayerBlockPickEvent $event) : void 
-        // {
-        //     $event->getPlayer()->sendPopup('§bскопировано');
-        // }
-
-        // public function handleSkinChange(event\PlayerChangeSkinEvent $event) : void
-        // {
-            // $player = $event->getPlayer();
-
-            // $event->cancel();
-        // }
-
         public function handlePlayerExhaust(event\PlayerExhaustEvent $event) : void 
         {
-            $event->setAmount($event->getAmount() / 2);
+            $event->setAmount($event->getAmount() / 5);
         }
 
         public function handleDamageByEntity(EntityDamageByEntityEvent $event) : void
         {
             $entity = $event->getEntity();
+            $damager = $event->getDamager();
 
-            if ($entity instanceof BLPlayer and $event->getDamager() instanceof BLPlayer and $event->getDamager()->getId() !== $entity->getId())
-                $entity->setLastAttacker($event->getDamager());
+            if ($entity instanceof BLPlayer and $damager instanceof BLPlayer and $damager->getId() !== $entity->getId()) {
+
+                $entity->setLastAttacker($damager);
+
+            }
+
+            
+
+            // if ($entity->getAbsorption() > 0) 
+            //     $mode = round($entity->getHealth()) . ' ' . round($entity->getAbsorption()) . '';
+
+            // else 
+            //     $mode = round($entity->getHealth()) . '';
+
+            // $entity->setScoreTag($mode);
+
+            // if ($damager->getAbsorption() > 0) 
+            //     $mode = round($damager->getHealth()) . ' ' . round($damager->getAbsorption()) . '';
+
+            // else 
+            //     $mode = round($damager->getHealth()) . '';
+
+            // $damager->setScoreTag($mode);
+
         }
 
         public function handleEntityDamageEvent(EntityDamageEvent $event) : void
@@ -341,42 +351,18 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
         
         }
 
-        public $ResourcePackManager = null;//behaviorPack
-        /** @var bool */
-        public $IsExperimentalGamePlay = true;
-
         public function resourcepackManager(DataPacketSendEvent $event) : void
         {
             $packets = $event->getPackets();
             
             foreach ($packets as $pk) {
-
-
-                if ($pk instanceof ResourcePackStackPacket) {
-
-                    // echo ' > ResourcePackStackPacket';
-
-                    // $pk->experiments = $this->IsExperimentalGamePlay;
-                    // $pk->behaviorPackStack = $this->ResourcePackManager->getResourceStack();
-                    
-                } else if ($pk instanceof ResourcePacksInfoPacket) {
-
-                    // echo ' ! ResourcePacksInfoPacket';
-
-                    // $pk->mustAccept = false;
-                    // $pk->behaviorPackEntries = $this->ResourcePackManager->getResourceStack();
-                    // $pk->hasScripts = true; // интересная тема
                 
-                } else if ($pk instanceof ResourcePackDataInfoPacket) {
+                if ($pk instanceof ResourcePackDataInfoPacket) {
 
-                    // echo ' ? ResourcePackDataInfoPacket';
                     $pk->packType = ResourcePackType::RESOURCES;
                     $pk->isPremium = true;
-                    // $pk->sha256 = '06bdec003a999280f88b66160d408986dccd876632c23cf4491760cf99f4329e';
-                } else if ($pk instanceof ResourcePackChunkDataPacket) {
 
-                    // echo $pk->progress . '% ';
-                }
+                } 
          
             }
         
@@ -392,16 +378,6 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
 
             }
 
-            
-            if ($pk instanceof LoginPacket) {
-
-                // echo $pk->protocol;
-                
-                // print $pk->chainDataJwt;
-                // echo $pk->clientDataJwt;
-
-            }
-        
         }
         
         public function handlePacketSend(DataPacketSendEvent $event) : void
@@ -449,14 +425,11 @@ use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
         public function handleQuit(event\PlayerQuitEvent $event) : void
         {
             $player = $event->getPlayer();
-            $name = $player->getName();
 
-            // Gambler::setConnect($name, "offline");
             $event->setQuitMessage(null);
 
             AntiCheat::removeFromAntiCheats($player);
             
-            // SessionFactory::removeSession($player);
 			ScoreboardFactory::removeSecoreboard($player);
             
         }

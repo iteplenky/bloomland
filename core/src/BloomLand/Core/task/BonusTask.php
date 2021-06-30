@@ -4,29 +4,21 @@ namespace BloomLand\Core\task;
 
 
     use BloomLand\Core\Core;
-    use BloomLand\Core\BLPlayer;
     
     use pocketmine\scheduler\Task;
 
-    class CleanerTask extends Task
+    class BonusTask extends Task
     {
         private $bonus;
-        private $player;
 
-        public function __construct(BLPlayer $player, int $bonus = 100)
+        public function __construct(int $bonus = 100)
         {
-            $this->player = $player;
             $this->bonus = $bonus;
         }
 
         public function getPlugin() : Core 
         {
             return Core::getAPI();
-        }
-
-        public function getPlayer() : BLPlayer
-        {
-            return $player;
         }
 
         public function getBonus() : int 
@@ -36,14 +28,23 @@ namespace BloomLand\Core\task;
 
         public function onRun() : void
         {
-            if ($player->isConnected()) {
+            $players = $this->getPlugin()->getServer()->getOnlinePlayers();
 
-                $player-addMoney($this->getBonus());
+            if (count($players) == 0) return;
             
-                $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы получили §b' . $this->getBonus() . '§r за §c30 минут§r проведенных на сервере после входа.');
+            $coins = 0;
 
+            foreach ($players as $_ => $player) {
+                
+                $player->addMoney($this->getBonus());
+
+                $coins += $player->getMoney();
+            
+                $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы получили §b' . $this->getBonus() . '§r монет.');
+                $player->sendMessage($this->getPlugin()->getPrefix() . 'Чтобы получить еще его раз, необходимо провести на сервере §b30 минут§r.');
             }
 
+            $this->getPlugin()->getLogger()->notice(count($players) . ' получили бонус в размере ' . $this->getBonus() . '. Общий баланс игроков: ' . $coins . ' монет.');
         }
 
     }

@@ -19,11 +19,29 @@ namespace BloomLand\Core\listener;
 
     use pocketmine\event\block\BlockBreakEvent;
 
+    use pocketmine\event\player as event;
+
     class SpawnListener implements Listener 
     {
         public function __construct()
         {
             Core::getAPI()->getServer()->getPluginManager()->registerEvents($this, Core::getAPI());
+        }
+
+        public function handlePlayerExhaust(event\PlayerExhaustEvent $event) : void 
+        {
+            $player = $event->getPlayer();
+
+            if ($player instanceof BLPlayer) {
+                
+                if ($this->isInside($player->getLocation()->asVector3())) {
+
+                    $event->cancel();
+
+                }
+            
+            }
+
         }
 
         public function handleDamage(EntityDamageEvent $event) : void
