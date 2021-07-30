@@ -32,10 +32,10 @@ namespace BloomLand\Core\command;
 
             if (!$this->testPermission($sender)) return;
 
-            $this->onExecute($sender, $args, $this->getPrefix());
+            $this->onExecute($sender, $args);
         }
 
-        public function onExecute(Player $player, array $args, string $prefix) : void
+        public function onExecute(Player $player, array $args) : void
         {
 
         }

@@ -16,14 +16,14 @@ namespace BloomLand\Core\command\defaults;
             $this->setPermission('core.command.list');
         }
 
-        public function onExecute(Player $player, array $args, string $prefix) : void
+        public function onExecute(Player $player, array $args) : void
         {
             if ($this->getPlugin()->isEnabled()) {
 
                 $nowPlaying = count($player->getServer()->getOnlinePlayers());
                 $slots = $player->getServer()->getMaxPlayers();
 
-                $player->sendMessage($prefix . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
+                $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
 
             }
 
