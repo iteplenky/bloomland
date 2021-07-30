@@ -1,0 +1,10 @@
+---
+name: Core
+version: 1.0.0
+
+main: BloomLand\Core\Core
+
+api: 4.0.0
+
+author: Denis Klyuyev
+...
