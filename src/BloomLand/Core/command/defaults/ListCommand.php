@@ -3,30 +3,28 @@
 
 namespace BloomLand\Core\command\defaults;
 
-    use BloomLand\Core\command\BaseCommand;
+use BloomLand\Core\command\BaseCommand;
 
-    use pocketmine\player\Player;
+use pocketmine\player\Player;
 
-    class ListCommand extends BaseCommand
+class ListCommand extends BaseCommand
+{
+
+    public function __construct()
     {
-
-        public function __construct()
-        {
-            parent::__construct('list', 'Список игроков в сети.', 'list');
-            $this->setPermission('core.command.list');
-        }
-
-        public function onExecute(Player $player, array $args) : void
-        {
-            if ($this->getPlugin()->isEnabled()) {
-
-                $nowPlaying = count($player->getServer()->getOnlinePlayers());
-                $slots = $player->getServer()->getMaxPlayers();
-
-                $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
-
-            }
-
-        }
-
+        parent::__construct('list', 'Список игроков в сети.', 'list');
+        $this->setPermission('core.command.list');
     }
+
+    public function onExecute(Player $player, array $args) : void
+    {
+        if ($this->getPlugin()->isEnabled()) {
+
+            $nowPlaying = count($player->getServer()->getOnlinePlayers());
+            $slots = $player->getServer()->getMaxPlayers();
+
+            $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
+
+        }
+    }
+}

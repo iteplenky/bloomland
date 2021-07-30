@@ -4,62 +4,62 @@
 namespace BloomLand\Core\controllers;
 
 
-    use BloomLand\Core\Core;
+use BloomLand\Core\Core;
 
-    use BloomLand\Core\command\defaults\ListCommand;
+use BloomLand\Core\command\defaults\ListCommand;
 
-    use pocketmine\event\Listener;
+use pocketmine\event\Listener;
 
-    class Commands implements Listener
+class Commands implements Listener
+{
+
+    private ?Core $plugin;
+
+    public function __construct()
     {
+        $this->plugin = Core::getInstance();
 
-        private ?Core $plugin;
+        $this->unregisterCommands();
+        $this->registerCommands();
+    }
 
-        public function __construct()
-        {
-            $this->plugin = Core::getInstance();
+    public function getPlugin() : Core
+    {
+        return $this->plugin;
+    }
 
-            $this->unregisterCommands();
-            $this->registerCommands();
-        }
+    public function registerCommands() : void
+    {
+        $map = $this->getPlugin()->getServer()->getCommandMap();
 
-        public function getPlugin() : Core
-        {
-            return $this->plugin;
-        }
-
-        public function registerCommands() : void
-        {
-            $map = $this->getPlugin()->getServer()->getCommandMap();
-
-            $map->registerAll($this->getPlugin()->getName(),
+        $map->registerAll($this->getPlugin()->getName(),
             [
                 new ListCommand()
             ]
-            );
-        }
+        );
+    }
 
-        public function unregisterCommands() : void
-        {
-            $commands = [
-                'list'
-            ];
+    public function unregisterCommands() : void
+    {
+        $commands = [
+            'list'
+        ];
 
-            $map = $this->getPlugin()->getServer()->getCommandMap();
+        $map = $this->getPlugin()->getServer()->getCommandMap();
 
-            foreach ($commands as $cmd) {
+        foreach ($commands as $cmd) {
 
-                $command = $map->getCommand($cmd);
+            $command = $map->getCommand($cmd);
 
-                if ($command !== null) {
+            if ($command !== null) {
 
-                    $command->setLabel('old_' . $cmd);
-                    $map->unregister($command);
-
-                }
+                $command->setLabel('old_' . $cmd);
+                $map->unregister($command);
 
             }
 
         }
 
     }
+
+}
