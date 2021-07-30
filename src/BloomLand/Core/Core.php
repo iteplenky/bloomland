@@ -17,6 +17,8 @@ namespace BloomLand\Core;
 
         private static ?Core $instance = null;
 
+        private string $prefix = ' > ';
+
         protected function onLoad() : void
         {
             self::$instance = $this;
@@ -50,6 +52,11 @@ namespace BloomLand\Core;
         public static function getInstance() : Core
         {
             return self::$instance;
+        }
+
+        public function getPrefix() : string
+        {
+            return $this->prefix;
         }
 
     }

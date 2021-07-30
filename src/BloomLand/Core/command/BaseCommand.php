@@ -6,6 +6,7 @@ namespace BloomLand\Core\command;
 
     use BloomLand\Core\Core;
 
+    use JetBrains\PhpStorm\Pure;
     use pocketmine\command\Command;
     use pocketmine\command\CommandSender;
 
@@ -27,14 +28,14 @@ namespace BloomLand\Core\command;
         {
             if (!$sender instanceof Player) return;
 
-            $this->setPermissionMessage('Недостаточно прав.');
+            $this->setPermissionMessage($this->getPrefix() . 'Недостаточно прав.');
 
             if (!$this->testPermission($sender)) return;
 
-            $this->onExecute($sender, $args);
+            $this->onExecute($sender, $args, $this->getPrefix());
         }
 
-        public function onExecute(Player $player, array $args) : void
+        public function onExecute(Player $player, array $args, string $prefix) : void
         {
 
         }
@@ -42,6 +43,11 @@ namespace BloomLand\Core\command;
         public function getPlugin() : ?Core
         {
             return $this->plugin;
+        }
+
+        #[Pure] public function getPrefix() : string
+        {
+            return $this->getPlugin()->getPrefix();
         }
 
     }
