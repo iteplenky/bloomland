@@ -6,6 +6,7 @@ namespace BloomLand\Core\command;
 
 use BloomLand\Core\Core;
 
+use JetBrains\PhpStorm\Pure;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
@@ -25,18 +26,22 @@ class BaseCommand extends Command
 
     public function execute(CommandSender $sender, string $commandLabel, array $args) : void
     {
-        if (!$sender instanceof Player) return;
+        if (!$sender instanceof Player) {
+            return;
+        }
 
         $this->setPermissionMessage($this->getPrefix() . 'Недостаточно прав.');
 
-        if (!$this->testPermission($sender)) return;
+        if (!$this->testPermission($sender)) {
+            return;
+        }
 
         $this->onExecute($sender, $args);
     }
 
     public function onExecute(Player $player, array $args) : void
     {
-
+        // instead of execute, onExecute is now used
     }
 
     public function getPlugin() : ?Core
@@ -44,7 +49,7 @@ class BaseCommand extends Command
         return $this->plugin;
     }
 
-    public function getPrefix() : string
+    #[Pure] public function getPrefix() : string
     {
         return $this->getPlugin()->getPrefix();
     }
