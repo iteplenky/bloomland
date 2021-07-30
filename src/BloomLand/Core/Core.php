@@ -10,7 +10,6 @@ namespace BloomLand\Core;
 
     use pocketmine\permission\Permission;
     use pocketmine\permission\DefaultPermissions;
-    use pocketmine\permission\DefaultPermissionNames;
 
     class Core extends PluginBase
     {
