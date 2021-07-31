@@ -11,6 +11,7 @@ use pocketmine\event\Listener;
 
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerPreLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\EmotePacket;
@@ -21,6 +22,8 @@ class PlayerListener implements Listener
 {
 
     private ?Core $plugin;
+
+    private array $devices = [];
 
     public function __construct()
     {
@@ -39,15 +42,49 @@ class PlayerListener implements Listener
         $event->setPlayerClass(BLPlayer::class);
     }
 
+    public function handlePlayerPreLogin(PlayerPreLoginEvent $event) : void
+    {
+        $username = strtolower($event->getPlayerInfo()->getUsername());
+
+        $deviceOS = $event->getPlayerInfo()->getExtraData()['DeviceOS'];
+
+        static $device = [
+            'Неизвестно',
+            'Android',
+            'iOS',
+            'macOS',
+            'FireOS',
+            'GearVR',
+            'HoloLens',
+            'Windows 10',
+            'Windows',
+            'Dedicated',
+            'tvOS',
+            'PlayStation',
+            'Nintendo',
+            'Xbox',
+            'Windows Phone'
+        ];
+
+        if (ctype_upper(substr($deviceOS, 0, 3))) {
+            $this->devices[$username] = 'Toolbox';
+        } else {
+            $this->devices[$username] = $device[$deviceOS] ?? 'Неизвестно';
+        }
+    }
+
     public function handlePlayerJoin(PlayerJoinEvent $event) : void
     {
         $event->setJoinMessage('');
 
         $player = $event->getPlayer();
 
-        $player->sendMessage('Добро пожаловать на сервер!');
+        $player->setDevice($this->devices[$player->getLowerCaseName()]);
+
+        $player->sendMessage('Добро пожаловать на сервер! Вы зашли с: ' . $player->getDevice() . '.');
 
         $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' присоединился.');
+
     }
 
     public function handlePlayerQuit(PlayerQuitEvent $event) : void
