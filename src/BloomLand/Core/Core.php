@@ -7,6 +7,8 @@ namespace BloomLand\Core;
 use BloomLand\Core\controllers\Commands;
 use BloomLand\Core\controllers\Listeners;
 
+use BloomLand\Core\provider\SQLite3Provider;
+use BloomLand\Core\provider\ProviderInterface;
 use pocketmine\plugin\PluginBase;
 
 use pocketmine\permission\Permission;
@@ -24,6 +26,11 @@ class Core extends PluginBase
      */
     private string $prefix = ' > ';
 
+    /**
+     * @var ProviderInterface
+     */
+    private ProviderInterface $provider;
+
     protected function onLoad() : void
     {
         self::setInstance($this);
@@ -33,6 +40,9 @@ class Core extends PluginBase
     {
         $this->registerPermissions();
         $this->loadControllers();
+        $this->loadProvider();
+
+        $this->getLogger()->info('Настройка завершена.');
     }
 
     private function loadControllers() : void
@@ -60,11 +70,25 @@ class Core extends PluginBase
         $parent->recalculatePermissibles();
     }
 
+    private function loadProvider() : void
+    {
+        $this->provider = new SQLite3Provider($this);
+        $this->getLogger()->info('База данных: ' . $this->getProvider()->getName());
+    }
+
     /**
      * @return string
      */
     public function getPrefix() : string
     {
         return $this->prefix;
+    }
+
+    /**
+     * @return ProviderInterface
+     */
+    public function getProvider() : ProviderInterface
+    {
+        return $this->provider;
     }
 }
