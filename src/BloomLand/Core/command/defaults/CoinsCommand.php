@@ -3,6 +3,7 @@
 
 namespace BloomLand\Core\command\defaults;
 
+use BloomLand\Core\base\Economy;
 use BloomLand\Core\command\BaseCommand;
 
 use pocketmine\player\Player;
@@ -27,9 +28,7 @@ class CoinsCommand extends BaseCommand
     {
         if ($this->getPlugin()->isEnabled()) {
 
-            $balance = $this->getPlugin()->getProvider()->getCoins($player->getLowerCaseName());
-
-            $player->sendMessage($this->getPrefix() . 'Ваш баланс: ' . $balance . ' монет.');
+            $player->sendMessage($this->getPrefix() . 'Ваш баланс: ' . Economy::getCoins($player) . ' монет.');
 
         }
     }
