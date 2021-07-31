@@ -60,6 +60,7 @@ class Core extends PluginBase
         $commands = DefaultPermissions::registerPermission(new Permission('core.command', 'Мама всех команд.'), [$parent]);
 
         DefaultPermissions::registerPermission(new Permission('core.command.list'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.coins'), [$commands]);
 
         $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Мама всех прав к чату.'), [$parent]);
 

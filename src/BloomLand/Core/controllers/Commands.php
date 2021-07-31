@@ -7,6 +7,7 @@ namespace BloomLand\Core\controllers;
 use BloomLand\Core\Core;
 
 use BloomLand\Core\command\defaults\ListCommand;
+use BloomLand\Core\command\defaults\CoinsCommand;
 
 use pocketmine\event\Listener;
 
@@ -40,7 +41,8 @@ class Commands implements Listener
 
         $map->registerAll($this->getPlugin()->getName(),
             [
-                new ListCommand()
+                new ListCommand(),
+                new CoinsCommand()
             ]
         );
     }

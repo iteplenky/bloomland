@@ -10,6 +10,7 @@ use pocketmine\player\Player;
 class BLPlayer extends Player
 {
 
+    const DEFAULT_COINS = 0;
     /**
      * @var string
      */

@@ -30,6 +30,18 @@ interface ProviderInterface
     public function new(Player $player) : bool;
 
     /**
+     * @param string $username
+     * @return int
+     */
+    public function getCoins(string $username) : int;
+
+    /**
+     * @param string $username
+     * @param int $count
+     */
+    public function setCoins(string $username, int $count) : void;
+
+    /**
      * @return string
      */
     public function getName() : string;
