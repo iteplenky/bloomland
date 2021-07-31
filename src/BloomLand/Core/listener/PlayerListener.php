@@ -172,10 +172,6 @@ class PlayerListener implements Listener
             $player = $event->getOrigin()->getPlayer();
 
             switch ($pk->action) {
-                case PlayerActionPacket::ACTION_START_SNEAK:
-                    $player->getNetworkProperties()->setGenericFlag(EntityMetadataFlags::CAN_SHOW_NAMETAG, true);
-                    break;
-
                 case PlayerActionPacket::ACTION_START_SWIMMING:
                     $player->getNetworkProperties()->setGenericFlag(EntityMetadataFlags::SWIMMING, true);
                     break;
