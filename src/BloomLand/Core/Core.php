@@ -48,6 +48,11 @@ class Core extends PluginBase
 
         DefaultPermissions::registerPermission(new Permission('core.command.list'), [$commands]);
 
+        $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Мама всех прав к чату.'), [$parent]);
+
+        DefaultPermissions::registerPermission(new Permission('core.chat.bypass'), [$chat]);
+        DefaultPermissions::registerPermission(new Permission('core.chat.colors'), [$chat]);
+
         $commands->recalculatePermissibles();
         $parent->recalculatePermissibles();
     }

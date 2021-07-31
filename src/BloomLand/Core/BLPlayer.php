@@ -16,6 +16,11 @@ class BLPlayer extends Player
     private string $device = '';
 
     /**
+     * @var int
+     */
+    protected int $lastChatTime = 0;
+
+    /**
      * @return string
      */
     #[Pure] public function getLowerCaseName() : string
@@ -45,5 +50,21 @@ class BLPlayer extends Player
     public function getDevice() : string
     {
         return $this->device;
+    }
+
+    /**
+     * @param int $time
+     */
+    public function setLastChatTime(int $time) : void
+    {
+        $this->lastChatTime = $time;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLastChatTime() : int
+    {
+        return $this->lastChatTime ?? 0;
     }
 }
