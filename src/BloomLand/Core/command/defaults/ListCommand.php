@@ -25,13 +25,9 @@ class ListCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-        if ($this->getPlugin()->isEnabled()) {
+        $nowPlaying = count($player->getServer()->getOnlinePlayers());
+        $slots = $player->getServer()->getMaxPlayers();
 
-            $nowPlaying = count($player->getServer()->getOnlinePlayers());
-            $slots = $player->getServer()->getMaxPlayers();
-
-            $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
-
-        }
+        $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
     }
 }

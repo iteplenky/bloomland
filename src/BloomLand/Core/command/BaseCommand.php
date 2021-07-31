@@ -42,6 +42,10 @@ class BaseCommand extends Command
             return;
         }
 
+        if (!$this->getPlugin()->isEnabled()) {
+            return;
+        }
+
         $this->setPermissionMessage($this->getPrefix() . 'Недостаточно прав.');
 
         if (!$this->testPermission($sender)) {
