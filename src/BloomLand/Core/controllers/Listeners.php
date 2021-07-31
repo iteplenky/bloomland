@@ -15,6 +15,9 @@ class Listeners implements Listener
 
     private ?Core $plugin;
 
+    /**
+     * Listeners constructor.
+     */
     public function __construct()
     {
         $this->plugin = Core::getInstance();
@@ -22,6 +25,9 @@ class Listeners implements Listener
         $this->loadListeners();
     }
 
+    /**
+     * @return Core|null
+     */
     public function getPlugin() : ?Core
     {
         return $this->plugin;

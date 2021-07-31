@@ -42,7 +42,7 @@ class Core extends PluginBase
         $this->loadControllers();
         $this->loadProvider();
 
-        $this->getLogger()->info('Настройка завершена.');
+        $this->getLogger()->notice('Настройка завершена.');
     }
 
     private function loadControllers() : void
@@ -55,14 +55,14 @@ class Core extends PluginBase
 
     private function registerPermissions() : void
     {
-        $parent = DefaultPermissions::registerPermission(new Permission('core', 'Батя всех прав.'));
+        $parent = DefaultPermissions::registerPermission(new Permission('core', 'Родитель для всех разрешений.'));
 
-        $commands = DefaultPermissions::registerPermission(new Permission('core.command', 'Мама всех команд.'), [$parent]);
+        $commands = DefaultPermissions::registerPermission(new Permission('core.command', 'Родительское разрешение для команд.'), [$parent]);
 
         DefaultPermissions::registerPermission(new Permission('core.command.list'), [$commands]);
         DefaultPermissions::registerPermission(new Permission('core.command.coins'), [$commands]);
 
-        $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Мама всех прав к чату.'), [$parent]);
+        $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Родительское разрешение для чата.'), [$parent]);
 
         DefaultPermissions::registerPermission(new Permission('core.chat.bypass'), [$chat]);
         DefaultPermissions::registerPermission(new Permission('core.chat.colors'), [$chat]);
@@ -74,7 +74,7 @@ class Core extends PluginBase
     private function loadProvider() : void
     {
         $this->provider = new SQLite3Provider($this);
-        $this->getLogger()->info('База данных: ' . $this->getProvider()->getName());
+        $this->getLogger()->notice('База данных: ' . $this->getProvider()->getName());
     }
 
     /**

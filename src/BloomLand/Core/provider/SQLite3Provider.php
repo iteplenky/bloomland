@@ -45,7 +45,7 @@ class SQLite3Provider implements ProviderInterface
      */
     public function new(Player $player) : bool
     {
-        $statement = $this->getDatabase()->prepare("INSERT INTO data (username, coins) VALUES (:username, :coins)");
+        $statement = $this->getDatabase()->prepare( 'INSERT INTO data (username, coins) VALUES (:username, :coins)');
         $statement->bindValue(':username', $player->getLowerCaseName());
         $statement->bindValue(':coins', BLPlayer::DEFAULT_COINS);
         $statement->execute();
@@ -58,7 +58,7 @@ class SQLite3Provider implements ProviderInterface
      */
     public function getCoins(string $username) : int
     {
-        return $this->database->query("SELECT coins FROM data WHERE username = '$username'")->fetchArray(SQLITE3_ASSOC)['coins'];
+        return $this->database->query( 'SELECT coins FROM data WHERE username = \'$username\'' )->fetchArray(SQLITE3_ASSOC)['coins'];
     }
 
     /**
@@ -67,7 +67,7 @@ class SQLite3Provider implements ProviderInterface
      */
     public function setCoins(string $username, int $count) : void
     {
-        $this->database->query("UPDATE data SET coins = '$count' WHERE username = '$username'");
+        $this->database->query( 'UPDATE data SET coins = \'$count\' WHERE username = \'$username\'');
     }
 
     /**
