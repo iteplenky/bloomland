@@ -19,6 +19,9 @@ class Core extends PluginBase
 
     use SingletonTrait;
 
+    /**
+     * @var string
+     */
     private string $prefix = ' > ';
 
     protected function onLoad() : void
@@ -57,6 +60,9 @@ class Core extends PluginBase
         $parent->recalculatePermissibles();
     }
 
+    /**
+     * @return string
+     */
     public function getPrefix() : string
     {
         return $this->prefix;

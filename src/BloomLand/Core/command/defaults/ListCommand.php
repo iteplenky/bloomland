@@ -10,12 +10,19 @@ use pocketmine\player\Player;
 class ListCommand extends BaseCommand
 {
 
+    /**
+     * ListCommand constructor.
+     */
     public function __construct()
     {
         parent::__construct('list', 'Список игроков в сети.', 'list');
         $this->setPermission('core.command.list');
     }
 
+    /**
+     * @param Player $player
+     * @param array $args
+     */
     public function onExecute(Player $player, array $args) : void
     {
         if ($this->getPlugin()->isEnabled()) {

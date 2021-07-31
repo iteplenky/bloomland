@@ -15,6 +15,9 @@ class Commands implements Listener
 
     private ?Core $plugin;
 
+    /**
+     * Commands constructor.
+     */
     public function __construct()
     {
         $this->plugin = Core::getInstance();
@@ -23,6 +26,9 @@ class Commands implements Listener
         $this->registerCommands();
     }
 
+    /**
+     * @return Core
+     */
     public function getPlugin() : Core
     {
         return $this->plugin;

@@ -6,6 +6,7 @@ namespace BloomLand\Core\listener;
 
 use BloomLand\Core\Core;
 use BloomLand\Core\BLPlayer;
+use BloomLand\Chat\ChatManager;
 
 use pocketmine\event\Listener;
 
@@ -28,8 +29,14 @@ class PlayerListener implements Listener
 
     private ?Core $plugin;
 
+    /**
+     * @var array
+     */
     private array $devices = [];
 
+    /**
+     * PlayerListener constructor.
+     */
     public function __construct()
     {
         $this->plugin = Core::getInstance();
@@ -37,16 +44,25 @@ class PlayerListener implements Listener
         $this->getPlugin()->getServer()->getPluginManager()->registerEvents($this, $this->getPlugin());
     }
 
+    /**
+     * @return Core|null
+     */
     private function getPlugin() : ?Core
     {
         return $this->plugin;
     }
 
+    /**
+     * @param PlayerCreationEvent $event
+     */
     public function handlePlayerCreation(PlayerCreationEvent $event) : void
     {
         $event->setPlayerClass(BLPlayer::class);
     }
 
+    /**
+     * @param PlayerPreLoginEvent $event
+     */
     public function handlePlayerPreLogin(PlayerPreLoginEvent $event) : void
     {
         $username = strtolower($event->getPlayerInfo()->getUsername());
@@ -78,6 +94,9 @@ class PlayerListener implements Listener
         }
     }
 
+    /**
+     * @param PlayerJoinEvent $event
+     */
     public function handlePlayerJoin(PlayerJoinEvent $event) : void
     {
         $event->setJoinMessage('');
@@ -91,6 +110,9 @@ class PlayerListener implements Listener
         $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' присоединился.');
     }
 
+    /**
+     * @param PlayerChatEvent $event
+     */
     public function handlePlayerChat(PlayerChatEvent $event) : void
     {
         $player = $event->getPlayer();
@@ -102,6 +124,8 @@ class PlayerListener implements Listener
                 $event->cancel();
                 return;
             }
+
+            $message = ChatManager::filterText(mb_strtolower($message, 'utf-8'));
         }
 
         $player->setLastChatTime(time());
@@ -113,16 +137,25 @@ class PlayerListener implements Listener
         $event->setMessage($message);
     }
 
+    /**
+     * @param PlayerRespawnEvent $event
+     */
     public function handlePlayerRespawn(PlayerRespawnEvent $event) : void
     {
         $event->setRespawnPosition($event->getPlayer()->getWorld()->getSpawnLocation());
     }
 
+    /**
+     * @param PlayerQuitEvent $event
+     */
     public function handlePlayerQuit(PlayerQuitEvent $event) : void
     {
         $event->setQuitMessage(null);
     }
 
+    /**
+     * @param DataPacketReceiveEvent $event
+     */
     public function handleDataReceive(DataPacketReceiveEvent $event) : void
     {
         $pk = $event->getPacket();
