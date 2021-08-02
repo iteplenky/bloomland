@@ -26,6 +26,16 @@ class BLPlayer extends Player
      */
     protected int $combatTag = 0;
 
+    /**
+     * @var string
+     */
+    protected string $red_health = 'health';
+
+    /**
+     * @var string
+     */
+    protected string $golden_health = 'golden_health';
+
         /**
      * @return string
      */
@@ -86,5 +96,31 @@ class BLPlayer extends Player
             return;
         }
         $this->combatTag = 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedHealth() : string
+    {
+        return $this->red_health;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoldenHealth() : string
+    {
+        return $this->golden_health;
+    }
+
+    public function getStringHealth() : string
+    {
+        if ($this->getAbsorption() > 0) {
+            return round($this->getHealth()) . ' ' . $this->getRedHealth() . ' ' .
+            $this->getAbsorption() . ' ' . $this->getGoldenHealth();
+        } else {
+            return round($this->getHealth()) . ' ' . $this->getRedHealth();
+        }
     }
 }

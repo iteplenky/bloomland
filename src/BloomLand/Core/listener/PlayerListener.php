@@ -8,6 +8,8 @@ use BloomLand\Core\Core;
 use BloomLand\Core\BLPlayer;
 use BloomLand\Chat\ChatManager;
 
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\Listener;
 
 use pocketmine\event\player\{
@@ -26,6 +28,7 @@ use pocketmine\network\mcpe\protocol\{
 };
 
 use pocketmine\event\server\DataPacketReceiveEvent;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 class PlayerListener implements Listener
@@ -141,6 +144,42 @@ class PlayerListener implements Listener
         }
 
         $event->setMessage($message);
+    }
+
+    /**
+     * @param EntityDamageEvent $event
+     */
+    protected function handleEntityDamage(EntityDamageEvent $event) : void
+    {
+        $player = $event->getEntity();
+
+        if ($player instanceof Player) {
+            if ($player->isFighting()) {
+                if ($player->getAbsorption() > 0) {
+                    $player->setScoreTag($player->getStringHealth());
+                }
+            } else {
+                $player->setScoreTag('');
+            }
+        }
+    }
+
+    /**
+     * @param EntityRegainHealthEvent $event
+     */
+    public function handleEntityRegain(EntityRegainHealthEvent $event) : void
+    {
+        $player = $event->getEntity();
+
+        if ($player instanceof Player) {
+            if ($player->isFighting()) {
+                if ($player->getAbsorption() > 0) {
+                    $player->setScoreTag($player->getStringHealth());
+                }
+            } else {
+                $player->setScoreTag('');
+            }
+        }
     }
 
     /**
