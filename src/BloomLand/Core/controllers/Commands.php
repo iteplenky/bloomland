@@ -11,6 +11,12 @@ use BloomLand\Core\command\defaults\CoinsCommand;
 
 use pocketmine\event\Listener;
 
+use pocketmine\console\ConsoleCommandSender;
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
+use pocketmine\event\server\CommandEvent;
+
+use pocketmine\player\Player;
+
 class Commands implements Listener
 {
 
@@ -60,14 +66,43 @@ class Commands implements Listener
             $command = $map->getCommand($cmd);
 
             if ($command !== null) {
-
                 $command->setLabel('old_' . $cmd);
                 $map->unregister($command);
-
             }
-
         }
-
     }
 
+    /**
+     * @param CommandEvent $event
+     */
+    public function handleCommandEvent(CommandEvent $event) : void
+    {
+        $command = explode(':', $event->getCommand());
+        $command = $command[1] ?? $command[0];
+
+        $player = $event->getSender();
+
+        $blockedCommands = $this->getPlugin()->getConfig()->get('blocked-commands', []);
+
+        if (!is_array($blockedCommands)) {
+            $this->getPlugin()->getServer()->getLogger()->error('CONFIG: blocked-commands должен быть массивом.');
+            return;
+        }
+
+        $command = str_replace(' ', '', $command);
+        $datum = $blockedCommands[$command] ?? null;
+
+        if ($datum !== null) {
+            if (($datum['console'] ?? false) && $player instanceof ConsoleCommandSender) {
+                $event->cancel();
+            }
+            if (($datum['in-game'] ?? false) && $player instanceof Player) {
+                $event->cancel();
+            }
+        }
+
+        if ($event->isCancelled()) {
+            $player->sendMessage('Использование команды §cограничено §rдля использования.');
+        }
+    }
 }

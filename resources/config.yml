@@ -1,0 +1,6 @@
+---
+blocked-commands:
+  op:
+    console: false
+    in-game: true
+...
