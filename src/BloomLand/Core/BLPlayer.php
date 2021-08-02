@@ -22,6 +22,11 @@ class BLPlayer extends Player
     protected int $lastChatTime = 0;
 
     /**
+     * @var int
+     */
+    protected int $combatTag = 0;
+
+        /**
      * @return string
      */
     #[Pure] public function getLowerCaseName() : string
@@ -67,5 +72,19 @@ class BLPlayer extends Player
     public function getLastChatTime() : int
     {
         return $this->lastChatTime ?? 0;
+    }
+
+    public function isFighting() : bool
+    {
+        return (time() - $this->combatTag) <= 15 ? true : false;
+    }
+
+    public function setFighting(bool $value = true) : void
+    {
+        if ($value) {
+            $this->combatTag = time();
+            return;
+        }
+        $this->combatTag = 0;
     }
 }

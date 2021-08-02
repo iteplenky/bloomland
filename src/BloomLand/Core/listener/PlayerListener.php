@@ -10,22 +10,28 @@ use BloomLand\Chat\ChatManager;
 
 use pocketmine\event\Listener;
 
-use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\event\player\PlayerCreationEvent;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerPreLoginEvent;
-use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
+use pocketmine\event\player\{
+    PlayerChatEvent,
+    PlayerCreationEvent,
+    PlayerJoinEvent,
+    PlayerPreLoginEvent,
+    PlayerQuitEvent,
+    PlayerRespawnEvent
+};
+
+use pocketmine\network\mcpe\protocol\{
+    EmotePacket,
+    PlayerActionPacket,
+    types\entity\EntityMetadataFlags
+};
+
 use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\network\mcpe\protocol\EmotePacket;
-use pocketmine\network\mcpe\protocol\PlayerActionPacket;
-use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\utils\TextFormat;
 
 class PlayerListener implements Listener
 {
 
-    public const CHAT_FLOOD_TIME = 1;
+    protected const CHAT_FLOOD_TIME = 1;
 
     private ?Core $plugin;
 

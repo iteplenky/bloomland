@@ -7,6 +7,8 @@ namespace BloomLand\Core\controllers;
 use BloomLand\Core\Core;
 
 use BloomLand\Core\listener\PlayerListener;
+use BloomLand\Core\listener\ItemLimitListener;
+use BloomLand\Core\listener\CombatListener;
 
 use pocketmine\event\Listener;
 
@@ -36,5 +38,7 @@ class Listeners implements Listener
     public function loadListeners() : void
     {
         new PlayerListener();
+        new ItemLimitListener();
+        new CombatListener();
     }
 }
