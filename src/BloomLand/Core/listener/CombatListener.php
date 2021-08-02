@@ -103,6 +103,10 @@ class CombatListener implements Listener
                 return;
             }
 
+            if ($damager->getUniqueId()->toString() == $entity->getUniqueId()->toString()) {
+                return;
+            }
+
             if ($damager->isCreative() || $entity->isCreative()) {
                 $event->cancel();
                 return;
