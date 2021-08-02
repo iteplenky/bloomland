@@ -84,11 +84,17 @@ class BLPlayer extends Player
         return $this->lastChatTime ?? 0;
     }
 
+    /**
+     * @return bool
+     */
     public function isFighting() : bool
     {
         return (time() - $this->combatTag) <= 15 ? true : false;
     }
 
+    /**
+     * @param bool $value
+     */
     public function setFighting(bool $value = true) : void
     {
         if ($value) {
@@ -114,6 +120,9 @@ class BLPlayer extends Player
         return $this->golden_health;
     }
 
+    /**
+     * @return string
+     */
     public function getStringHealth() : string
     {
         if ($this->getAbsorption() > 0) {
