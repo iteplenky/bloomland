@@ -6,6 +6,9 @@ namespace BloomLand\Core\listener;
 
 use BloomLand\Core\Core;
 
+use pocketmine\event\entity\ProjectileHitEntityEvent;
+use pocketmine\event\entity\ProjectileHitEvent;
+use pocketmine\event\entity\ProjectileLaunchEvent;
 use pocketmine\event\Listener;
 
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -14,6 +17,12 @@ use pocketmine\event\entity\EntityTeleportEvent;
 
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
+use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\player\PlayerItemConsumeEvent;
+use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\item\EnderPearl;
+use pocketmine\item\VanillaItems;
+use pocketmine\network\mcpe\protocol\PlaySoundPacket;
 use pocketmine\player\Player;
 
 class CombatListener implements Listener
@@ -32,6 +41,19 @@ class CombatListener implements Listener
      */
     private ?Core $plugin;
 
+    /**
+     * @var array
+     */
+    private array $cooldownEnchantedApple = [];
+
+    /**
+     * @var array
+     */
+    private array $cooldownGoldenApple = [];
+
+    /**
+     * CombatListener constructor.
+     */
     public function __construct()
     {
         $this->plugin = Core::getInstance();
@@ -39,6 +61,9 @@ class CombatListener implements Listener
         $this->getPlugin()->getServer()->getPluginManager()->registerEvents( $this, $this->getPlugin() );
     }
 
+    /**
+     * @param PlayerCommandPreprocessEvent $event
+     */
     public function handlePlayerCommand(PlayerCommandPreprocessEvent $event):void
     {
         $player = $event->getPlayer();
@@ -47,6 +72,7 @@ class CombatListener implements Listener
             if (strpos($event->getMessage(), '/') != 0) {
                 return;
             }
+
             if (in_array(explode(' ', $event->getMessage())[0], self::WHITELISTED)) {
                 return;
             }
@@ -58,6 +84,9 @@ class CombatListener implements Listener
         }
     }
 
+    /**
+     * @param EntityDamageEvent $event
+     */
     public function handleEntityDamage(EntityDamageEvent $event) : void
     {
         if ($event->isCancelled()) {
@@ -104,6 +133,53 @@ class CombatListener implements Listener
         }
     }
 
+    /**
+     * @param PlayerItemConsumeEvent $event
+     */
+    public function handlePlayerItem(PlayerItemConsumeEvent $event) {
+        $player = $event->getPlayer();
+
+        if ($player->isFighting()) {
+
+            $item = $event->getItem();
+
+            if ($item->equals(VanillaItems::ENCHANTED_GOLDEN_APPLE(), false, false)) {
+
+                $cooldownEnchantedApple = $this->cooldownEnchantedApple[$player->getUniqueId()->toString()];
+
+                if (isset($cooldownEnchantedApple)) {
+                    if ((time() - $cooldownEnchantedApple) < 40) {
+                        $time = 40 - (time() - $cooldownEnchantedApple);
+                        $player->sendMessage('§bПомедленнее§r! До следующего раза осталось: §b' . $time . ' §rсекунд.');
+                        $event->cancel();
+                    } else {
+                        $this->cooldownEnchantedApple[$player->getUniqueId()->toString()] = time();
+                    }
+                } else {
+                    $this->cooldownEnchantedApple[$player->getUniqueId()->toString()] = time();
+                }
+            } elseif ($item->equals(VanillaItems::GOLDEN_APPLE(), false, false)) {
+
+                $cooldownGoldenApple = $this->cooldownGoldenApple[$player->getUniqueId()->toString()];
+
+                if (isset($cooldownGoldenApple)) {
+                    if ((time() - $cooldownGoldenApple) < 20) {
+                        $time = 20 - (time() - $cooldownGoldenApple);
+                        $player->sendMessage('§bПомедленнее§r! До следующего раза осталось: §b' . $time . ' §rсекунд.');
+                        $event->cancel();
+                    } else {
+                        $this->cooldownGoldenApple[$player->getUniqueId()->toString()] = time();
+                    }
+                } else {
+                    $this->cooldownGoldenApple[$player->getUniqueId()->toString()] = time();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param EntityTeleportEvent $event
+     */
     public function handleEntityTeleport(EntityTeleportEvent $event) : void
     {
         $entity = $event->getEntity();
@@ -111,6 +187,67 @@ class CombatListener implements Listener
         if ($entity instanceof Player && $entity->isFighting()) {
             $entity->sendMessage('Вас кто-то §bпытался §rтелепортировать во время сражения.');
             $event->cancel();
+        }
+    }
+
+    /**
+     * @param ProjectileLaunchEvent $event
+     */
+    public function handleProjectile(ProjectileLaunchEvent $event) : void
+    {
+        $player = $event->getEntity()->getOwningEntity();
+
+        if ($event->getEntity() instanceof EnderPearl && $player->isFighting()) {
+            $player->sendMessage('§bОпаньки§r! Вы не можете убегать со сражения.');
+            $event->cancel();
+        }
+    }
+
+    /**
+     * @param PlayerDeathEvent $event
+     */
+    public function handlePlayerDeath(PlayerDeathEvent $event) : void
+    {
+        $event->getPlayer()->setFighting(false);
+    }
+
+    /**
+     * @param PlayerQuitEvent $event
+     */
+    public function handlePlayerQuit(PlayerQuitEvent $event) : void
+    {
+        $player = $event->getPlayer();
+
+        if ($player->isFighting() && $player->isAlive() && $player->isConnected()) {
+            $player->setHealth(0);
+        }
+    }
+
+    /**
+     * @param ProjectileHitEvent $event
+     */
+    public function handleProjectileHit(ProjectileHitEvent $event) : void
+    {
+        $projectile = $event->getEntity();
+        $entity = $projectile->getOwningEntity();
+
+        if ($entity instanceof Player && $event instanceof ProjectileHitEntityEvent) {
+
+            $target = $event->getEntityHit();
+
+            if ($target instanceof Player && $target->isSurvival() && $entity->isSurvival()) {
+                $pk = new PlaySoundPacket();
+                $pk->soundName = 'random.orb';
+
+                $pk->x = $entity->getLocation()->x;
+                $pk->y = $entity->getLocation()->y;
+                $pk->z = $entity->getLocation()->z;
+
+                $pk->volume = 100;
+                $pk->pitch = 1;
+
+                $entity->getNetworkSession()->sendDataPacket($pk);
+            }
         }
     }
 
