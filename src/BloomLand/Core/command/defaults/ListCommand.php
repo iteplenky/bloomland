@@ -16,7 +16,7 @@ class ListCommand extends BaseCommand
      */
     public function __construct()
     {
-        parent::__construct('list', 'Список игроков в сети.', 'list');
+        parent::__construct('list', 'Список игроков в сети.');
         $this->setPermission('core.command.list');
     }
 

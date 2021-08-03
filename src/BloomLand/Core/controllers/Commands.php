@@ -8,11 +8,11 @@ use BloomLand\Core\Core;
 
 use BloomLand\Core\command\defaults\ListCommand;
 use BloomLand\Core\command\defaults\CoinsCommand;
+use BloomLand\Core\command\defaults\SpawnCommand;
 
 use pocketmine\event\Listener;
 
 use pocketmine\console\ConsoleCommandSender;
-use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\server\CommandEvent;
 
 use pocketmine\player\Player;
@@ -48,7 +48,8 @@ class Commands implements Listener
         $map->registerAll($this->getPlugin()->getName(),
             [
                 new ListCommand(),
-                new CoinsCommand()
+                new CoinsCommand(),
+                new SpawnCommand()
             ]
         );
     }

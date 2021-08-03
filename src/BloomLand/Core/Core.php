@@ -42,8 +42,6 @@ class Core extends PluginBase
         $this->registerPermissions();
         $this->loadControllers();
         $this->loadProvider();
-
-        $this->getLogger()->notice($this->get('asd'));
     }
 
     private function loadControllers() : void
@@ -62,6 +60,7 @@ class Core extends PluginBase
 
         DefaultPermissions::registerPermission(new Permission('core.command.list'), [$commands]);
         DefaultPermissions::registerPermission(new Permission('core.command.coins'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.spawn'), [$commands]);
 
         $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Родительское разрешение для чата.'), [$parent]);
 
