@@ -5,6 +5,8 @@ namespace BloomLand\Core;
 
 
 use JetBrains\PhpStorm\Pure;
+use pocketmine\lang\TranslationContainer;
+use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\player\Player;
 
 class BLPlayer extends Player

@@ -155,9 +155,7 @@ class PlayerListener implements Listener
 
         if ($player instanceof Player) {
             if ($player->isFighting()) {
-                if ($player->getAbsorption() > 0) {
-                    $player->setScoreTag($player->getStringHealth());
-                }
+                $player->setScoreTag($player->getStringHealth());
             } else {
                 $player->setScoreTag('');
             }
@@ -173,9 +171,7 @@ class PlayerListener implements Listener
 
         if ($player instanceof Player) {
             if ($player->isFighting()) {
-                if ($player->getAbsorption() > 0) {
-                    $player->setScoreTag($player->getStringHealth());
-                }
+                $player->setScoreTag($player->getStringHealth());
             } else {
                 $player->setScoreTag('');
             }

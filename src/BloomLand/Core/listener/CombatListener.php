@@ -212,6 +212,7 @@ class CombatListener implements Listener
      */
     public function handlePlayerDeath(PlayerDeathEvent $event) : void
     {
+        $event->setDeathMessage('');
         $event->getPlayer()->setFighting(false);
     }
 

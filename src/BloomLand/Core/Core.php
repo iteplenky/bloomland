@@ -14,6 +14,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\permission\Permission;
 use pocketmine\permission\DefaultPermissions;
 
+use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 
 class Core extends PluginBase
@@ -42,7 +43,7 @@ class Core extends PluginBase
         $this->loadControllers();
         $this->loadProvider();
 
-        $this->getLogger()->notice('Настройка завершена.');
+        $this->getLogger()->notice($this->get('asd'));
     }
 
     private function loadControllers() : void
@@ -91,5 +92,14 @@ class Core extends PluginBase
     public function getProvider() : ProviderInterface
     {
         return $this->provider;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function get(string $key) : string
+    {
+        return $this->getConfig()->get($key, 'Key ' . $key . ' not found.');
     }
 }
