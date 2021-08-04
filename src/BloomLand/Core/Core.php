@@ -6,6 +6,7 @@ namespace BloomLand\Core;
 
 use BloomLand\Core\controllers\Commands;
 use BloomLand\Core\controllers\Listeners;
+use BloomLand\Core\controllers\Tasks;
 
 use BloomLand\Core\provider\SQLite3Provider;
 use BloomLand\Core\provider\ProviderInterface;
@@ -49,6 +50,7 @@ class Core extends PluginBase
 
         $pluginManager->registerEvents(new Commands(), $this);
         $pluginManager->registerEvents(new Listeners(), $this);
+        $pluginManager->registerEvents(new Tasks(), $this);
     }
 
     private function registerPermissions() : void
@@ -94,9 +96,9 @@ class Core extends PluginBase
 
     /**
      * @param string $key
-     * @return string
+     * @return mixed
      */
-    public function get(string $key) : string
+    public function get(string $key) : mixed
     {
         return $this->getConfig()->get($key, 'Key ' . $key . ' not found.');
     }
