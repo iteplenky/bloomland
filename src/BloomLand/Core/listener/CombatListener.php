@@ -122,6 +122,10 @@ class CombatListener implements Listener
                 return;
             }
 
+            if ($event->getModifier(EntityDamageEvent::MODIFIER_PREVIOUS_DAMAGE_COOLDOWN) < 0.0) {
+                $event->cancel();
+            }
+
             if (!$entity->isFighting()) {
                 $entity->sendMessage('Вы в режиме §bсражения§r. Если Вы покинете игру, то§b погибните§r.');
                 $entity->sendMessage('Ваш соперник играет с §b' . $damager->getDevice() . '§r.');
@@ -134,6 +138,8 @@ class CombatListener implements Listener
 
             $damager->setFighting();
             $entity->setFighting();
+
+            $event->setKnockBack(0.415);
         }
     }
 

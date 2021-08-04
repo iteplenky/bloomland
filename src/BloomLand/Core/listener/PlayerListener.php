@@ -114,7 +114,7 @@ class PlayerListener implements Listener
 
         $player->setDevice($this->devices[$player->getLowerCaseName()]);
 
-        $player->sendMessage('Добро пожаловать на сервер! Вы зашли с: ' . $player->getDevice() . '.');
+        $player->sendMessage('Добро пожаловать на сервер!');
 
         $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' присоединился.');
     }

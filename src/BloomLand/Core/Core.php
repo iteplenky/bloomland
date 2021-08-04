@@ -73,7 +73,6 @@ class Core extends PluginBase
     private function loadProvider() : void
     {
         $this->provider = new SQLite3Provider($this);
-        $this->getLogger()->notice('База данных: ' . $this->getProvider()->getName());
     }
 
     /**
