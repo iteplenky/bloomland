@@ -9,6 +9,7 @@ use BloomLand\Core\Core;
 use BloomLand\Core\command\defaults\ListCommand;
 use BloomLand\Core\command\defaults\CoinsCommand;
 use BloomLand\Core\command\defaults\SpawnCommand;
+use BloomLand\Core\command\defaults\AfkCommand;
 
 use pocketmine\event\Listener;
 
@@ -49,7 +50,8 @@ class Commands implements Listener
             [
                 new ListCommand(),
                 new CoinsCommand(),
-                new SpawnCommand()
+                new SpawnCommand(),
+                new AfkCommand()
             ]
         );
     }

@@ -38,6 +38,11 @@ class BLPlayer extends Player
     protected string $golden_health = 'golden_health';
 
     /**
+     * @var bool
+     */
+    private bool $afk = false;
+
+    /**
      * @return string
      */
     #[Pure] public function getLowerCaseName() : string
@@ -132,5 +137,21 @@ class BLPlayer extends Player
         } else {
             return round($this->getHealth()) . ' ' . $this->getRedHealth();
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAfk() : bool
+    {
+        return $this->afk;
+    }
+
+    /**
+     * @param bool $afk
+     */
+    public function setAfk(bool $afk = true) : void
+    {
+        $this->afk = $afk;
     }
 }

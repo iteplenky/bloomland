@@ -192,6 +192,11 @@ class PlayerListener implements Listener
     public function handlePlayerQuit(PlayerQuitEvent $event) : void
     {
         $event->setQuitMessage(null);
+
+        $player = $event->getPlayer();
+        if ($player->isAfk()) {
+            $player->setAfk(false);
+        }
     }
 
     /**
