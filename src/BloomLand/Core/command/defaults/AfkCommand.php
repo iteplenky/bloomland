@@ -43,7 +43,7 @@ class AfkCommand extends BaseCommand
 
             $handler = $this->getPlugin()->getScheduler()->scheduleRepeatingTask(new ClosureTask(function() use($player, &$handler) : void
             {
-                if ($player->isOnline() && $player->isAfk() && $this->doesntMove($player)) {
+                if ($player->isOnline() && $player->isAfk() && $this->isMoved($player)) {
                     $player->setScoreTag('§bAFK');
                 } else {
                     if ($player->isOnline()) {
@@ -60,7 +60,7 @@ class AfkCommand extends BaseCommand
         }
     }
 
-    private function doesntMove(Player $player) : bool
+    private function isMoved(Player $player) : bool
     {
         $pos = $player->getPosition();
         return $this->playersPos[$player->getLowerCaseName()] == [$pos->getFloorX(), $pos->getFloorZ()];
