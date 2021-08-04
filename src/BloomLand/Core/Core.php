@@ -14,7 +14,6 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\permission\Permission;
 use pocketmine\permission\DefaultPermissions;
 
-use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 
 class Core extends PluginBase

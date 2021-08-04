@@ -5,14 +5,13 @@ namespace BloomLand\Core;
 
 
 use JetBrains\PhpStorm\Pure;
-use pocketmine\lang\TranslationContainer;
-use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\player\Player;
 
 class BLPlayer extends Player
 {
 
     const DEFAULT_COINS = 0;
+
     /**
      * @var string
      */
@@ -38,7 +37,7 @@ class BLPlayer extends Player
      */
     protected string $golden_health = 'golden_health';
 
-        /**
+    /**
      * @return string
      */
     #[Pure] public function getLowerCaseName() : string
@@ -91,7 +90,7 @@ class BLPlayer extends Player
      */
     public function isFighting() : bool
     {
-        return (time() - $this->combatTag) <= 15 ? true : false;
+        return (time() - $this->combatTag) <= 15;
     }
 
     /**
