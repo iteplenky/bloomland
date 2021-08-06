@@ -12,8 +12,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\Listener;
 
-use pocketmine\event\player\{
-    PlayerChatEvent,
+use pocketmine\event\player\{PlayerChatEvent,
     PlayerCreationEvent,
     PlayerJoinEvent,
     PlayerPreLoginEvent,

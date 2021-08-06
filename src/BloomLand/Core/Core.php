@@ -63,6 +63,7 @@ class Core extends PluginBase
         DefaultPermissions::registerPermission(new Permission('core.command.coins'), [$commands]);
         DefaultPermissions::registerPermission(new Permission('core.command.spawn'), [$commands]);
         DefaultPermissions::registerPermission(new Permission('core.command.afk'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.near'), [$commands]);
 
         $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Родительское разрешение для чата.'), [$parent]);
 
