@@ -35,7 +35,7 @@ class PlayerListener implements Listener
 
     protected const CHAT_FLOOD_TIME = 1;
 
-    private ?Core $plugin;
+    private Core $plugin;
 
     /**
      * @var array
@@ -53,9 +53,9 @@ class PlayerListener implements Listener
     }
 
     /**
-     * @return Core|null
+     * @return Core
      */
-    private function getPlugin() : ?Core
+    private function getPlugin() : Core
     {
         return $this->plugin;
     }

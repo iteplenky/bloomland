@@ -10,6 +10,7 @@ use BloomLand\Core\command\defaults\ListCommand;
 use BloomLand\Core\command\defaults\CoinsCommand;
 use BloomLand\Core\command\defaults\SpawnCommand;
 use BloomLand\Core\command\defaults\AfkCommand;
+use BloomLand\Core\command\defaults\NearCommand;
 
 use pocketmine\event\Listener;
 
@@ -21,7 +22,7 @@ use pocketmine\player\Player;
 class Commands implements Listener
 {
 
-    private ?Core $plugin;
+    private Core $plugin;
 
     /**
      * Commands constructor.
@@ -51,7 +52,8 @@ class Commands implements Listener
                 new ListCommand(),
                 new CoinsCommand(),
                 new SpawnCommand(),
-                new AfkCommand()
+                new AfkCommand(),
+                new NearCommand()
             ]
         );
     }
@@ -105,7 +107,7 @@ class Commands implements Listener
         }
 
         if ($event->isCancelled()) {
-            $player->sendMessage('Использование команды §cограничено §rдля использования.');
+            $player->sendMessage('Использование команды ограничено для использования.');
         }
     }
 }

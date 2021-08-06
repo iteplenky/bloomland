@@ -13,7 +13,7 @@ use pocketmine\event\Listener;
 class Tasks implements Listener
 {
 
-    private ?Core $plugin;
+    private Core $plugin;
 
     /**
      * Tasks constructor.
@@ -26,9 +26,9 @@ class Tasks implements Listener
     }
 
     /**
-     * @return Core|null
+     * @return Core
      */
-    public function getPlugin() : ?Core
+    public function getPlugin() : Core
     {
         return $this->plugin;
     }

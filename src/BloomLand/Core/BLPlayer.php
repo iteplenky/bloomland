@@ -10,7 +10,7 @@ use pocketmine\player\Player;
 class BLPlayer extends Player
 {
 
-    const DEFAULT_COINS = 0;
+    public const DEFAULT_COINS = 0;
 
     /**
      * @var string
@@ -103,11 +103,7 @@ class BLPlayer extends Player
      */
     public function setFighting(bool $value = true) : void
     {
-        if ($value) {
-            $this->combatTag = time();
-            return;
-        }
-        $this->combatTag = 0;
+        $value ? $this->combatTag = time() : $this->combatTag = 0;
     }
 
     /**
@@ -131,12 +127,10 @@ class BLPlayer extends Player
      */
     public function getStringHealth() : string
     {
-        if ($this->getAbsorption() > 0) {
-            return round($this->getHealth()) . ' ' . $this->getRedHealth() . ' ' .
-            $this->getAbsorption() . ' ' . $this->getGoldenHealth();
-        } else {
-            return round($this->getHealth()) . ' ' . $this->getRedHealth();
-        }
+        return $this->getAbsorption() > 0 ?
+            round($this->getHealth()) . ' ' . $this->getRedHealth() . ' ' . $this->getAbsorption() . ' ' .
+            $this->getGoldenHealth() :
+            round($this->getHealth()) . ' ' . $this->getRedHealth();
     }
 
     /**

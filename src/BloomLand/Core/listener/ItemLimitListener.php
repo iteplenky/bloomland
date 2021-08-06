@@ -24,7 +24,7 @@ use pocketmine\inventory\transaction\action\DropItemAction;
 class ItemLimitListener implements Listener
 {
 
-    private ?Core $plugin;
+    private Core $plugin;
 
     /**
      * @var array|int[]
@@ -52,9 +52,9 @@ class ItemLimitListener implements Listener
     }
 
     /**
-     * @return Core|null
+     * @return Core
      */
-    private function getPlugin() : ?Core
+    private function getPlugin() : Core
     {
         return $this->plugin;
     }

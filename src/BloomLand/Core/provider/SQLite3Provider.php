@@ -7,7 +7,7 @@ namespace BloomLand\Core\provider;
 use BloomLand\Core\BLPlayer;
 use BloomLand\Core\Core;
 
-use pocketmine\player\Player;
+use BloomLand\Core\utils\Utils;
 use SQLite3;
 
 class SQLite3Provider implements ProviderInterface
@@ -29,22 +29,24 @@ class SQLite3Provider implements ProviderInterface
     }
 
     /**
-     * @param Player $player
+     * @param int $id
      * @return bool
      */
-    public function exists(Player $player) : bool
+    public function exists(int $id) : bool
     {
+        $player = Utils::getPlayer($id);
         $username = $player->getLowerCaseName();
         $result = $this->getDatabase()->query("SELECT * FROM data WHERE username = '$username'");
         return !empty($result->fetchArray(SQLITE3_ASSOC));
     }
 
     /**
-     * @param Player $player
+     * @param int $id
      * @return bool
      */
-    public function new(Player $player) : bool
+    public function new(int $id) : bool
     {
+        $player = Utils::getPlayer($id);
         $statement = $this->getDatabase()->prepare( 'INSERT INTO data (username, coins) VALUES (:username, :coins)');
         $statement->bindValue(':username', $player->getLowerCaseName());
         $statement->bindValue(':coins', BLPlayer::DEFAULT_COINS);

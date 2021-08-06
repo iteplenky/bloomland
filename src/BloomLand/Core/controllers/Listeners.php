@@ -15,7 +15,7 @@ use pocketmine\event\Listener;
 class Listeners implements Listener
 {
 
-    private ?Core $plugin;
+    private Core $plugin;
 
     /**
      * Listeners constructor.
@@ -28,9 +28,9 @@ class Listeners implements Listener
     }
 
     /**
-     * @return Core|null
+     * @return Core
      */
-    public function getPlugin() : ?Core
+    public function getPlugin() : Core
     {
         return $this->plugin;
     }

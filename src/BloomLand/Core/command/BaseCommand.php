@@ -15,7 +15,7 @@ use pocketmine\player\Player;
 class BaseCommand extends Command
 {
 
-    private ?Core $plugin;
+    private Core $plugin;
 
     /**
      * BaseCommand constructor.
@@ -65,9 +65,9 @@ class BaseCommand extends Command
     }
 
     /**
-     * @return Core|null
+     * @return Core
      */
-    public function getPlugin() : ?Core
+    public function getPlugin() : Core
     {
         return $this->plugin;
     }
