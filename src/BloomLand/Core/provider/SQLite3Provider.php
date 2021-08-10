@@ -60,16 +60,38 @@ class SQLite3Provider implements ProviderInterface
      */
     public function getCoins(string $username) : int
     {
-        return $this->database->query( 'SELECT coins FROM data WHERE username = \'$username\'' )->fetchArray(SQLITE3_ASSOC)['coins'];
+        $prepare = $this->getDatabase()->prepare('SELECT coins FROM `data` WHERE username = :username');
+        $prepare->bindValue('username', $username);
+
+        $resource = $prepare->execute()->fetchArray(1);
+
+        if (!is_bool($resource)) {
+            return (int) $resource['coins'];
+        }
+
+        return 0;
     }
 
     /**
      * @param string $username
-     * @param int $count
+     * @param int $amount
      */
-    public function setCoins(string $username, int $count) : void
+    public function setCoins(string $username, int $amount) : void
     {
-        $this->database->query( 'UPDATE data SET coins = \'$count\' WHERE username = \'$username\'');
+        $prepare = $this->getDatabase()->prepare('SELECT coins FROM `data` WHERE username = :username');
+        $prepare->bindValue('username', $username);
+
+        $resource = $prepare->execute()->fetchArray(1);
+
+        if (is_bool($resource)) {
+            $prepare = $this->getDatabase()->prepare("INSERT INTO `data` (username, coins) VALUES (:username, :coins)");
+        } else {
+            $prepare = $this->getDatabase()->prepare("UPDATE `data` SET coins = :coins WHERE username = :username");
+        }
+
+        $prepare->bindValue('username', $username);
+        $prepare->bindValue('coins', $amount);
+        $prepare->execute();
     }
 
     /**
