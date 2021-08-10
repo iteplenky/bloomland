@@ -7,7 +7,7 @@ namespace BloomLand\Core\provider;
 use BloomLand\Core\BLPlayer;
 use BloomLand\Core\Core;
 
-use BloomLand\Core\utils\Utils;
+use pocketmine\player\Player;
 use SQLite3;
 
 class SQLite3Provider implements ProviderInterface
@@ -29,24 +29,22 @@ class SQLite3Provider implements ProviderInterface
     }
 
     /**
-     * @param int $id
+     * @param Player $player
      * @return bool
      */
-    public function exists(int $id) : bool
+    public function exists(Player $player) : bool
     {
-        $player = Utils::getPlayer($id);
         $username = $player->getLowerCaseName();
         $result = $this->getDatabase()->query("SELECT * FROM data WHERE username = '$username'");
         return !empty($result->fetchArray(SQLITE3_ASSOC));
     }
 
     /**
-     * @param int $id
+     * @param Player $player
      * @return bool
      */
-    public function new(int $id) : bool
+    public function new(Player $player) : bool
     {
-        $player = Utils::getPlayer($id);
         $statement = $this->getDatabase()->prepare( 'INSERT INTO data (username, coins) VALUES (:username, :coins)');
         $statement->bindValue(':username', $player->getLowerCaseName());
         $statement->bindValue(':coins', BLPlayer::DEFAULT_COINS);
@@ -78,7 +76,7 @@ class SQLite3Provider implements ProviderInterface
      */
     public function setCoins(string $username, int $amount) : void
     {
-        $prepare = $this->getDatabase()->prepare('SELECT coins FROM `data` WHERE username = :username');
+        $prepare = $this->getDatabase()->prepare('SELECT * FROM `data` WHERE username = :username');
         $prepare->bindValue('username', $username);
 
         $resource = $prepare->execute()->fetchArray(1);

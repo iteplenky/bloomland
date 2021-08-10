@@ -5,6 +5,7 @@ namespace BloomLand\Core\provider;
 
 
 use BloomLand\Core\Core;
+use pocketmine\player\Player;
 
 interface ProviderInterface
 {
@@ -16,16 +17,16 @@ interface ProviderInterface
     public function __construct(Core $core);
 
     /**
-     * @param int $id
+     * @param Player $player
      * @return bool
      */
-    public function exists(int $id) : bool;
+    public function exists(Player $player) : bool;
 
     /**
-     * @param int $id
+     * @param Player $player
      * @return bool
      */
-    public function new(int $id) : bool;
+    public function new(Player $player) : bool;
 
     /**
      * @param string $username

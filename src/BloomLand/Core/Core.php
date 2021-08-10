@@ -6,15 +6,13 @@ namespace BloomLand\Core;
 
 use BloomLand\Core\controllers\Commands;
 use BloomLand\Core\controllers\Listeners;
+use BloomLand\Core\controllers\Permissions;
 use BloomLand\Core\controllers\Tasks;
 
 use BloomLand\Core\provider\SQLite3Provider;
 use BloomLand\Core\provider\ProviderInterface;
 use BloomLand\Scoreboard\ScoreboardFactory;
 use pocketmine\plugin\PluginBase;
-
-use pocketmine\permission\Permission;
-use pocketmine\permission\DefaultPermissions;
 
 use pocketmine\utils\SingletonTrait;
 
@@ -40,7 +38,8 @@ class Core extends PluginBase
 
     protected function onEnable() : void
     {
-        $this->registerPermissions();
+        new Permissions();
+
         $this->loadControllers();
         $this->loadProvider();
 
@@ -54,27 +53,6 @@ class Core extends PluginBase
         $pluginManager->registerEvents(new Commands(), $this);
         $pluginManager->registerEvents(new Listeners(), $this);
         $pluginManager->registerEvents(new Tasks(), $this);
-    }
-
-    private function registerPermissions() : void
-    {
-        $parent = DefaultPermissions::registerPermission(new Permission('core', 'Родитель для всех разрешений.'));
-
-        $commands = DefaultPermissions::registerPermission(new Permission('core.command', 'Родительское разрешение для команд.'), [$parent]);
-
-        DefaultPermissions::registerPermission(new Permission('core.command.list'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.coins'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.spawn'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.afk'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.near'), [$commands]);
-
-        $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Родительское разрешение для чата.'), [$parent]);
-
-        DefaultPermissions::registerPermission(new Permission('core.chat.bypass'), [$chat]);
-        DefaultPermissions::registerPermission(new Permission('core.chat.colors'), [$chat]);
-
-        $commands->recalculatePermissibles();
-        $parent->recalculatePermissibles();
     }
 
     private function loadProvider() : void

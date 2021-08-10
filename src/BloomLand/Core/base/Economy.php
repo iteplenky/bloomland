@@ -9,45 +9,29 @@ use BloomLand\Core\Core;
 class Economy
 {
 
-    /**
-     * @param int $id
-     * @return int
-     */
-    public static function getCoins(int $id) : int
+    public static function getCoins(string $username) : int
     {
-        return Core::getInstance()->getProvider()->getCoins($id);
+        return Core::getInstance()->getProvider()->getCoins($username);
     }
 
-    /**
-     * @param int $id
-     * @param int $count
-     */
-    public static function setCoins(int $id, int $count) : void
+    public static function setCoins(string $username, int $count) : void
     {
         if ($count < 0) {
             $count = 0;
         }
-        Core::getInstance()->getProvider()->setCoins(self::getCoins($id), $count);
+        Core::getInstance()->getProvider()->setCoins($username, $count);
     }
 
-    /**
-     * @param int $id
-     * @param int $count
-     */
-    public static function addCoins(int $id, int $count) : void
+    public static function addCoins(string $username, int $count) : void
     {
-        self::setCoins($id, self::getCoins($id) + $count);
+        self::setCoins($username, self::getCoins($username) + $count);
     }
 
-    /**
-     * @param int $id
-     * @param int $count
-     */
-    public static function removeCoins(int $id, int $count) : void
+    public static function removeCoins(string $username, int $count) : void
     {
-        if ((self::getCoins($id) - $count) < 0) {
-            $count = self::getCoins($id);
+        if ((self::getCoins($username) - $count) < 0) {
+            $count = self::getCoins($username);
         }
-        self::setCoins($id, self::getCoins($id) - $count);
+        self::setCoins($username, self::getCoins($username) - $count);
     }
 }

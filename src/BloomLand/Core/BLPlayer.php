@@ -45,7 +45,8 @@ class BLPlayer extends Player
     /**
      * @return string
      */
-    #[Pure] public function getLowerCaseName() : string
+    #[Pure] 
+    public function getLowerCaseName() : string
     {
         return strtolower($this->getName());
     }

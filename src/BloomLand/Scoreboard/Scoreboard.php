@@ -140,7 +140,7 @@ class Scoreboard
     public function removeLines() : void
     {
         foreach ($this->lines as $index => $line) {
-            $this->removeLine( $index );
+            $this->removeLine($index);
         }
     }
 

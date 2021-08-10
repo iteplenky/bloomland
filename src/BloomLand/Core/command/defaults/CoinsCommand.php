@@ -17,7 +17,7 @@ class CoinsCommand extends BaseCommand
      */
     public function __construct()
     {
-        parent::__construct('coins', 'Игровой баланс.');
+        parent::__construct('coins', 'Игровой баланс.', null, ['balance', 'money', 'mymoney']);
         $this->setPermission('core.command.coins');
     }
 
@@ -27,6 +27,6 @@ class CoinsCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-        $player->sendMessage($this->getPrefix() . 'Ваш баланс: ' . Economy::getCoins($player) . ' монет.');
+        $player->sendMessage($this->getPrefix() . 'Ваш баланс: ' . Economy::getCoins($player->getLowerCaseName()) . ' монет.');
     }
 }
