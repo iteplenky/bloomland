@@ -1,4 +1,9 @@
 ---
+scoreboard:
+  title: 'Bloom!'
+  lines:
+    - 'Whats up?'
+    - 'How are you?'
 messages:
   - 'Информационное сообщение: 1'
   - 'Информационное сообщение: 2'

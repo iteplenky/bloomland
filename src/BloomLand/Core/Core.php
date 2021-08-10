@@ -10,6 +10,7 @@ use BloomLand\Core\controllers\Tasks;
 
 use BloomLand\Core\provider\SQLite3Provider;
 use BloomLand\Core\provider\ProviderInterface;
+use BloomLand\Scoreboard\ScoreboardFactory;
 use pocketmine\plugin\PluginBase;
 
 use pocketmine\permission\Permission;
@@ -42,6 +43,8 @@ class Core extends PluginBase
         $this->registerPermissions();
         $this->loadControllers();
         $this->loadProvider();
+
+        ScoreboardFactory::init();
     }
 
     private function loadControllers() : void

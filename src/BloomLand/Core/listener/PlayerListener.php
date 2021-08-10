@@ -8,6 +8,8 @@ use BloomLand\Core\Core;
 use BloomLand\Core\BLPlayer;
 use BloomLand\Chat\ChatManager;
 
+use BloomLand\Scoreboard\ScoreboardFactory;
+
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\Listener;
@@ -113,6 +115,8 @@ class PlayerListener implements Listener
 
         $player->setDevice($this->devices[$player->getLowerCaseName()]);
 
+        ScoreboardFactory::createScoreboard($player);
+
         $player->sendMessage('Добро пожаловать на сервер!');
 
         $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' присоединился.');
@@ -196,6 +200,7 @@ class PlayerListener implements Listener
         if ($player->isAfk()) {
             $player->setAfk(false);
         }
+        ScoreboardFactory::removeScoreboard($player);
     }
 
     /**
