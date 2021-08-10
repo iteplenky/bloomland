@@ -38,8 +38,7 @@ class AfkCommand extends BaseCommand
         } else {
             $player->setAfk();
 
-            $pos = $player->getPosition();
-            $this->playersPos[$player->getLowerCaseName()] = [$pos->getFloorX(), $pos->getFloorZ()];
+            $this->playersPos[$player->getLowerCaseName()] = [$player->getEyePos()];
 
             $handler = $this->getPlugin()->getScheduler()->scheduleRepeatingTask(new ClosureTask(function() use($player, &$handler) : void
             {
@@ -60,9 +59,12 @@ class AfkCommand extends BaseCommand
         }
     }
 
+    /**
+     * @param Player $player
+     * @return bool
+     */
     private function isMoved(Player $player) : bool
     {
-        $pos = $player->getPosition();
-        return $this->playersPos[$player->getLowerCaseName()] == [$pos->getFloorX(), $pos->getFloorZ()];
+        return $this->playersPos[$player->getLowerCaseName()] == [$player->getEyePos()];
     }
 }
