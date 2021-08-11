@@ -28,7 +28,7 @@ class ReloadingTask extends Task
     {
         $this->plugin = Core::getInstance();
 
-        $this->getPlugin()->getScheduler()->scheduleDelayedRepeatingTask($this, 20 * 60, 20 * 60);
+        $this->getPlugin()->getScheduler()->scheduleDelayedRepeatingTask($this, 20 * 60, 20 * 60 * $this->minutesLeft);
     }
 
     public function onRun() : void
