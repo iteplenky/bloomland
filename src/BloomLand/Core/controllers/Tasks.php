@@ -7,6 +7,7 @@ namespace BloomLand\Core\controllers;
 use BloomLand\Core\Core;
 
 use BloomLand\Core\task\BroadcasterTask;
+use BloomLand\Core\task\ReloadingTask;
 
 use pocketmine\event\Listener;
 
@@ -36,5 +37,6 @@ class Tasks implements Listener
     public function loadTasks() : void
     {
         new BroadcasterTask();
+        new ReloadingTask();
     }
 }

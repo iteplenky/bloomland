@@ -12,6 +12,7 @@ use BloomLand\Core\command\defaults\SpawnCommand;
 use BloomLand\Core\command\defaults\AfkCommand;
 use BloomLand\Core\command\defaults\NearCommand;
 use BloomLand\Core\command\defaults\PayCommand;
+use BloomLand\Core\command\defaults\SeeMoneyCommand;
 
 use pocketmine\event\Listener;
 
@@ -55,7 +56,8 @@ class Commands implements Listener
                 new SpawnCommand(),
                 new AfkCommand(),
                 new NearCommand(),
-                new PayCommand()
+                new PayCommand(),
+                new SeeMoneyCommand()
             ]
         );
     }
