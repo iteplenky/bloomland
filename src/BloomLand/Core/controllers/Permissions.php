@@ -11,6 +11,17 @@ class Permissions
 {
 
     /**
+     * @var array|string[]
+     */
+    private array $commandPermissions = [
+        'list', 'coins', 'spawn',
+        'afk', 'near', 'ci',
+        'heal', 'fly', 'say',
+        'kill', 'rename', 'repair',
+        'xyz', 'size'
+    ];
+
+    /**
      * Permissions constructor.
      */
     public function __construct()
@@ -24,20 +35,9 @@ class Permissions
 
         $commands = DefaultPermissions::registerPermission(new Permission('core.command', 'Родительское разрешение для команд.'), [$parent]);
 
-        DefaultPermissions::registerPermission(new Permission('core.command.list'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.coins'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.spawn'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.afk'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.near'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.ci'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.heal'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.fly'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.say'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.kill'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.rename'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.repair'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.xyz'), [$commands]);
-        DefaultPermissions::registerPermission(new Permission('core.command.size'), [$commands]);
+        foreach ($this->commandPermissions as $permission) {
+            DefaultPermissions::registerPermission(new Permission('core.command.' . $permission), [$commands]);
+        }
 
         $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Родительское разрешение для чата.'), [$parent]);
 
