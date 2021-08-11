@@ -29,6 +29,15 @@ class Permissions
         DefaultPermissions::registerPermission(new Permission('core.command.spawn'), [$commands]);
         DefaultPermissions::registerPermission(new Permission('core.command.afk'), [$commands]);
         DefaultPermissions::registerPermission(new Permission('core.command.near'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.ci'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.heal'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.fly'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.say'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.kill'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.rename'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.repair'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.xyz'), [$commands]);
+        DefaultPermissions::registerPermission(new Permission('core.command.size'), [$commands]);
 
         $chat = DefaultPermissions::registerPermission(new Permission('core.chat', 'Родительское разрешение для чата.'), [$parent]);
 

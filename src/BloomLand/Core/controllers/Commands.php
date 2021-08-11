@@ -13,6 +13,16 @@ use BloomLand\Core\command\defaults\AfkCommand;
 use BloomLand\Core\command\defaults\NearCommand;
 use BloomLand\Core\command\defaults\PayCommand;
 use BloomLand\Core\command\defaults\SeeMoneyCommand;
+use BloomLand\Core\command\defaults\KillCommand;
+use BloomLand\Core\command\defaults\RenameCommand;
+use BloomLand\Core\command\defaults\CoordsCommand;
+
+use BloomLand\Core\command\donators\ClearInventoryCommand;
+use BloomLand\Core\command\donators\FlyCommand;
+use BloomLand\Core\command\donators\HealCommand;
+use BloomLand\Core\command\donators\SayCommand;
+use BloomLand\Core\command\donators\RepairCommand;
+use BloomLand\Core\command\donators\SizeCommand;
 
 use pocketmine\event\Listener;
 
@@ -57,7 +67,16 @@ class Commands implements Listener
                 new AfkCommand(),
                 new NearCommand(),
                 new PayCommand(),
-                new SeeMoneyCommand()
+                new SeeMoneyCommand(),
+                new ClearInventoryCommand(),
+                new FlyCommand(),
+                new HealCommand(),
+                new SayCommand(),
+                new KillCommand(),
+                new RenameCommand(),
+                new RepairCommand(),
+                new CoordsCommand(),
+                new SizeCommand()
             ]
         );
     }
@@ -65,7 +84,9 @@ class Commands implements Listener
     public function unregisterCommands() : void
     {
         $commands = [
-            'list'
+            'list',
+            'say',
+            'kill'
         ];
 
         $map = $this->getPlugin()->getServer()->getCommandMap();

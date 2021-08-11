@@ -24,7 +24,7 @@ class BaseCommand extends Command
      * @param string|null $usageMessage
      * @param array $aliases
      */
-    public function __construct(string $name, string $description = '', ?string $usageMessage = null, array $aliases = [])
+    public function __construct(string $name, string $description = '', array $aliases = [], ?string $usageMessage = null)
     {
         parent::__construct($name, $description, $usageMessage, $aliases);
 
@@ -75,7 +75,8 @@ class BaseCommand extends Command
     /**
      * @return string
      */
-    #[Pure] public function getPrefix() : string
+    #[Pure] 
+    public function getPrefix() : string
     {
         return $this->getPlugin()->getPrefix();
     }

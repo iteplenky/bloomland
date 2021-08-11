@@ -1,0 +1,35 @@
+<?php
+
+
+namespace BloomLand\Core\command\donators;
+
+
+use BloomLand\Core\command\BaseCommand;
+
+use pocketmine\player\Player;
+
+class SayCommand extends BaseCommand
+{
+
+    /**
+     * SayCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct('say', 'Оповестить всех игроков.', ['broadcast', 'bc']);
+        $this->setPermission('core.command.say');
+    }
+
+    /**
+     * @param Player $player
+     * @param array $args
+     */
+    public function onExecute(Player $player, array $args) : void
+    {
+        if (!isset($args[0])) {
+            $player->sendMessage('Чтобы оповестить всех, используйте: /say <текст>');
+            return;
+        }
+        $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' вещает: ' . implode(' ', $args));
+    }
+}

@@ -17,7 +17,7 @@ class CoinsCommand extends BaseCommand
      */
     public function __construct()
     {
-        parent::__construct('coins', 'Игровой баланс.', null, ['balance', 'money', 'mymoney']);
+        parent::__construct('coins', 'Игровой баланс.', ['balance', 'money', 'mymoney']);
         $this->setPermission('core.command.coins');
     }
 
