@@ -43,6 +43,11 @@ class BLPlayer extends Player
     private bool $afk = false;
 
     /**
+     * @var bool
+     */
+    private bool $spy = false;
+
+    /**
      * @return string
      */
     #[Pure] 
@@ -148,5 +153,21 @@ class BLPlayer extends Player
     public function setAfk(bool $afk = true) : void
     {
         $this->afk = $afk;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSpy() : bool
+    {
+        return $this->spy;
+    }
+
+    /**
+     * @param bool $spy
+     */
+    public function setSpy(bool $spy = true) : void
+    {
+        $this->spy = $spy;
     }
 }

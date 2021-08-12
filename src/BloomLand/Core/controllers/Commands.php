@@ -6,23 +6,27 @@ namespace BloomLand\Core\controllers;
 
 use BloomLand\Core\Core;
 
-use BloomLand\Core\command\defaults\ListCommand;
-use BloomLand\Core\command\defaults\CoinsCommand;
-use BloomLand\Core\command\defaults\SpawnCommand;
-use BloomLand\Core\command\defaults\AfkCommand;
-use BloomLand\Core\command\defaults\NearCommand;
-use BloomLand\Core\command\defaults\PayCommand;
-use BloomLand\Core\command\defaults\SeeMoneyCommand;
-use BloomLand\Core\command\defaults\KillCommand;
-use BloomLand\Core\command\defaults\RenameCommand;
-use BloomLand\Core\command\defaults\CoordsCommand;
+use BloomLand\Core\command\defaults\{
+    ListCommand,
+    CoinsCommand,
+    SpawnCommand,
+    AfkCommand,
+    NearCommand,
+    PayCommand,
+    SeeMoneyCommand,
+    KillCommand,
+    RenameCommand,
+    CoordsCommand
+};
 
-use BloomLand\Core\command\donators\ClearInventoryCommand;
-use BloomLand\Core\command\donators\FlyCommand;
-use BloomLand\Core\command\donators\HealCommand;
-use BloomLand\Core\command\donators\SayCommand;
-use BloomLand\Core\command\donators\RepairCommand;
-use BloomLand\Core\command\donators\SizeCommand;
+use BloomLand\Core\command\donators\{ClearInventoryCommand,
+    FlyCommand,
+    HealCommand,
+    SayCommand,
+    RepairCommand,
+    SizeCommand,
+    SpyCommand
+};
 
 use pocketmine\event\Listener;
 
@@ -34,6 +38,9 @@ use pocketmine\player\Player;
 class Commands implements Listener
 {
 
+    /**
+     * @var Core
+     */
     private Core $plugin;
 
     /**
@@ -76,7 +83,8 @@ class Commands implements Listener
                 new RenameCommand(),
                 new RepairCommand(),
                 new CoordsCommand(),
-                new SizeCommand()
+                new SizeCommand(),
+                new SpyCommand()
             ]
         );
     }
@@ -133,6 +141,16 @@ class Commands implements Listener
 
         if ($event->isCancelled()) {
             $player->sendMessage('Использование команды ограничено для использования.');
+            return;
+        }
+
+        if ($player instanceof Player) {
+            $this->getPlugin()->getLogger()->info('> ' . $player->getName() . ': /' . $command);
+            foreach ($this->getPlugin()->getServer()->getOnlinePlayers() as $players) {
+                if ($players->isSpy()) {
+                    $players->sendMessage('(Слежка) ' . $player->getName() . ' ввел: /' . $command);
+                }
+            }
         }
     }
 }
