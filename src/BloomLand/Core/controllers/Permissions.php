@@ -18,7 +18,8 @@ class Permissions
         'afk', 'near', 'ci',
         'heal', 'fly', 'say',
         'kill', 'rename', 'repair',
-        'xyz', 'size', 'spy'
+        'xyz', 'size', 'spy',
+        'kick'
     ];
 
     /**

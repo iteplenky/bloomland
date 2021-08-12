@@ -22,6 +22,7 @@ use BloomLand\Core\command\defaults\{
 use BloomLand\Core\command\donators\{ClearInventoryCommand,
     FlyCommand,
     HealCommand,
+    KickCommand,
     SayCommand,
     RepairCommand,
     SizeCommand,
@@ -84,7 +85,8 @@ class Commands implements Listener
                 new RepairCommand(),
                 new CoordsCommand(),
                 new SizeCommand(),
-                new SpyCommand()
+                new SpyCommand(),
+                new KickCommand()
             ]
         );
     }
@@ -94,7 +96,8 @@ class Commands implements Listener
         $commands = [
             'list',
             'say',
-            'kill'
+            'kill',
+            'kick'
         ];
 
         $map = $this->getPlugin()->getServer()->getCommandMap();
