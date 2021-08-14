@@ -26,21 +26,21 @@ final class MultiBlockInvMenuGraphic implements PositionedInvMenuGraphic
      */
     public function __construct(array $graphics)
     {
-		$this->graphics = $graphics;
-	}
+        $this->graphics = $graphics;
+    }
 
     /**
      * @return PositionedInvMenuGraphic
      */
     private function first() : PositionedInvMenuGraphic
     {
-		$first = current($this->graphics);
-		if($first === false){
-			throw new InvalidStateException("Tried sending inventory from a multi graphic consisting of zero entries");
-		}
+        $first = current($this->graphics);
+        if ($first === false) {
+            throw new InvalidStateException("Tried sending inventory from a multi graphic consisting of zero entries");
+        }
 
-		return $first;
-	}
+        return $first;
+    }
 
     /**
      * @param Player $player
@@ -48,10 +48,10 @@ final class MultiBlockInvMenuGraphic implements PositionedInvMenuGraphic
      */
     public function send(Player $player, ?string $name) : void
     {
-		foreach($this->graphics as $graphic){
-			$graphic->send($player, $name);
-		}
-	}
+        foreach ($this->graphics as $graphic) {
+            $graphic->send($player, $name);
+        }
+    }
 
     /**
      * @param Player $player
@@ -60,32 +60,32 @@ final class MultiBlockInvMenuGraphic implements PositionedInvMenuGraphic
      */
     public function sendInventory(Player $player, Inventory $inventory) : bool
     {
-		return $this->first()->sendInventory($player, $inventory);
-	}
+        return $this->first()->sendInventory($player, $inventory);
+    }
 
     /**
      * @param Player $player
      */
     public function remove(Player $player) : void
     {
-		foreach($this->graphics as $graphic){
-			$graphic->remove($player);
-		}
-	}
+        foreach ($this->graphics as $graphic) {
+            $graphic->remove($player);
+        }
+    }
 
     /**
      * @return InvMenuGraphicNetworkTranslator|null
      */
     public function getNetworkTranslator() : ?InvMenuGraphicNetworkTranslator
     {
-		return $this->first()->getNetworkTranslator();
-	}
+        return $this->first()->getNetworkTranslator();
+    }
 
     /**
      * @return Vector3
      */
     public function getPosition() : Vector3
     {
-		return $this->first()->getPosition();
-	}
+        return $this->first()->getPosition();
+    }
 }
