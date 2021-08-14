@@ -44,18 +44,18 @@ final class BlockFixedInvMenuType implements FixedInvMenuType
      */
     public function __construct(Block $block, int $size, ?InvMenuGraphicNetworkTranslator $network_translator = null)
     {
-		$this->block = $block;
-		$this->size = $size;
-		$this->network_translator = $network_translator;
-	}
+        $this->block = $block;
+        $this->size = $size;
+        $this->network_translator = $network_translator;
+    }
 
     /**
      * @return int
      */
     public function getSize() : int
     {
-		return $this->size;
-	}
+        return $this->size;
+    }
 
     /**
      * @param InvMenu $menu
@@ -64,19 +64,19 @@ final class BlockFixedInvMenuType implements FixedInvMenuType
      */
     public function createGraphic(InvMenu $menu, Player $player) : ?InvMenuGraphic
     {
-		$origin = $player->getPosition()->addVector(InvMenuTypeHelper::getBehindPositionOffset($player))->floor();
-		if($origin->y < World::Y_MIN || $origin->y >= World::Y_MAX){
-			return null;
-		}
+        $origin = $player->getPosition()->addVector(InvMenuTypeHelper::getBehindPositionOffset($player))->floor();
+        if($origin->y < World::Y_MIN || $origin->y >= World::Y_MAX){
+            return null;
+        }
 
-		return new BlockInvMenuGraphic($this->block, $origin, $this->network_translator);
-	}
+        return new BlockInvMenuGraphic($this->block, $origin, $this->network_translator);
+    }
 
     /**
      * @return Inventory
      */
     public function createInventory() : Inventory
     {
-		return new InvMenuInventory($this->size);
-	}
+        return new InvMenuInventory($this->size);
+    }
 }
