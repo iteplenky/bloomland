@@ -82,7 +82,9 @@ class CombatListener implements Listener
         $entity = $event->getEntity();
 
         if ($entity instanceof Player && $event instanceof EntityDamageByEntityEvent) {
+
             $damager = $event->getDamager();
+
             if ($damager instanceof Player) {
 
                 if ($damager->isCreative() || $entity->isCreative()) {
@@ -90,10 +92,22 @@ class CombatListener implements Listener
                     return;
                 }
                 if ($damager->isFlying() || $damager->getAllowFlight() && $damager->isSurvival()) {
+                    $damager->sendMessage('Вы в режиме полета.');
                     $event->cancel();
                     return;
                 }
                 if ($entity->isFlying() || $entity->getAllowFlight() && $entity->isSurvival()) {
+                    $damager->sendMessage('Игрок ' . $entity->getName() . ' в режиме полета.');
+                    $event->cancel();
+                    return;
+                }
+                if ($damager->isGod()) {
+                    $damager->sendMessage('Вы в режиме бессмертия.');
+                    $event->cancel();
+                    return;
+                }
+                if ($entity->isGod()) {
+                    $damager->sendMessage('Игрок ' . $entity->getName() . ' в режиме бессмертия.');
                     $event->cancel();
                     return;
                 }

@@ -38,6 +38,9 @@ class PlayerListener implements Listener
 
     protected const CHAT_FLOOD_TIME = 1;
 
+    /**
+     * @var Core
+     */
     private Core $plugin;
 
     /**

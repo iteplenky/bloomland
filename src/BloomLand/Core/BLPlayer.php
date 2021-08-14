@@ -48,6 +48,11 @@ class BLPlayer extends Player
     private bool $spy = false;
 
     /**
+     * @var bool
+     */
+    private bool $god = false;
+
+    /**
      * @return string
      */
     #[Pure] 
@@ -169,5 +174,21 @@ class BLPlayer extends Player
     public function setSpy(bool $spy = true) : void
     {
         $this->spy = $spy;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGod() : bool
+    {
+        return $this->god;
+    }
+
+    /**
+     * @param bool $god
+     */
+    public function setGod(bool $god = true) : void
+    {
+        $this->god = $god;
     }
 }

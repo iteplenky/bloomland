@@ -19,7 +19,7 @@ class ReloadingTask extends Task
     /**
      * @var int
      */
-    private int $minutesLeft = 1;
+    private int $minutesLeft = 10;
 
     /**
      * ReloadingTask constructor.
