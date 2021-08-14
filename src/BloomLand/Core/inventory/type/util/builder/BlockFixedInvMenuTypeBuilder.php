@@ -10,23 +10,23 @@ use BloomLand\Core\inventory\type\graphic\network\BlockInvMenuGraphicNetworkTran
 final class BlockFixedInvMenuTypeBuilder implements InvMenuTypeBuilder
 {
 
-	use BlockInvMenuTypeBuilderTrait;
-	use FixedInvMenuTypeBuilderTrait;
-	use GraphicNetworkTranslatableInvMenuTypeBuilderTrait;
+    use BlockInvMenuTypeBuilderTrait;
+    use FixedInvMenuTypeBuilderTrait;
+    use GraphicNetworkTranslatableInvMenuTypeBuilderTrait;
 
     /**
      * BlockFixedInvMenuTypeBuilder constructor.
      */
     public function __construct()
     {
-		$this->addGraphicNetworkTranslator(BlockInvMenuGraphicNetworkTranslator::instance());
-	}
+        $this->addGraphicNetworkTranslator(BlockInvMenuGraphicNetworkTranslator::instance());
+    }
 
     /**
      * @return BlockFixedInvMenuType
      */
     public function build() : BlockFixedInvMenuType
     {
-		return new BlockFixedInvMenuType($this->getBlock(), $this->getSize(), $this->getGraphicNetworkTranslator());
-	}
+        return new BlockFixedInvMenuType($this->getBlock(), $this->getSize(), $this->getGraphicNetworkTranslator());
+    }
 }
