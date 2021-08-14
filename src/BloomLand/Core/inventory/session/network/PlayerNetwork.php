@@ -52,55 +52,55 @@ final class PlayerNetwork
     #[Pure]
     public function __construct(NetworkSession $session, PlayerNetworkHandler $handler)
     {
-		$this->session = $session;
-		$this->handler = $handler;
-		$this->queue = new SplQueue();
-	}
+        $this->session = $session;
+        $this->handler = $handler;
+        $this->queue = new SplQueue();
+    }
 
     /**
      * @return int
      */
     public function getGraphicWaitDuration() : int
     {
-		return $this->graphic_wait_duration;
-	}
+        return $this->graphic_wait_duration;
+    }
 
-	/**
-	 * Duration (in milliseconds) to wait between sending the graphic (block)
-	 * and sending the inventory.
-	 *
-	 * @param int $graphic_wait_duration
-	 */
-	public function setGraphicWaitDuration(int $graphic_wait_duration) : void
+    /**
+     * Duration (in milliseconds) to wait between sending the graphic (block)
+     * and sending the inventory.
+     *
+     * @param int $graphic_wait_duration
+     */
+    public function setGraphicWaitDuration(int $graphic_wait_duration) : void
     {
-		if($graphic_wait_duration < 0){
-			throw new InvalidArgumentException("graphic_wait_duration must be >= 0, got {$graphic_wait_duration}");
-		}
+        if ($graphic_wait_duration < 0) {
+            throw new InvalidArgumentException("graphic_wait_duration must be >= 0, got {$graphic_wait_duration}");
+        }
 
-		$this->graphic_wait_duration = $graphic_wait_duration;
-	}
+        $this->graphic_wait_duration = $graphic_wait_duration;
+    }
 
-	public function dropPending() : void
+    public function dropPending() : void
     {
-		foreach($this->queue as $entry){
-			($entry->then)(false);
-		}
-		$this->queue = new SplQueue();
-		$this->setCurrent(null);
-	}
+        foreach ($this->queue as $entry) {
+            ($entry->then)(false);
+        }
+        $this->queue = new SplQueue();
+        $this->setCurrent(null);
+    }
 
     /**
      * @param Closure $then
      */
     public function wait(Closure $then) : void
     {
-		$entry = $this->handler->createNetworkStackLatencyEntry($then);
-		if($this->current !== null){
-			$this->queue->enqueue($entry);
-		}else{
-			$this->setCurrent($entry);
-		}
-	}
+        $entry = $this->handler->createNetworkStackLatencyEntry($then);
+        if ($this->current !== null) {
+            $this->queue->enqueue($entry);
+        } else {
+            $this->setCurrent($entry);
+        }
+    }
 
     /**
      *
@@ -112,63 +112,63 @@ final class PlayerNetwork
      */
     public function waitUntil(int $wait_ms, Closure $then, ?int $since_ms = null) : void
     {
-		if($since_ms === null){
-			$since_ms = (int) floor(microtime(true) * 1000);
-		}
-		$this->wait(function(bool $success) use($since_ms, $wait_ms, $then) : void{
-			if($success && ((microtime(true) * 1000) - $since_ms) < $wait_ms){
-				$this->waitUntil($wait_ms, $then, $since_ms);
-			}else{
-				$then($success);
-			}
-		});
-	}
+        if ($since_ms === null) {
+            $since_ms = (int) floor(microtime(true) * 1000);
+        }
+        $this->wait(function(bool $success) use($since_ms, $wait_ms, $then) : void{
+            if ($success && ((microtime(true) * 1000) - $since_ms) < $wait_ms) {
+                $this->waitUntil($wait_ms, $then, $since_ms);
+            }else{
+                $then($success);
+            }
+        });
+    }
 
     /**
      * @param NetworkStackLatencyEntry|null $entry
      */
     private function setCurrent(?NetworkStackLatencyEntry $entry) : void
     {
-		if($this->current !== null){
-			$this->processCurrent(false);
-			$this->current = null;
-		}
+        if ($this->current !== null) {
+            $this->processCurrent(false);
+            $this->current = null;
+        }
 
-		if($entry !== null){
-			$pk = new NetworkStackLatencyPacket();
-			$pk->timestamp = $entry->network_timestamp;
-			$pk->needResponse = true;
-			if($this->session->sendDataPacket($pk)){
-				$this->current = $entry;
-			}else{
-				($entry->then)(false);
-			}
-		}
-	}
+        if ($entry !== null) {
+            $pk = new NetworkStackLatencyPacket();
+            $pk->timestamp = $entry->network_timestamp;
+            $pk->needResponse = true;
+            if ($this->session->sendDataPacket($pk)) {
+                $this->current = $entry;
+            } else {
+                ($entry->then)(false);
+            }
+        }
+    }
 
     /**
      * @param bool $success
      */
     private function processCurrent(bool $success) : void
     {
-		if($this->current !== null){
-			($this->current->then)($success);
-			$this->current = null;
-			if(!$this->queue->isEmpty()){
-				$this->setCurrent($this->queue->dequeue());
-			}
-		}
-	}
+        if ($this->current !== null) {
+            ($this->current->then)($success);
+            $this->current = null;
+            if (!$this->queue->isEmpty()) {
+                $this->setCurrent($this->queue->dequeue());
+            }
+        }
+    }
 
     /**
      * @param int $timestamp
      */
     public function notify(int $timestamp) : void
     {
-		if($this->current !== null && $timestamp === $this->current->timestamp){
-			$this->processCurrent(true);
-		}
-	}
+        if ($this->current !== null && $timestamp === $this->current->timestamp) {
+            $this->processCurrent(true);
+        }
+    }
 
     /**
      * @param PlayerSession $session
@@ -177,16 +177,16 @@ final class PlayerNetwork
      */
     public function translateContainerOpen(PlayerSession $session, ContainerOpenPacket $packet) : bool
     {
-		$inventory = $this->session->getInvManager()->getWindow($packet->windowId);
-		if(
-			$inventory !== null &&
-			($current = $session->getCurrent()) !== null &&
-			$current->menu->getInventory() === $inventory &&
-			($translation = $current->graphic->getNetworkTranslator()) !== null
-		){
-			$translation->translate($session, $current, $packet);
-			return true;
-		}
-		return false;
-	}
+        $inventory = $this->session->getInvManager()->getWindow($packet->windowId);
+        if (
+            $inventory !== null &&
+            ($current = $session->getCurrent()) !== null &&
+            $current->menu->getInventory() === $inventory &&
+            ($translation = $current->graphic->getNetworkTranslator()) !== null
+        ) {
+            $translation->translate($session, $current, $packet);
+            return true;
+        }
+        return false;
+    }
 }
