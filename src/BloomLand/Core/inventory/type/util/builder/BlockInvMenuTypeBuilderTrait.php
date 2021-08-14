@@ -22,19 +22,19 @@ trait BlockInvMenuTypeBuilderTrait
      */
     public function setBlock(Block $block) : self
     {
-		$this->block = $block;
-		return $this;
-	}
+        $this->block = $block;
+        return $this;
+    }
 
     /**
      * @return Block
      */
     protected function getBlock() : Block
     {
-		if($this->block === null){
-			throw new InvalidStateException("No block was provided");
-		}
+        if ($this->block === null) {
+            throw new InvalidStateException("No block was provided");
+        }
 
-		return $this->block;
-	}
+        return $this->block;
+    }
 }
