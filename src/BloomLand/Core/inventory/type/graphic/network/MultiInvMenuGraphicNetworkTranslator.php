@@ -23,8 +23,8 @@ final class MultiInvMenuGraphicNetworkTranslator implements InvMenuGraphicNetwor
      */
     public function __construct(array $translators)
     {
-		$this->translators = $translators;
-	}
+        $this->translators = $translators;
+    }
 
     /**
      * @param PlayerSession $session
@@ -33,8 +33,8 @@ final class MultiInvMenuGraphicNetworkTranslator implements InvMenuGraphicNetwor
      */
     public function translate(PlayerSession $session, InvMenuInfo $current, ContainerOpenPacket $packet) : void
     {
-		foreach($this->translators as $translator){
-			$translator->translate($session, $current, $packet);
-		}
-	}
+        foreach ($this->translators as $translator) {
+            $translator->translate($session, $current, $packet);
+        }
+    }
 }
