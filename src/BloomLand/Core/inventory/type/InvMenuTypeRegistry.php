@@ -27,25 +27,25 @@ final class InvMenuTypeRegistry
      */
     public function __construct()
     {
-		$this->register(InvMenuTypeIds::TYPE_CHEST, InvMenuTypeBuilders::BLOCK_ACTOR_FIXED()
-			->setBlock(VanillaBlocks::CHEST())
-			->setSize(27)
-			->setBlockActorId("Chest")
-		->build());
+        $this->register(InvMenuTypeIds::TYPE_CHEST, InvMenuTypeBuilders::BLOCK_ACTOR_FIXED()
+            ->setBlock(VanillaBlocks::CHEST())
+            ->setSize(27)
+            ->setBlockActorId("Chest")
+        ->build());
 
-		$this->register(InvMenuTypeIds::TYPE_DOUBLE_CHEST, InvMenuTypeBuilders::DOUBLE_PAIRABLE_BLOCK_ACTOR_FIXED()
-			->setBlock(VanillaBlocks::CHEST())
-			->setSize(54)
-			->setBlockActorId("Chest")
-		->build());
+        $this->register(InvMenuTypeIds::TYPE_DOUBLE_CHEST, InvMenuTypeBuilders::DOUBLE_PAIRABLE_BLOCK_ACTOR_FIXED()
+            ->setBlock(VanillaBlocks::CHEST())
+            ->setSize(54)
+            ->setBlockActorId("Chest")
+        ->build());
 
-		$this->register(InvMenuTypeIds::TYPE_HOPPER, InvMenuTypeBuilders::BLOCK_ACTOR_FIXED()
-			->setBlock(VanillaBlocks::HOPPER())
-			->setSize(5)
-			->setBlockActorId("Hopper")
-			->setNetworkWindowType(WindowTypes::HOPPER)
-		->build());
-	}
+        $this->register(InvMenuTypeIds::TYPE_HOPPER, InvMenuTypeBuilders::BLOCK_ACTOR_FIXED()
+            ->setBlock(VanillaBlocks::HOPPER())
+            ->setSize(5)
+            ->setBlockActorId("Hopper")
+            ->setNetworkWindowType(WindowTypes::HOPPER)
+        ->build());
+    }
 
     /**
      * @param string $identifier
@@ -53,13 +53,13 @@ final class InvMenuTypeRegistry
      */
     public function register(string $identifier, InvMenuType $type) : void
     {
-		if (isset($this->types[$identifier])){
-			unset($this->identifiers[spl_object_id($this->types[$identifier])], $this->types[$identifier]);
-		}
+        if (isset($this->types[$identifier])){
+            unset($this->identifiers[spl_object_id($this->types[$identifier])], $this->types[$identifier]);
+        }
 
-		$this->types[$identifier] = $type;
-		$this->identifiers[spl_object_id($type)] = $identifier;
-	}
+        $this->types[$identifier] = $type;
+        $this->identifiers[spl_object_id($type)] = $identifier;
+    }
 
     /**
      * @param string $identifier
@@ -67,8 +67,8 @@ final class InvMenuTypeRegistry
      */
     public function exists(string $identifier) : bool
     {
-		return isset($this->types[$identifier]);
-	}
+        return isset($this->types[$identifier]);
+    }
 
     /**
      * @param string $identifier
@@ -76,8 +76,8 @@ final class InvMenuTypeRegistry
      */
     public function get(string $identifier) : InvMenuType
     {
-		return $this->types[$identifier];
-	}
+        return $this->types[$identifier];
+    }
 
     /**
      * @param InvMenuType $type
@@ -85,8 +85,8 @@ final class InvMenuTypeRegistry
      */
     public function getIdentifier(InvMenuType $type) : string
     {
-		return $this->identifiers[spl_object_id($type)];
-	}
+        return $this->identifiers[spl_object_id($type)];
+    }
 
     /**
      * @param string $identifier
@@ -94,14 +94,14 @@ final class InvMenuTypeRegistry
      */
     public function getOrNull(string $identifier) : ?InvMenuType
     {
-		return $this->types[$identifier] ?? null;
-	}
+        return $this->types[$identifier] ?? null;
+    }
 
     /**
      * @return array
      */
     public function getAll() : array
     {
-		return $this->types;
-	}
+        return $this->types;
+    }
 }
