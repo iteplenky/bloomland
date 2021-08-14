@@ -32,8 +32,8 @@ final class NetworkStackLatencyEntry
      */
     public function __construct(int $timestamp, Closure $then, ?int $network_timestamp = null)
     {
-		$this->timestamp = $timestamp;
-		$this->then = $then;
-		$this->network_timestamp = $network_timestamp ?? $timestamp;
-	}
+        $this->timestamp = $timestamp;
+        $this->then = $then;
+        $this->network_timestamp = $network_timestamp ?? $timestamp;
+    }
 }
