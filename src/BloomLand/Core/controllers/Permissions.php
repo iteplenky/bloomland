@@ -19,7 +19,7 @@ class Permissions
         'heal', 'fly', 'say',
         'kill', 'rename', 'repair',
         'xyz', 'size', 'spy',
-        'kick'
+        'kick', 'god', 'trash'
     ];
 
     /**

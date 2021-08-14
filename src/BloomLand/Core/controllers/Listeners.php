@@ -6,6 +6,7 @@ namespace BloomLand\Core\controllers;
 
 use BloomLand\Core\Core;
 
+use BloomLand\Core\inventory\InvMenuHandler;
 use BloomLand\Core\listener\PlayerListener;
 use BloomLand\Core\listener\ItemLimitListener;
 use BloomLand\Core\listener\CombatListener;
@@ -23,6 +24,10 @@ class Listeners implements Listener
     public function __construct()
     {
         $this->plugin = Core::getInstance();
+
+        if (!InvMenuHandler::isRegistered()) {
+            InvMenuHandler::register($this->getPlugin());
+        }
 
         $this->loadListeners();
     }

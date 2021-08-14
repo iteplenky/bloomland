@@ -6,8 +6,7 @@ namespace BloomLand\Core\controllers;
 
 use BloomLand\Core\Core;
 
-use BloomLand\Core\command\defaults\{
-    ListCommand,
+use BloomLand\Core\command\defaults\{ListCommand,
     CoinsCommand,
     SpawnCommand,
     AfkCommand,
@@ -16,11 +15,14 @@ use BloomLand\Core\command\defaults\{
     SeeMoneyCommand,
     KillCommand,
     RenameCommand,
-    CoordsCommand
+    CoordsCommand,
+    TrashCommand
 };
 
-use BloomLand\Core\command\donators\{ClearInventoryCommand,
+use BloomLand\Core\command\donators\{
+    ClearInventoryCommand,
     FlyCommand,
+    GodCommand,
     HealCommand,
     KickCommand,
     SayCommand,
@@ -86,7 +88,9 @@ class Commands implements Listener
                 new CoordsCommand(),
                 new SizeCommand(),
                 new SpyCommand(),
-                new KickCommand()
+                new KickCommand(),
+                new GodCommand(),
+                new TrashCommand()
             ]
         );
     }
@@ -148,10 +152,10 @@ class Commands implements Listener
         }
 
         if ($player instanceof Player) {
-            $this->getPlugin()->getLogger()->info('> ' . $player->getName() . ': /' . $command);
+            $this->getPlugin()->getLogger()->info('> ' . $player->getName() . ': /' . $event->getCommand());
             foreach ($this->getPlugin()->getServer()->getOnlinePlayers() as $players) {
-                if ($players->isSpy()) {
-                    $players->sendMessage('(Слежка) ' . $player->getName() . ' ввел: /' . $command);
+                if ($players->isSpy() && $players->getId() != $player->getId()) {
+                    $players->sendMessage('(Слежка) ' . $player->getName() . ' ввел: /' . $event->getCommand());
                 }
             }
         }
