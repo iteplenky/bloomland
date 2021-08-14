@@ -28,22 +28,22 @@ final class PlayerNetworkHandlerRegistry
      */
     public function __construct()
     {
-		$this->registerDefault(new ClosurePlayerNetworkHandler(static function(Closure $then) : NetworkStackLatencyEntry {
-			return new NetworkStackLatencyEntry(mt_rand() * 1000, $then);
+        $this->registerDefault(new ClosurePlayerNetworkHandler(static function(Closure $then) : NetworkStackLatencyEntry {
+            return new NetworkStackLatencyEntry(mt_rand() * 1000, $then);
         }));
         $this->register(DeviceOS::PLAYSTATION, new ClosurePlayerNetworkHandler(static function(Closure $then) : NetworkStackLatencyEntry {
-			$timestamp = mt_rand();
-			return new NetworkStackLatencyEntry($timestamp, $then, $timestamp * 1000);
-		}));
-	}
+            $timestamp = mt_rand();
+            return new NetworkStackLatencyEntry($timestamp, $then, $timestamp * 1000);
+        }));
+    }
 
     /**
      * @param PlayerNetworkHandler $handler
      */
     public function registerDefault(PlayerNetworkHandler $handler) : void
     {
-		$this->default = $handler;
-	}
+        $this->default = $handler;
+    }
 
     /**
      * @param int $os_id
@@ -51,8 +51,8 @@ final class PlayerNetworkHandlerRegistry
      */
     public function register(int $os_id, PlayerNetworkHandler $handler) : void
     {
-		$this->game_os_handlers[$os_id] = $handler;
-	}
+        $this->game_os_handlers[$os_id] = $handler;
+    }
 
     /**
      * @param int $os_id
@@ -60,6 +60,6 @@ final class PlayerNetworkHandlerRegistry
      */
     public function get(int $os_id) : PlayerNetworkHandler
     {
-		return $this->game_os_handlers[$os_id] ?? $this->default;
-	}
+        return $this->game_os_handlers[$os_id] ?? $this->default;
+    }
 }
