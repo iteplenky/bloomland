@@ -22,15 +22,15 @@ final class InvMenuInventory extends SimpleInventory implements BlockInventory
      */
     public function __construct(int $size)
     {
-		parent::__construct($size);
-		$this->holder = new Position(0, 0, 0, null);
-	}
+        parent::__construct($size);
+        $this->holder = new Position(0, 0, 0, null);
+    }
 
     /**
      * @return Position
      */
     public function getHolder() : Position
     {
-		return $this->holder;
-	}
+        return $this->holder;
+    }
 }
