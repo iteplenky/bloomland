@@ -1,63 +1,133 @@
 <?php
 
-declare(strict_types=1);
 
 namespace BloomLand\Core\inventory\transaction;
 
+
+use JetBrains\PhpStorm\Pure;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\inventory\transaction\InventoryTransaction;
 use pocketmine\item\Item;
 use pocketmine\player\Player;
 
-final class SimpleInvMenuTransaction implements InvMenuTransaction{
+final class SimpleInvMenuTransaction implements InvMenuTransaction
+{
 
-	private Player $player;
-	private Item $out;
-	private Item $in;
-	private SlotChangeAction $action;
-	private InventoryTransaction $transaction;
+    /**
+     * @var Player
+     */
+    private Player $player;
 
-	public function __construct(Player $player, Item $out, Item $in, SlotChangeAction $action, InventoryTransaction $transaction){
-		$this->player = $player;
-		$this->out = $out;
-		$this->in = $in;
-		$this->action = $action;
-		$this->transaction = $transaction;
-	}
+    /**
+     * @var Item
+     */
+    private Item $out;
 
-	public function getPlayer() : Player{
-		return $this->player;
-	}
+    /**
+     * @var Item
+     */
+    private Item $in;
 
-	public function getOut() : Item{
-		return $this->out;
-	}
+    /**
+     * @var SlotChangeAction
+     */
+    private SlotChangeAction $action;
 
-	public function getIn() : Item{
-		return $this->in;
-	}
+    /**
+     * @var InventoryTransaction
+     */
+    private InventoryTransaction $transaction;
 
-	public function getItemClicked() : Item{
-		return $this->getOut();
-	}
+    /**
+     * SimpleInvMenuTransaction constructor.
+     * @param Player $player
+     * @param Item $out
+     * @param Item $in
+     * @param SlotChangeAction $action
+     * @param InventoryTransaction $transaction
+     */
+    public function __construct(Player $player, Item $out, Item $in, SlotChangeAction $action, InventoryTransaction $transaction)
+    {
+        $this->player = $player;
+        $this->out = $out;
+        $this->in = $in;
+        $this->action = $action;
+        $this->transaction = $transaction;
+    }
 
-	public function getItemClickedWith() : Item{
-		return $this->getIn();
-	}
+    /**
+     * @return Player
+     */
+    public function getPlayer() : Player
+    {
+        return $this->player;
+    }
 
-	public function getAction() : SlotChangeAction{
-		return $this->action;
-	}
+    /**
+     * @return Item
+     */
+    public function getOut() : Item
+    {
+        return $this->out;
+    }
 
-	public function getTransaction() : InventoryTransaction{
-		return $this->transaction;
-	}
+    /**
+     * @return Item
+     */
+    public function getIn() : Item
+    {
+        return $this->in;
+    }
 
-	public function continue() : InvMenuTransactionResult{
-		return new InvMenuTransactionResult(false);
-	}
+    /**
+     * @return Item
+     */
+    #[Pure] 
+    public function getItemClicked() : Item
+    {
+        return $this->getOut();
+    }
 
-	public function discard() : InvMenuTransactionResult{
-		return new InvMenuTransactionResult(true);
-	}
+    /**
+     * @return Item
+     */
+    #[Pure]
+      public function getItemClickedWith() : Item
+    {
+        return $this->getIn();
+    }
+
+    /**
+     * @return SlotChangeAction
+     */
+    public function getAction() : SlotChangeAction
+    {
+        return $this->action;
+    }
+
+    /**
+     * @return InventoryTransaction
+     */
+    public function getTransaction() : InventoryTransaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @return InvMenuTransactionResult
+     */
+    #[Pure]
+    public function continue() : InvMenuTransactionResult
+    {
+        return new InvMenuTransactionResult(false);
+    }
+
+    /**
+     * @return InvMenuTransactionResult
+     */
+    #[Pure] 
+    public function discard() : InvMenuTransactionResult
+    {
+        return new InvMenuTransactionResult(true);
+    }
 }
