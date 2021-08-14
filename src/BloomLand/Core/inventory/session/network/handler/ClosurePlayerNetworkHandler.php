@@ -22,8 +22,8 @@ final class ClosurePlayerNetworkHandler implements PlayerNetworkHandler
      */
     public function __construct(Closure $creator)
     {
-		$this->creator = $creator;
-	}
+        $this->creator = $creator;
+    }
 
     /**
      * @param Closure $then
@@ -31,6 +31,6 @@ final class ClosurePlayerNetworkHandler implements PlayerNetworkHandler
      */
     public function createNetworkStackLatencyEntry(Closure $then) : NetworkStackLatencyEntry
     {
-		return ($this->creator)($then);
-	}
+        return ($this->creator)($then);
+    }
 }
