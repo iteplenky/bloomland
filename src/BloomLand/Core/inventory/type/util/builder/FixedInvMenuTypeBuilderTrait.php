@@ -20,19 +20,19 @@ trait FixedInvMenuTypeBuilderTrait
      */
     public function setSize(int $size) : self
     {
-		$this->size = $size;
-		return $this;
-	}
+        $this->size = $size;
+        return $this;
+    }
 
     /**
      * @return int
      */
     protected function getSize() : int
     {
-		if($this->size === null){
-			throw new InvalidStateException("No size was provided");
-		}
+        if ($this->size === null) {
+            throw new InvalidStateException("No size was provided");
+        }
 
-		return $this->size;
-	}
+        return $this->size;
+    }
 }
