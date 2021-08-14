@@ -27,7 +27,7 @@ final class InvMenuInfo
      */
     public function __construct(InvMenu $menu, InvMenuGraphic $graphic)
     {
-		$this->menu = $menu;
-		$this->graphic = $graphic;
-	}
+        $this->menu = $menu;
+        $this->graphic = $graphic;
+    }
 }
