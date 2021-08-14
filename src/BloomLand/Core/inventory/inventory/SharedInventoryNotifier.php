@@ -28,9 +28,9 @@ final class SharedInventoryNotifier implements InventoryListener
      */
     public function __construct(Inventory $inventory, SharedInventorySynchronizer $synchronizer)
     {
-		$this->inventory = $inventory;
-		$this->synchronizer = $synchronizer;
-	}
+        $this->inventory = $inventory;
+        $this->synchronizer = $synchronizer;
+    }
 
     /**
      * @param Inventory $inventory
@@ -38,10 +38,10 @@ final class SharedInventoryNotifier implements InventoryListener
      */
     public function onContentChange(Inventory $inventory, array $oldContents) : void
     {
-		$this->inventory->getListeners()->remove($this->synchronizer);
-		$this->inventory->setContents($inventory->getContents());
-		$this->inventory->getListeners()->add($this->synchronizer);
-	}
+        $this->inventory->getListeners()->remove($this->synchronizer);
+        $this->inventory->setContents($inventory->getContents());
+        $this->inventory->getListeners()->add($this->synchronizer);
+    }
 
     /**
      * @param Inventory $inventory
@@ -50,10 +50,10 @@ final class SharedInventoryNotifier implements InventoryListener
      */
     public function onSlotChange(Inventory $inventory, int $slot, Item $oldItem) : void
     {
-		if($slot < $inventory->getSize()){
-			$this->inventory->getListeners()->remove($this->synchronizer);
-			$this->inventory->setItem($slot, $inventory->getItem($slot));
-			$this->inventory->getListeners()->add($this->synchronizer);
-		}
-	}
+        if ($slot < $inventory->getSize()) {
+            $this->inventory->getListeners()->remove($this->synchronizer);
+            $this->inventory->setItem($slot, $inventory->getItem($slot));
+            $this->inventory->getListeners()->add($this->synchronizer);
+        }
+    }
 }
