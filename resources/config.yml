@@ -1,4 +1,7 @@
 ---
+bossbar:
+  title: '>> BLOOMLAND - Игровой сервер 1.18 <<'
+  percentage: 1
 scoreboard:
   title: 'Bloom!'
   lines:

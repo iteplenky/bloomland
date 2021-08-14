@@ -5,6 +5,7 @@ namespace BloomLand\Core\listener;
 
 
 use BloomLand\Core\base\Economy;
+use BloomLand\Core\bossbar\BossBar;
 use BloomLand\Core\Core;
 use BloomLand\Core\BLPlayer;
 use BloomLand\Chat\ChatManager;
@@ -121,6 +122,13 @@ class PlayerListener implements Listener
 
         ScoreboardFactory::createScoreboard($player);
 
+        $data = $this->getPlugin()->get('bossbar');
+        $bar = (new BossBar())->setPercentage($data['percentage']);
+
+        $bar->setTitle($data['title']);
+
+        $bar->addPlayer($player);
+
         $player->sendMessage('Добро пожаловать на сервер!');
 
         $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' присоединился.');
@@ -198,7 +206,7 @@ class PlayerListener implements Listener
      */
     public function handlePlayerQuit(PlayerQuitEvent $event) : void
     {
-        $event->setQuitMessage(null);
+        $event->setQuitMessage('');
 
         $player = $event->getPlayer();
         if ($player->isAfk()) {
