@@ -22,16 +22,16 @@ final class SharedInventorySynchronizer implements InventoryListener
      */
     public function __construct(Inventory $inventory)
     {
-		$this->inventory = $inventory;
-	}
+        $this->inventory = $inventory;
+    }
 
     /**
      * @return Inventory
      */
     public function getSynchronizingInventory() : Inventory
     {
-		return $this->inventory;
-	}
+        return $this->inventory;
+    }
 
     /**
      * @param Inventory $inventory
@@ -39,8 +39,8 @@ final class SharedInventorySynchronizer implements InventoryListener
      */
     public function onContentChange(Inventory $inventory, array $oldContents) : void
     {
-		$this->inventory->setContents($inventory->getContents());
-	}
+        $this->inventory->setContents($inventory->getContents());
+    }
 
     /**
      * @param Inventory $inventory
@@ -49,6 +49,6 @@ final class SharedInventorySynchronizer implements InventoryListener
      */
     public function onSlotChange(Inventory $inventory, int $slot, Item $oldItem) : void
     {
-		$this->inventory->setItem($slot, $inventory->getItem($slot));
-	}
+        $this->inventory->setItem($slot, $inventory->getItem($slot));
+    }
 }
