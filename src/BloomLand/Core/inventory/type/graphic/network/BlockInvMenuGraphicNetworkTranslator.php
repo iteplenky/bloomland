@@ -20,16 +20,16 @@ final class BlockInvMenuGraphicNetworkTranslator implements InvMenuGraphicNetwor
      */
     public static function instance() : self
     {
-		static $instance = null;
-		return $instance ??= new self();
-	}
+        static $instance = null;
+        return $instance ??= new self();
+    }
 
     /**
      * BlockInvMenuGraphicNetworkTranslator constructor.
      */
     private function __construct()
     {
-	}
+    }
 
     /**
      * @param PlayerSession $session
@@ -38,14 +38,14 @@ final class BlockInvMenuGraphicNetworkTranslator implements InvMenuGraphicNetwor
      */
     public function translate(PlayerSession $session, InvMenuInfo $current, ContainerOpenPacket $packet) : void
     {
-		$graphic = $current->graphic;
-		if(!($graphic instanceof PositionedInvMenuGraphic)){
-			throw new InvalidStateException("Expected " . PositionedInvMenuGraphic::class . ", got " . get_class($graphic));
-		}
+        $graphic = $current->graphic;
+        if (!($graphic instanceof PositionedInvMenuGraphic)) {
+            throw new InvalidStateException("Expected " . PositionedInvMenuGraphic::class . ", got " . get_class($graphic));
+        }
 
-		$pos = $graphic->getPosition();
-		$packet->x = (int) $pos->x;
-		$packet->y = (int) $pos->y;
-		$packet->z = (int) $pos->z;
-	}
+        $pos = $graphic->getPosition();
+        $packet->x = (int) $pos->x;
+        $packet->y = (int) $pos->y;
+        $packet->z = (int) $pos->z;
+    }
 }
