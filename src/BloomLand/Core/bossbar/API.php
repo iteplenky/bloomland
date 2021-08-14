@@ -1,3 +1,4 @@
+
 <?php
 
 
@@ -13,7 +14,7 @@ class API
      * @param Plugin $plugin
      */
     public static function load(Plugin $plugin)
-	{
-		PacketListener::register($plugin);
-	}
+    {
+        PacketListener::register($plugin);
+    }
 }
