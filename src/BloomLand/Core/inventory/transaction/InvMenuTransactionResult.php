@@ -1,42 +1,61 @@
 <?php
 
-declare(strict_types=1);
 
 namespace BloomLand\Core\inventory\transaction;
 
+
 use Closure;
-use pocketmine\player\Player;
 
 final class InvMenuTransactionResult{
 
-	private bool $cancelled;
-	private ?Closure $post_transaction_callback = null;
+    /**
+     * @var bool
+     */
+    private bool $cancelled;
 
-	public function __construct(bool $cancelled){
-		$this->cancelled = $cancelled;
-	}
+    /**
+     * @var Closure|null
+     */
+    private ?Closure $post_transaction_callback = null;
 
-	public function isCancelled() : bool{
-		return $this->cancelled;
-	}
+    /**
+     * InvMenuTransactionResult constructor.
+     * @param bool $cancelled
+     */
+    public function __construct(bool $cancelled)
+    {
+        $this->cancelled = $cancelled;
+    }
 
-	/**
-	 * Notify when we have escaped from the event stack trace and the
-	 * client's network stack trace.
-	 * Useful for sending forms and other stuff that cant be sent right
-	 * after closing inventory.
-	 *
-	 * @param Closure|null $callback
-	 * @return self
-	 *
-	 * @phpstan-param Closure(Player) : void $callback
-	 */
-	public function then(?Closure $callback) : self{
-		$this->post_transaction_callback = $callback;
-		return $this;
-	}
+    /**
+     * @return bool
+     */
+    public function isCancelled() : bool
+    {
+        return $this->cancelled;
+    }
 
-	public function getPostTransactionCallback() : ?Closure{
-		return $this->post_transaction_callback;
-	}
+    /**
+     * 
+     * Notify when we have escaped from the event stack trace and the
+     * client's network stack trace.
+     * Useful for sending forms and other stuff that cant be sent right
+     * after closing inventory.
+     * 
+     * @param Closure|null $callback
+     * @return $this
+     */
+    public function then(?Closure $callback) : self
+    {
+        $this->post_transaction_callback = $callback;
+        return $this;
+    }
+
+    /**
+     * @return Closure|null
+     */
+    public function getPostTransactionCallback() : ?Closure
+    {
+        return $this->post_transaction_callback;
+    }
 }
