@@ -41,18 +41,18 @@ final class BlockInvMenuGraphic implements PositionedInvMenuGraphic
      */
     public function __construct(Block $block, Vector3 $position, ?InvMenuGraphicNetworkTranslator $network_translator = null)
     {
-		$this->block = $block;
-		$this->position = $position;
-		$this->network_translator = $network_translator;
-	}
+        $this->block = $block;
+        $this->position = $position;
+        $this->network_translator = $network_translator;
+    }
 
     /**
      * @return Vector3
      */
     public function getPosition() : Vector3
     {
-		return $this->position;
-	}
+        return $this->position;
+    }
 
     /**
      * @param Player $player
@@ -60,9 +60,9 @@ final class BlockInvMenuGraphic implements PositionedInvMenuGraphic
      */
     public function send(Player $player, ?string $name) : void
     {
-		$player->getNetworkSession()->sendDataPacket(UpdateBlockPacket::create($this->position->x, $this->position->y,
+        $player->getNetworkSession()->sendDataPacket(UpdateBlockPacket::create($this->position->x, $this->position->y,
             $this->position->z, RuntimeBlockMapping::getInstance()->toRuntimeId($this->block->getFullId())));
-	}
+    }
 
     /**
      * @param Player $player
@@ -71,31 +71,31 @@ final class BlockInvMenuGraphic implements PositionedInvMenuGraphic
      */
     public function sendInventory(Player $player, Inventory $inventory) : bool
     {
-		return $player->setCurrentWindow($inventory);
-	}
+        return $player->setCurrentWindow($inventory);
+    }
 
     /**
      * @param Player $player
      */
     public function remove(Player $player) : void
     {
-		$network = $player->getNetworkSession();
-		$world = $player->getWorld();
-		$runtime_block_mapping = RuntimeBlockMapping::getInstance();
-		$block = $world->getBlockAt($this->position->x, $this->position->y, $this->position->z);
-		$network->sendDataPacket(UpdateBlockPacket::create($this->position->x, $this->position->y, $this->position->z, $runtime_block_mapping->toRuntimeId($block->getFullId())), true);
+        $network = $player->getNetworkSession();
+        $world = $player->getWorld();
+        $runtime_block_mapping = RuntimeBlockMapping::getInstance();
+        $block = $world->getBlockAt($this->position->x, $this->position->y, $this->position->z);
+        $network->sendDataPacket(UpdateBlockPacket::create($this->position->x, $this->position->y, $this->position->z, $runtime_block_mapping->toRuntimeId($block->getFullId())), true);
 
-		$tile = $world->getTileAt($this->position->x, $this->position->y, $this->position->z);
-		if($tile instanceof Spawnable){
-			$network->sendDataPacket(BlockActorDataPacket::create($this->position->x, $this->position->y, $this->position->z, $tile->getSerializedSpawnCompound()), true);
-		}
-	}
+        $tile = $world->getTileAt($this->position->x, $this->position->y, $this->position->z);
+        if ($tile instanceof Spawnable) {
+            $network->sendDataPacket(BlockActorDataPacket::create($this->position->x, $this->position->y, $this->position->z, $tile->getSerializedSpawnCompound()), true);
+        }
+    }
 
     /**
      * @return InvMenuGraphicNetworkTranslator|null
      */
     public function getNetworkTranslator() : ?InvMenuGraphicNetworkTranslator
     {
-		return $this->network_translator;
-	}
+        return $this->network_translator;
+    }
 }
