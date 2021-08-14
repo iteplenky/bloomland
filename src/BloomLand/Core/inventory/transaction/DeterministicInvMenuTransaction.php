@@ -32,87 +32,87 @@ final class DeterministicInvMenuTransaction implements InvMenuTransaction
      */
     public function __construct(InvMenuTransaction $transaction, InvMenuTransactionResult $result)
     {
-		$this->inner = $transaction;
-		$this->result = $result;
-	}
+        $this->inner = $transaction;
+        $this->result = $result;
+    }
 
     /**
      * @return InvMenuTransactionResult
      */
     public function continue() : InvMenuTransactionResult
     {
-		throw new InvalidStateException("Cannot change state of deterministic transactions");
-	}
+        throw new InvalidStateException("Cannot change state of deterministic transactions");
+    }
 
     /**
      * @return InvMenuTransactionResult
      */
     public function discard() : InvMenuTransactionResult
     {
-		throw new InvalidStateException("Cannot change state of deterministic transactions");
-	}
+        throw new InvalidStateException("Cannot change state of deterministic transactions");
+    }
 
     /**
      * @param Closure|null $callback
      */
     public function then(?Closure $callback) : void
     {
-		$this->result->then($callback);
-	}
+        $this->result->then($callback);
+    }
 
     /**
      * @return Player
      */
     public function getPlayer() : Player
     {
-		return $this->inner->getPlayer();
-	}
+        return $this->inner->getPlayer();
+    }
 
     /**
      * @return Item
      */
     public function getOut() : Item
     {
-		return $this->inner->getOut();
-	}
+        return $this->inner->getOut();
+    }
 
     /**
      * @return Item
      */
     public function getIn() : Item
     {
-		return $this->inner->getIn();
-	}
+        return $this->inner->getIn();
+    }
 
     /**
      * @return Item
      */
     public function getItemClicked() : Item
     {
-		return $this->inner->getItemClicked();
-	}
+        return $this->inner->getItemClicked();
+    }
 
     /**
      * @return Item
      */
     public function getItemClickedWith() : Item
     {
-		return $this->inner->getItemClickedWith();
-	}
+        return $this->inner->getItemClickedWith();
+    }
 
     /**
      * @return SlotChangeAction
      */
     public function getAction() : SlotChangeAction
     {
-		return $this->inner->getAction();
-	}
+        return $this->inner->getAction();
+    }
 
     /**
      * @return InventoryTransaction
      */
     public function getTransaction() : InventoryTransaction
     {
-		return $this->inner->getTransaction();
-	}
+        return $this->inner->getTransaction();
+    }
 }
