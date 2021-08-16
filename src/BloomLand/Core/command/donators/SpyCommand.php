@@ -6,6 +6,7 @@ namespace BloomLand\Core\command\donators;
 
 use BloomLand\Core\command\BaseCommand;
 
+use JsonException;
 use pocketmine\player\Player;
 
 class SpyCommand extends BaseCommand
@@ -23,15 +24,11 @@ class SpyCommand extends BaseCommand
     /**
      * @param Player $player
      * @param array $args
+     * @throws JsonException
      */
     public function onExecute(Player $player, array $args) : void
     {
-        if ($player->isSpy()) {
-            $player->setSpy(false);
-            $player->sendMessage('Вы больше не следите за командами.');
-            return;
-        }
-        $player->setSpy();
-        $player->sendMessage('Вы следите за командами.');
+        $player->setSpy(!$player->isSpy());
+        $player->sendMessage('Вы ' . ($player->isSpy() ? 'следите' : 'больше не следите') . ' за командами.');
     }
 }
