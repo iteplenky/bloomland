@@ -17,7 +17,7 @@ class ClearInventoryCommand extends BaseCommand
      */
     public function __construct()
     {
-        parent::__construct('clearinventory', 'Очистить игровой инвентарь.', ['ci']);
+        parent::__construct('ci', 'Очистить игровой инвентарь.', ['clearinventory']);
         $this->setPermission('core.command.ci');
     }
 
@@ -40,7 +40,7 @@ class ClearInventoryCommand extends BaseCommand
         $player->getCursorInventory()->clearAll();
 
         if ($cleared > 0) {
-            $player->sendMessage('Было удалено ' . Utils::convertCase($cleared, ['предмет', 'предмета', 'предметов']) . ' в инвентаре.');
+            $player->sendMessage('Инвентарь очищен от ' . Utils::convertCase($cleared, ['предмета', 'предметов', 'предметов']) . ' в инвентаре.');
         } else {
             $player->sendMessage('Вы очистили пустой инвентарь.');
         }
