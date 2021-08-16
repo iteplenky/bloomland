@@ -5,6 +5,7 @@ namespace BloomLand\Core;
 
 
 use BloomLand\Core\controllers\Commands;
+use BloomLand\Core\controllers\Entities;
 use BloomLand\Core\controllers\Listeners;
 use BloomLand\Core\controllers\Permissions;
 use BloomLand\Core\controllers\Tasks;
@@ -53,6 +54,7 @@ class Core extends PluginBase
         $pluginManager->registerEvents(new Commands(), $this);
         $pluginManager->registerEvents(new Listeners(), $this);
         $pluginManager->registerEvents(new Tasks(), $this);
+        $pluginManager->registerEvents(new Entities(), $this);
     }
 
     private function loadProvider() : void
