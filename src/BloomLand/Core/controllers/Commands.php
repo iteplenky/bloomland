@@ -6,7 +6,9 @@ namespace BloomLand\Core\controllers;
 
 use BloomLand\Core\Core;
 
-use BloomLand\Core\command\defaults\{ListCommand,
+use BloomLand\Core\command\defaults\{
+    KitCommand,
+    ListCommand,
     CoinsCommand,
     SpawnCommand,
     AfkCommand,
@@ -16,7 +18,8 @@ use BloomLand\Core\command\defaults\{ListCommand,
     KillCommand,
     RenameCommand,
     CoordsCommand,
-    TrashCommand
+    TrashCommand,
+    XboxCommand
 };
 
 use BloomLand\Core\command\donators\{
@@ -28,7 +31,8 @@ use BloomLand\Core\command\donators\{
     SayCommand,
     RepairCommand,
     SizeCommand,
-    SpyCommand
+    SpyCommand,
+    VanishCommand
 };
 
 use pocketmine\event\Listener;
@@ -90,7 +94,10 @@ class Commands implements Listener
                 new SpyCommand(),
                 new KickCommand(),
                 new GodCommand(),
-                new TrashCommand()
+                new TrashCommand(),
+                new KitCommand(),
+                new XboxCommand(),
+                new VanishCommand()
             ]
         );
     }
