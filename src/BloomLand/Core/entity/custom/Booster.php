@@ -8,13 +8,13 @@ use BloomLand\Core\entity\NPCBase;
 
 use pocketmine\color\Color;
 use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\protocol\SpawnParticleEffectPacket;
 use pocketmine\player\Player;
 
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
 
 use pocketmine\world\particle\InstantEnchantParticle;
+use pocketmine\network\mcpe\protocol\SpawnParticleEffectPacket;
 
 class Booster extends NPCBase
 {
@@ -38,6 +38,7 @@ class Booster extends NPCBase
     {
         parent::__construct($location, $this->bakeGeometrySkin(), $nbt);
         $this->setScale(1.1);
+        $this->setImmobile();
     }
 
     /**
@@ -46,17 +47,17 @@ class Booster extends NPCBase
      */
     public function onUpdate(int $currentTick) : bool
     {
-        $x = $this->getLocation()->getFloorX();
-        $y = $this->getLocation()->getFloorY();
-        $z = $this->getLocation()->getFloorZ();
+        $x = $this->getLocation()->getX();
+        $y = $this->getLocation()->getY();
+        $z = $this->getLocation()->getZ();
 
         if (time() >= $this->getParticleData()) {
             $this->setParticleData(time() + $this->getParticleSleep());
 
             for ($i = 0; $i < 5; $i++) {
                 $pk = new SpawnParticleEffectPacket();
-
                 $vector = new Vector3($x + mt_rand(-2.5, 2.5), $y + mt_rand(0, 2.5), $z + mt_rand(-2.5, 2.5));
+
                 $pk->position = $vector;
                 $pk->particleName = 'minecraft:dragon_breath_trail';
 
@@ -64,19 +65,11 @@ class Booster extends NPCBase
             }
         } else {
             $vector = new Vector3($x + mt_rand(-1.5, 1.5), $y + mt_rand(0, 1.5), $z + mt_rand(-1.5, 1.5));
-            $particle = new InstantEnchantParticle(new Color(255, 255, 153));
+            $particle = new InstantEnchantParticle(new Color(246, 188, 0));
 
             $this->getLocation()->getWorld()->addParticle($vector, $particle);
         }
         return parent::onUpdate($currentTick);
-    }
-
-    /**
-     * @param Player $player
-     */
-    public function onCollideWithPlayer(Player $player) : void
-    {
-        $player->sendMessage('oops');
     }
 
     public function onTouch(Player $player) : void
@@ -111,17 +104,17 @@ class Booster extends NPCBase
     /**
      * @var string
      */
-    private string $geometryId = 'sword';
-    
+    private string $geometryId = 'booster';
+
     /**
      * @var string
      */
-    private string $geometryName = 'sword';
-    
+    private string $geometryName = 'booster';
+
     /**
      * @var string
      */
-    private string $pngName = 'sword_compact';
+    private string $pngName = 'booster';
 
     /**
      * @return int
