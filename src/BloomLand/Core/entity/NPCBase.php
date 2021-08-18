@@ -13,26 +13,10 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
+use pocketmine\scheduler\ClosureTask;
 
 class NPCBase extends Human
 {
-
-    private const NPC_SKIN_FOLDER = 'geometry' . DIRECTORY_SEPARATOR;
-
-    /**
-     * @var string
-     */
-    private string $pngName = '';
-
-    /**
-     * @var string
-     */
-    private string $geometryName = '';
-
-    /**
-     * @var string
-     */
-    private string $geometryId = '';
 
     /**
      * NPCBase constructor.
@@ -43,8 +27,13 @@ class NPCBase extends Human
     public function __construct(Location $location, Skin $skin, ?CompoundTag $nbt = null)
     {
         parent::__construct($location, $skin, $nbt);
+        $this->teleport($this->getLocation()->asVector3()->add(0.5, 0.0, 0.5));
     }
 
+    /**
+     * @param string $string
+     * @return string
+     */
     public function getSkinImageFromString(string $string) : string
     {
         $img = imagecreatefromstring($string);
@@ -79,6 +68,8 @@ class NPCBase extends Human
         return $this->getSkinImageFromString($pngContent);
     }
 
+    private const NPC_SKIN_FOLDER = 'geometry' . DIRECTORY_SEPARATOR;
+
     /**
      * @return Skin
      */
@@ -93,11 +84,17 @@ class NPCBase extends Human
         return new Skin($this->getName(), $skinImage, '', 'geometry.' . $this->getGeometryId(), $geometryData);
     }
 
+    /**
+     * @param Player $player
+     */
     public function onTouch(Player $player) : void
     {
         // Clear interact with entity.
     }
 
+    /**
+     * @param EntityDamageEvent $source
+     */
     public function attack(EntityDamageEvent $source) : void
     {
         if ($source instanceof EntityDamageByEntityEvent) {
@@ -110,6 +107,56 @@ class NPCBase extends Human
     }
 
     /**
+     * @var array
+     */
+    private array $hiddenPlayers = [];
+
+    /**
+     * @param Player $player
+     */
+    public function onCollideWithPlayer(Player $player) : void
+    {
+        if (isset($this->hiddenPlayers[$player->getName()])) {
+            $handler = $this->getPlugin()->getScheduler()->scheduleRepeatingTask(
+                new ClosureTask(function () use ($player, &$handler) : void
+                {
+                    if ($player->isOnline()) {
+                        $distance = $player->getLocation()->distance($this->getLocation()->asVector3());
+                        if (
+                            $player->isFlying() && $player->getInAirTicks() > 20 &&
+                            $distance > $this->getInitialSizeInfo()->getWidth() * 3.2
+                            ||
+                            $player->isOnGround() && $distance > $this->getInitialSizeInfo()->getWidth() * 3.2) {
+                            if (isset($this->hiddenPlayers[$player->getName()])) {
+                                unset ($this->hiddenPlayers[$player->getName()]);
+                                $handler->cancel();
+
+                                $player->sendMessage('§7Теперь тебя видно.');
+                            } else {
+                                $handler->cancel();
+                            }
+                        }
+                    } else {
+                        $handler->cancel();
+                        unset ($this->hiddenPlayers[$player->getName()]);
+                    }
+                }), 10
+            );
+        } else {
+            if ($player->isFlying()) {
+                return;
+            }
+            $player->sendMessage('§7Тебя не видно. §8[Ты в скрытой зоне]');
+            $this->hiddenPlayers[$player->getName()] = true;
+        }
+    }
+
+    /**
+     * @var string
+     */
+    private string $geometryId = '';
+
+    /**
      * @return string
      */
     public function getGeometryId() : string
@@ -118,12 +165,22 @@ class NPCBase extends Human
     }
 
     /**
+     * @var string
+     */
+    private string $geometryName = '';
+
+    /**
      * @return string
      */
     public function getGeometryName() : string
     {
         return $this->geometryName;
     }
+
+    /**
+     * @var string
+     */
+    private string $pngName = '';
 
     /**
      * @return string
@@ -170,6 +227,14 @@ class NPCBase extends Human
      * @return bool
      */
     public function canBreathe() : bool
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFireProof() : bool
     {
         return true;
     }
