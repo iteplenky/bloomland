@@ -8,6 +8,7 @@ use BloomLand\Core\entity\NPCBase;
 
 use pocketmine\color\Color;
 use pocketmine\math\Vector3;
+
 use pocketmine\player\Player;
 
 use pocketmine\entity\Location;
@@ -38,7 +39,6 @@ class Booster extends NPCBase
     {
         parent::__construct($location, $this->bakeGeometrySkin(), $nbt);
         $this->setScale(1.1);
-        $this->setImmobile();
     }
 
     /**
@@ -78,12 +78,22 @@ class Booster extends NPCBase
     }
 
     /**
+     * @var string
+     */
+    private string $geometryId = 'booster';
+
+    /**
      * @return string
      */
     public function getGeometryId() : string
     {
         return $this->geometryId;
     }
+
+    /**
+     * @var string
+     */
+    private string $geometryName = 'booster';
 
     /**
      * @return string
@@ -94,27 +104,17 @@ class Booster extends NPCBase
     }
 
     /**
+     * @var string
+     */
+    private string $pngName = 'booster';
+
+    /**
      * @return string
      */
     public function getPngName() : string
     {
         return $this->pngName;
     }
-
-    /**
-     * @var string
-     */
-    private string $geometryId = 'booster';
-
-    /**
-     * @var string
-     */
-    private string $geometryName = 'booster';
-
-    /**
-     * @var string
-     */
-    private string $pngName = 'booster';
 
     /**
      * @return int
