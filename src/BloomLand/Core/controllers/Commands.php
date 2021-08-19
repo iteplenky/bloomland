@@ -23,18 +23,27 @@ use BloomLand\Core\command\defaults\{
 };
 
 use BloomLand\Core\command\donators\{
+    BlockTopCommand,
     ClearInventoryCommand,
+    ExtinguishCommand,
     FlyCommand,
     GodCommand,
     HealCommand,
     KickCommand,
+    MilkCommand,
+    NightVisionCommand,
+    OffDropCommand,
     SayCommand,
     RepairCommand,
     SizeCommand,
+    SkinCommand,
+    SpeedCommand,
     SpyCommand,
-    VanishCommand
+    VanishCommand,
+    VanishListCommand
 };
 
+use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\event\Listener;
 
 use pocketmine\console\ConsoleCommandSender;
@@ -99,7 +108,15 @@ class Commands implements Listener
                 new TrashCommand(),
                 new KitCommand(),
                 new XboxCommand(),
-                new VanishCommand()
+                new VanishCommand(),
+                new BlockTopCommand(),
+                new ExtinguishCommand(),
+                new MilkCommand(),
+                new NightVisionCommand(),
+                new OffDropCommand(),
+                new SkinCommand(),
+                new SpeedCommand(),
+                new VanishListCommand()
             ]
         );
     }
@@ -110,7 +127,36 @@ class Commands implements Listener
             'list',
             'say',
             'kill',
-            'kick'
+            'kick',
+            'ban',
+            'ban-ip',
+            'banlist',
+            'clear',
+            'defaultgamemode',
+            'deop',
+            'difficulty',
+            'dumpmemory',
+            'effect',
+            'enchant',
+            'extractplugin',
+            'gc',
+            'genplugin',
+            'makeplugin',
+            'me',
+            'op',
+            'pardon',
+            'pardon-ip',
+            'particle',
+            'seed',
+            'setworldspawn',
+            'spawnpoint',
+            'status',
+            'stop',
+            'tell',
+            'title',
+            'transferserver',
+            'version',
+            'whitelist'
         ];
 
         $map = $this->getPlugin()->getServer()->getCommandMap();
@@ -166,6 +212,20 @@ class Commands implements Listener
                 if ($players->isSpy() && $players->getId() != $player->getId()) {
                     $players->sendMessage('§7(§2Слежка§7) §3' . $player->getName() . '§r ввел: §b/' . $event->getCommand());
                 }
+            }
+        }
+    }
+
+    /**
+     * @param InventoryPickupItemEvent $event
+     */
+    public function handlePickUp(InventoryPickupItemEvent $event) : void
+    {
+        $players = $event->getInventory()->getViewers();
+
+        foreach ($players as $player) {
+            if ($player->isOffDrop()) {
+                $event->cancel();
             }
         }
     }
