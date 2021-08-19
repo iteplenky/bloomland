@@ -11,9 +11,7 @@ use BloomLand\Core\listener\PlayerListener;
 use BloomLand\Core\listener\ItemLimitListener;
 use BloomLand\Core\listener\CombatListener;
 
-use pocketmine\event\Listener;
-
-class Listeners implements Listener
+class Listeners
 {
 
     private Core $plugin;

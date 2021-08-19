@@ -57,6 +57,8 @@ class Commands implements Listener
     {
         $this->plugin = Core::getInstance();
 
+        $this->getPlugin()->getServer()->getPluginManager()->registerEvents($this, $this->getPlugin());
+
         $this->unregisterCommands();
         $this->registerCommands();
     }

@@ -8,8 +8,6 @@ use BloomLand\Core\Core;
 
 use BloomLand\Core\entity\NPCBase;
 
-use pocketmine\event\Listener;
-
 use pocketmine\data\bedrock\EntityLegacyIds;
 
 use pocketmine\entity\EntityFactory;
@@ -18,7 +16,7 @@ use pocketmine\entity\EntityDataHelper;
 use pocketmine\world\World;
 use pocketmine\nbt\tag\CompoundTag;
 
-class Entities implements Listener
+class Entities
 {
 
     private Core $plugin;

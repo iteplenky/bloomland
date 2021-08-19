@@ -9,9 +9,7 @@ use BloomLand\Core\Core;
 use BloomLand\Core\task\BroadcasterTask;
 use BloomLand\Core\task\ReloadingTask;
 
-use pocketmine\event\Listener;
-
-class Tasks implements Listener
+class Tasks
 {
 
     private Core $plugin;
