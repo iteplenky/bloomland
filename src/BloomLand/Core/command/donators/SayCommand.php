@@ -30,6 +30,7 @@ class SayCommand extends BaseCommand
             $player->sendMessage('Чтобы §bоповестить всех§r, используйте: /say <§bтекст§r>');
             return;
         }
-        $this->getPlugin()->getServer()->broadcastMessage(' §l§c? §r> Игрок §b' . $player->getName() . ' §rвещает: §6' . implode(' ', $args));
+        $this->getPlugin()->getServer()->broadcastMessage(' §l§c? §r> Игрок §b' . $player->getName() .
+            ' §rвещает: §6' . implode(' ', $args));
     }
 }

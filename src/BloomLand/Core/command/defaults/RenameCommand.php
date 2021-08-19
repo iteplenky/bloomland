@@ -28,20 +28,20 @@ class RenameCommand extends BaseCommand
     {
         $heldItem = $player->getInventory()->getItemInHand();
 
-        if ($heldItem->getId() == 0) {
-            $player->sendMessage('Чтобы §bпереименовать предмет §rнужно взять его §bв руку§r.');
+        if (!isset($args[0])) {
+            $player->sendMessage('Чтобы §bпереименовать предмет§r, используйте: /rename <§bназвание§r>');
             return;
         }
 
-        if (!isset($args[0])) {
-            $player->sendMessage('Чтобы §bпереименовать предмет §rнужно указать его §bновое название§r.');
+        if ($heldItem->getId() == 0) {
+            $player->sendMessage('Чтобы §bпереименовать предмет §rнужно взять его §bв руку§r.');
             return;
         }
 
         $name = implode(' ', $args);
 
         if (strlen($name) > 12) {
-            $player->sendMessage('Название предмета уж §bслишком велико§r.');
+            $player->sendMessage('Название предмета §bслишком длинное§r.');
             return;
         }
 

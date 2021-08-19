@@ -27,6 +27,7 @@ class TrashCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
+        $player->sendTitle('§l§7открывается§8..', '', 5, 10, 5);
         InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST)->setName('Мусорное ведро')->send($player);
     }
 }

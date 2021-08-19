@@ -27,6 +27,6 @@ class SpawnCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         $player->teleport($player->getWorld()->getSpawnLocation());
-        $player->sendMessage($this->getPrefix() . 'Вы §bтелепортировались на спавн§r.');
+        $player->sendMessage('Вы §bтелепортировались §rна спавн.');
     }
 }

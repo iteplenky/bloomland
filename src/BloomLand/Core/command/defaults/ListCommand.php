@@ -36,6 +36,6 @@ class ListCommand extends BaseCommand
         }, $players);
 
         $player->sendMessage($this->getPrefix() . 'Сейчас играет: §b' . $nowPlaying . ' §rиз §b' . $slots . '§r.'
-            .  ' Список: ' . implode('§r' . '§7, §r', $playerNames) . '§r.');
+            .  ' Список: ' . implode('§7, §r', $playerNames) . '§r.');
     }
 }

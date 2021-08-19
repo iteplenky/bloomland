@@ -28,6 +28,6 @@ class KillCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         $player->attack(new EntityDamageEvent($player, EntityDamageEvent::CAUSE_SUICIDE, 1000));
-        $player->sendMessage('Вы совершили §bсамоубийство§r.');
+        $player->sendMessage('§cВы совершили самоубийство.');
     }
 }

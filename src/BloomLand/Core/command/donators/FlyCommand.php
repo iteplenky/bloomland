@@ -32,7 +32,7 @@ class FlyCommand extends BaseCommand
                 $player->setAllowFlight(false);
                 $player->setFlying(false);
 
-                $player->sendMessage('Вы больше §bне летаете§r.');
+                $player->sendMessage('Вы §bне летаете§r.');
 
             } else {
 

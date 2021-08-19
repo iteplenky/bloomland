@@ -17,7 +17,7 @@ class VanishCommand extends BaseCommand
     public function __construct()
     {
         parent::__construct('v', 'Спрятаться от всех игроков.', ['vanish']);
-        $this->setPermission('core.command.vanish');
+        $this->setPermission('core.command.v');
     }
 
     /**

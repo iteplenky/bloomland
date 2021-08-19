@@ -34,7 +34,7 @@ class AfkCommand extends BaseCommand
     {
         if ($player->isAfk()) {
             $player->setAfk(false);
-            $player->sendMessage($this->getPrefix() . 'Вы §bвышли §rиз режима ожидания.');
+            $player->sendMessage('§cВы вышли из режима ожидания.');
         } else {
             $player->setAfk();
 
@@ -47,7 +47,7 @@ class AfkCommand extends BaseCommand
                 } else {
                     if ($player->isOnline()) {
                         $player->setScoreTag('');
-                        $player->sendMessage($this->getPrefix() . 'Вы §bвышли §rиз режима ожидания.');
+                        $player->sendMessage('§cВы вышли из режима ожидания.');
                     }
                     $player->setAfk(false);
                     $handler->cancel();
@@ -55,8 +55,9 @@ class AfkCommand extends BaseCommand
                 }
             }), 10);
 
-            $player->sendMessage($this->getPrefix() . 'Вы §bвошли §rв режим ожидания.');
+            $player->sendMessage('§aВы вошли в режим ожидания.');
         }
+        $player->sendTitle('§l§bAFK', '', 5, 10, 5);
     }
 
     /**

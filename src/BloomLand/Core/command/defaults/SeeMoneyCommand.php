@@ -39,7 +39,8 @@ class SeeMoneyCommand extends BaseCommand
             return;
         }
 
-        $player->sendMessage('Игровой баланс игрока §b' . $target->getName() . ' §r> §e' . Economy::getCoins($target->getLowerCaseName()) . ' §rмонет.');
+        $player->sendMessage('Игровой баланс игрока §b' . $target->getName() . ' §r> §e' .
+            Economy::getCoins($target->getLowerCaseName()) . ' §rмонет.');
         $target->sendMessage('Игрок §b' . $player->getName() . ' §rпросмотрел Ваш игровой баланс.');
     }
 }

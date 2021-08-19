@@ -6,6 +6,7 @@ namespace BloomLand\Core\command\donators;
 
 use BloomLand\Core\command\BaseCommand;
 
+use BloomLand\Core\entity\custom\Booster;
 use JsonException;
 use pocketmine\player\Player;
 
@@ -28,7 +29,9 @@ class SpyCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-        $player->setSpy(!$player->isSpy());
-        $player->sendMessage('Вы §b' . ($player->isSpy() ? 'следите' : 'больше не следите') . ' §rза командами.');
+        $e = new Booster($player->getLocation());
+        $e->spawnTo($player);
+//        $player->setSpy(!$player->isSpy());
+//        $player->sendMessage('Вы §b' . ($player->isSpy() ? 'следите' : 'больше не следите') . ' §rза командами.');
     }
 }

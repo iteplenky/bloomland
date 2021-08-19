@@ -29,7 +29,7 @@ class PayCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         if (!isset($args[1])) {
-            $player->sendMessage('Используйте: /pay <игрок> <сумма>');
+            $player->sendMessage('Чтобы §bподелиться§r монетами, используйте: /pay <§bигрок§r> <§bсумма§r>');
             return;
         }
 
@@ -37,29 +37,32 @@ class PayCommand extends BaseCommand
         $amount = array_shift($args);
 
         if (!($target = $this->getPlugin()->getServer()->getPlayerByPrefix($target)) instanceof Player) {
-            $player->sendMessage('Игрок не в сети.');
+            $player->sendMessage('Игрок сейчас §cне в игре§r.');
             return;
         }
 
         if (!ctype_digit($amount)) {
-            $player->sendMessage('Вы указали: ' . $amount . ', но это не похоже на целое число.');
+            $player->sendMessage('Вы указали: §b' . $amount . '§r, но это §bне похоже §rна целое число.');
             return;
         }
 
         if ($amount < 1 || $amount > 10000000) {
-            $player->sendMessage('Ваша сумма перевода не в рамках установленных границ. Интервал от 1 до 1.000.000 монет.');
+            $player->sendMessage('§rВаша сумма перевода не в рамках §bустановленных границ§r. Интервал от §b1 §rдо §b1§r.§b000§r.§b000 §rмонет.');
             return;
         }
 
         if ($amount > Economy::getCoins($player->getLowerCaseName())) {
-            $player->sendMessage('У Вас нет столько монет чтобы поделиться.');
+            $player->sendMessage('§cУ Вас нет столько монет чтобы поделиться.');
             return;
         }
 
         Economy::removeCoins($player->getLowerCaseName(), $amount);
         Economy::addCoins($target->getLowerCaseName(), $amount);
 
-        $player->sendMessage('Вы перевели ' . Utils::convertCase($amount, ['монету', 'монеты', 'монет']) . ' игроку ' . $target->getName() . '.');
-        $target->sendMessage('Игрок ' . $player->getName() . ' перевел ' . Utils::convertCase($amount, ['монету', 'монеты', 'монет']));
+        $player->sendMessage('Вы перевели §b' . Utils::convertCase($amount, ['монету', 'монеты', 'монет']) .
+            ' §rигроку §b' . $target->getName() . '§r.');
+        $target->sendMessage('Игрок §b' . $player->getName() . ' §rперевел §rВам §b' . Utils::convertCase($amount,
+                ['монету', 'монеты', 'монет']) . '§r.');
+
     }
 }
