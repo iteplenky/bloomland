@@ -25,4 +25,26 @@ class Utils
 
         return $number . ' ' . $tag . $after[($number % 100 > 4 && $number % 100 < 20) ? 2 : $cases[min($number % 10, 5)]];
     }
+
+    /**
+     * @param int $ping
+     * @return string
+     */
+    public static function pingToStatus(int $ping) : string
+    {
+        if ($ping < 60) {
+            $status = ' §aОтличный';
+        }
+        elseif ($ping < 140) {
+            $status = ' §cХороший';
+        }
+        elseif ($ping < 250) {
+            $status = ' §eНестабильный';
+        }
+        elseif ($ping < 400) {
+            $status = ' §cПлохой';
+        }
+        /** @var $status */
+        return $status;
+    }
 }
