@@ -43,6 +43,8 @@ use BloomLand\Core\command\donators\{
     VanishListCommand
 };
 
+use BloomLand\Core\command\admin\RestartCommand;
+
 use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\event\Listener;
 
@@ -116,7 +118,8 @@ class Commands implements Listener
                 new OffDropCommand(),
                 new SkinCommand(),
                 new SpeedCommand(),
-                new VanishListCommand()
+                new VanishListCommand(),
+                new RestartCommand()
             ]
         );
     }
