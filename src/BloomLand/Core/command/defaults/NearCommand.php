@@ -26,15 +26,6 @@ class NearCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-//        foreach ($player->getWorld()->getPlayers() as $level_player) {
-//            if ($nearest_player === null) {
-//                $nearest_player = $level_player;
-//                $name = $level_player->getName();
-//                $player->sendMessage("§aВаш ближайший игрок: $name");
-//            } elseif($player->getLocation()->distance($level_player) < $player->getLocation()->distance($nearest_player)) {
-//                $nearest_player = $level_player;
-//                $player->sendMessage("§aВаш ближайший игрок: $nearest_player->getName()");
-//            }
-//        }
+        // todo.
     }
 }
