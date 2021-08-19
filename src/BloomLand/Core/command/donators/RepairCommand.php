@@ -31,18 +31,18 @@ class RepairCommand extends BaseCommand
         $item = $heldItem->getId();
 
         if ($item == 0) {
-            $player->sendMessage('Чтобы восстановить предмет нужно взять его в руку.');
+            $player->sendMessage('Чтобы §bвосстановить предмет §rнужно взять его в руку.');
             return;
         }
 
         if (!$heldItem instanceof Durable) {
-            $player->sendMessage('Вы уверены в том, что этот предмет можно починить?');
+            $player->sendMessage('Вы §bуверены в том§r, что этот предмет можно §bпочинить§r?');
             return;
         }
 
         $heldItem->setDamage(0);
 
         $player->getInventory()->setItemInHand($heldItem);
-        $player->sendMessage('Предмет в руке восстановлен.');
+        $player->sendMessage('Предмет в руке §bвосстановлен§r.');
     }
 }

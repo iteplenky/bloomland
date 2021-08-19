@@ -29,6 +29,6 @@ class HealCommand extends BaseCommand
         $player->setHealth($player->getMaxHealth());
         $player->getHungerManager()->setFood($player->getHungerManager()->getMaxFood());
 
-        $player->sendMessage('Вы восстановили свои параметры.');
+        $player->sendMessage('Вы §bвосстановили §rсвои параметры.');
     }
 }

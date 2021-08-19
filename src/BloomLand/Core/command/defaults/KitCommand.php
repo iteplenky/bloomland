@@ -39,8 +39,8 @@ class KitCommand extends BaseCommand
                     $player->getWorld()->dropItem($player->getEyePos(), $item);
                 }
             }
-            $player->sendTitle('§lНАБОР', 'Для начала игры получен!', 10, 25, 10);
-            $player->sendMessage('Вы получили набор. Следующий раз когда можно будет взять повторно: через 1 день.');
+            $player->sendTitle('§b§lНАБОР', 'Для начала игры получен!', 10, 25, 10);
+            $player->sendMessage('Вы получили §bнабор§r. Следующий раз когда можно будет взять повторно: через §b1 день§r.');
         }
     }
 }

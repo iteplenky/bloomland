@@ -68,7 +68,7 @@ class CombatListener implements Listener
             }
 
             if ($player->isFighting()) {
-                $player->sendMessage('Вы не можете использовать команды во время сражения.');
+                $player->sendMessage('Вы не можете использовать команды §bво время сражения§r.');
                 $event->cancel();
             }
         }
@@ -92,22 +92,22 @@ class CombatListener implements Listener
                     return;
                 }
                 if ($damager->isFlying() || $damager->getAllowFlight() && $damager->isSurvival()) {
-                    $damager->sendMessage('Вы в режиме полета.');
+                    $damager->sendMessage('Вы в §bрежиме полета§r.');
                     $event->cancel();
                     return;
                 }
                 if ($entity->isFlying() || $entity->getAllowFlight() && $entity->isSurvival()) {
-                    $damager->sendMessage('Игрок ' . $entity->getName() . ' в режиме полета.');
+                    $damager->sendMessage('Игрок §b' . $entity->getName() . ' §rв режиме полета.');
                     $event->cancel();
                     return;
                 }
                 if ($damager->isGod()) {
-                    $damager->sendMessage('Вы в режиме бессмертия.');
+                    $damager->sendMessage('Вы в §bрежиме бессмертия§r.');
                     $event->cancel();
                     return;
                 }
                 if ($entity->isGod()) {
-                    $damager->sendMessage('Игрок ' . $entity->getName() . ' в режиме бессмертия.');
+                    $damager->sendMessage('Игрок §b' . $entity->getName() . ' §rв режиме бессмертия.');
                     $event->cancel();
                     return;
                 }
@@ -116,11 +116,11 @@ class CombatListener implements Listener
                     return;
                 }
                 if (!$damager->isFighting()) {
-                    $damager->sendMessage('Вы в режиме сражения. Если Вы покинете игру, то погибните.');
-                    $damager->sendMessage('Ваш соперник играет с ' . $entity->getDevice() . '.');
+                    $damager->sendMessage('Вы в §bрежиме сражения§r. Если Вы §cпокинете игру§r, §cто погибните§r.');
+                    $damager->sendMessage('Ваш соперник играет с §b' . $entity->getDevice() . '§r.');
                 }
                 if (!$entity->isFighting()) {
-                    $entity->sendMessage('Вы в режиме сражения. Если Вы покинете игру, то погибните.');
+                    $damager->sendMessage('Вы в §bрежиме сражения§r. Если Вы §cпокинете игру§r, §cто погибните§r.');
                     $entity->sendMessage('Ваш соперник играет с §b' . $damager->getDevice() . '§r.');
                 }
 
@@ -140,7 +140,7 @@ class CombatListener implements Listener
         $entity = $event->getEntity();
 
         if ($entity instanceof Player && $entity->isFighting()) {
-            $entity->sendMessage('Вас кто-то пытался телепортировать во время сражения.');
+            $entity->sendMessage('Вас кто-то пытался §bтелепортировать во время сражения§r.');
             $event->cancel();
         }
     }

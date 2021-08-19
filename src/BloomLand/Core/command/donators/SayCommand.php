@@ -27,9 +27,9 @@ class SayCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         if (!isset($args[0])) {
-            $player->sendMessage('Чтобы оповестить всех, используйте: /say <текст>');
+            $player->sendMessage('Чтобы §bоповестить всех§r, используйте: /say <§bтекст§r>');
             return;
         }
-        $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' вещает: ' . implode(' ', $args));
+        $this->getPlugin()->getServer()->broadcastMessage(' §l§c? §r> Игрок §b' . $player->getName() . ' §rвещает: §6' . implode(' ', $args));
     }
 }

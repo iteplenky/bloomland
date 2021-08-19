@@ -29,6 +29,6 @@ class SpyCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         $player->setSpy(!$player->isSpy());
-        $player->sendMessage('Вы ' . ($player->isSpy() ? 'следите' : 'больше не следите') . ' за командами.');
+        $player->sendMessage('Вы §b' . ($player->isSpy() ? 'следите' : 'больше не следите') . ' §rза командами.');
     }
 }

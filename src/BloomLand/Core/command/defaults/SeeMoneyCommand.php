@@ -28,18 +28,18 @@ class SeeMoneyCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         if (!isset($args[0])) {
-            $player->sendMessage('Используйте: /seemoney <игрок>');
+            $player->sendMessage('Чтобы §bпосмотреть §rчужой баланс, используйте: /seemoney <§bигрок§r>');
             return;
         }
 
         $target = array_shift($args);
 
         if (!($target = $this->getPlugin()->getServer()->getPlayerByPrefix($target)) instanceof Player) {
-            $player->sendMessage('Игрок не в сети.');
+            $player->sendMessage('Игрок сейчас §cне в игре§r.');
             return;
         }
 
-        $player->sendMessage('Игровой баланс игрока ' . $target->getName() . ' > ' . Economy::getCoins($target->getLowerCaseName()) . ' монет.');
-        $target->sendMessage('Игрок ' . $player->getName() . ' просмотрел Ваш игровой баланс.');
+        $player->sendMessage('Игровой баланс игрока §b' . $target->getName() . ' §r> §e' . Economy::getCoins($target->getLowerCaseName()) . ' §rмонет.');
+        $target->sendMessage('Игрок §b' . $player->getName() . ' §rпросмотрел Ваш игровой баланс.');
     }
 }

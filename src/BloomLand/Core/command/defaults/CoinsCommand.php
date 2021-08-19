@@ -27,6 +27,6 @@ class CoinsCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-        $player->sendMessage($this->getPrefix() . 'Ваш баланс: ' . Economy::getCoins($player->getLowerCaseName()) . ' монет.');
+        $player->sendMessage($this->getPrefix() . 'Ваш баланс: §e' . Economy::getCoins($player->getLowerCaseName()) . ' §rмонет.');
     }
 }

@@ -40,9 +40,9 @@ class ClearInventoryCommand extends BaseCommand
         $player->getCursorInventory()->clearAll();
 
         if ($cleared > 0) {
-            $player->sendMessage('Инвентарь очищен от ' . Utils::convertCase($cleared, ['предмета', 'предметов', 'предметов']) . ' в инвентаре.');
+            $player->sendMessage('Инвентарь очищен от §b' . Utils::convertCase($cleared, ['предмета', 'предметов', 'предметов']) . ' §rв инвентаре.');
         } else {
-            $player->sendMessage('Вы очистили пустой инвентарь.');
+            $player->sendMessage('Вы очистили §bпустой §rинвентарь.');
         }
     }
 }

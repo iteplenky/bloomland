@@ -27,6 +27,6 @@ class VanishCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         $player->setInvisible(!$player->isInvisible());
-        $player->sendMessage('Вы ' . ($player->isInvisible() ? 'включили' : 'выключили') . ' режим невидимости.');
+        $player->sendMessage('Вы §b' . ($player->isInvisible() ? 'включили' : 'выключили') . ' §rрежим невидимости.');
     }
 }

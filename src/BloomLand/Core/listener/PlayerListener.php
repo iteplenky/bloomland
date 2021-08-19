@@ -11,6 +11,7 @@ use BloomLand\Core\chat\ChatManager;
 
 use BloomLand\Core\scoreboard\ScoreboardFactory;
 
+use BloomLand\Core\utils\Utils;
 use pocketmine\event\Listener;
 
 use pocketmine\event\entity\{
@@ -120,14 +121,17 @@ class PlayerListener implements Listener
         $event->setJoinMessage('');
 
         $player = $event->getPlayer();
-
         $device = $this->devices[$player->getLowerCaseName()];
 
         $player->joined($device);
 
-        $player->sendMessage('Добро пожаловать на сервер!');
+        $ping = $player->getNetworkSession()->getPing();
+        $status = Utils::pingToStatus($ping);
 
-        $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() . ' присоединился.');
+        $player->sendMessage(PHP_EOL . ' §r> Добро пожаловать на сервер: §bBloom§fLand §rBedrock 1.18');
+        $player->sendMessage(PHP_EOL . ' §r> Ваш статус подключения: ' . $status . ' §8(§7' . $ping . '§8)' . PHP_EOL . ' ');
+
+        $this->getPlugin()->getServer()->broadcastPopup(' §f[§b+§f] §f' . $player->getName());
     }
 
     /**
@@ -140,7 +144,7 @@ class PlayerListener implements Listener
 
         if (!$player->hasPermission('core.chat.bypass')) {
             if (time() - $player->getLastChatTime() <= self::CHAT_FLOOD_TIME) {
-                $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы отправляете сообщения слишком часто.');
+                $player->sendMessage($this->getPlugin()->getPrefix() . 'Вы отправляете сообщения §bслишком часто§r.');
                 $event->cancel();
                 return;
             }

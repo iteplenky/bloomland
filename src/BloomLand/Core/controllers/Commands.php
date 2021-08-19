@@ -156,15 +156,15 @@ class Commands implements Listener
         }
 
         if ($event->isCancelled()) {
-            $player->sendMessage('Использование команды ограничено для использования.');
+            $player->sendMessage('Использование команды §cограничено для использования§r.');
             return;
         }
 
         if ($player instanceof Player) {
-            $this->getPlugin()->getLogger()->info('> ' . $player->getName() . ': /' . $event->getCommand());
+            $this->getPlugin()->getLogger()->info('> §3' . $player->getName() . '§r: /§b' . $event->getCommand());
             foreach ($this->getPlugin()->getServer()->getOnlinePlayers() as $players) {
                 if ($players->isSpy() && $players->getId() != $player->getId()) {
-                    $players->sendMessage('(Слежка) ' . $player->getName() . ' ввел: /' . $event->getCommand());
+                    $players->sendMessage('§7(§2Слежка§7) §3' . $player->getName() . '§r ввел: §b/' . $event->getCommand());
                 }
             }
         }

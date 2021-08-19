@@ -28,14 +28,14 @@ class XboxCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         if (!isset($args[0])) {
-            $player->sendMessage('Используйте: /xbox <игрок>');
+            $player->sendMessage('Чтобы §bпросмотреть аккаунт XBOX§r, используйте: /xbox <§bигрок§r>');
             return;
         }
 
         $target = array_shift($args);
 
         if (!($target = $this->getPlugin()->getServer()->getPlayerByPrefix($target)) instanceof Player) {
-            $player->sendMessage('Игрок не в сети.');
+            $player->sendMessage('Игрок сейчас §cне в игре§r.');
             return;
         }
 

@@ -32,18 +32,18 @@ class FlyCommand extends BaseCommand
                 $player->setAllowFlight(false);
                 $player->setFlying(false);
 
-                $player->sendMessage('Вы выключили режим полета.');
+                $player->sendMessage('Вы больше §bне летаете§r.');
 
             } else {
 
                 $player->setAllowFlight(true);
                 $player->setFlying(true);
 
-                $player->sendMessage('Вы включили режим полета.');
+                $player->sendMessage('Вы §bтеперь летаете§r.');
 
             }
         } else {
-            $player->sendMessage('Вы не можете управлять режимом полета во время Творческого режима.');
+            $player->sendMessage('Вы не можете §bуправлять §rрежимом полета во время §bТворческого режима§r.');
         }
     }
 }

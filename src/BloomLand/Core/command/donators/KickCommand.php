@@ -27,28 +27,32 @@ class KickCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         if (empty($args[0])) {
-            $player->sendMessage('Чтобы выгнать нарушителя используйте: /kick <"ник игрока"> <причина>');
+            $player->sendMessage(
+                'Чтобы §bвыгнать нарушителя, §rиспользуйте: /kick §r<§7"§bник игрока§7"§r> §r<§eпричина§r>'
+            );
             return;
         }
 
         $name = array_shift($args);
 
         if (!($intruder = $this->getPlugin()->getServer()->getPlayerByPrefix($name)) instanceof Player) {
-            $player->sendMessage('Игрок не в сети.');
+            $player->sendMessage('Игрок сейчас §cне в игре§r.');
             return;
         }
 
         if (empty($args[0])) {
-            $player->sendMessage('Герой, Вы выгнали ' . $intruder->getName() .
-                ', не указав причину, пожалуйста осведомите его о причине.');
+            $player->sendMessage('§eГерой§r, Вы выгнали §b' . $intruder->getName() .
+                '§r, не указав причину, пожалуйста осведомите его о причине.');
             $args[0] = 'неизвестна';
         }
 
-        $intruder->kick('Вы выгнаны игроком ' . $player->getName() . '.' . PHP_EOL .
-            '| Причина: ' . implode(' ', $args) . PHP_EOL . PHP_EOL .
-            '| Оставить жалобу: vk.com/bl_pe');
+        $intruder->kick(
+            '§l| §rВы выгнаны игроком §b' . $player->getName() . '§r.' . PHP_EOL .
+            '§l| §rПричина: §e' . implode(" ", $args) . PHP_EOL . PHP_EOL .
+            '§l| §rОставить жалобу: §bvk.com/bl_pe'
+        );
 
-        $this->getPlugin()->getServer()->broadcastMessage('Игрок ' . $player->getName() .
-            ' выгнал нарушителя ' . $intruder->getName() . ', по причине: ' . implode(' ', $args));
+        $this->getPlugin()->getServer()->broadcastMessage('Игрок §b' . $player->getName() .
+            ' §rвыгнал нарушителя §d' . $intruder->getName() . '§r, по причине: §e' . implode(" ", $args));
     }
 }

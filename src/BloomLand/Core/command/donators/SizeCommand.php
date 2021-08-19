@@ -27,7 +27,7 @@ class SizeCommand extends BaseCommand
     public function onExecute(Player $player, array $args) : void
     {
         if (!isset($args[0])) {
-            $player->sendMessage('Использование: /size <small/reset/big>');
+            $player->sendMessage('Чтобы §bизменить размер§r, используйте: /size <§bsmall§r/§breset§r/§bbig§r>');
             return;
         }
         switch ($args[0]) {
@@ -44,7 +44,7 @@ class SizeCommand extends BaseCommand
                 break;
 
             default:
-                $player->sendMessage('Чтобы изменить свой размер, используйте: /size <small/reset/big>');
+                $player->sendMessage('Чтобы §bизменить свой размер§r, используйте: /size <§bsmall§r/§breset§r/§bbig§r>');
                 break;
         }
     }

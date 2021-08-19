@@ -32,10 +32,10 @@ class ListCommand extends BaseCommand
         $slots = $player->getServer()->getMaxPlayers();
 
         $playerNames = array_map(function(Player $player) {
-            return ($player->isOp() ? '§b' : '§a') . $player->getName();
+            return ($player->isOp() ? '§c' : '§a') . $player->getName();
         }, $players);
 
-        $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.'
+        $player->sendMessage($this->getPrefix() . 'Сейчас играет: §b' . $nowPlaying . ' §rиз §b' . $slots . '§r.'
             .  ' Список: ' . implode('§r' . '§7, §r', $playerNames) . '§r.');
     }
 }

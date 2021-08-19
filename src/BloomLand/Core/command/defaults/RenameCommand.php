@@ -29,25 +29,25 @@ class RenameCommand extends BaseCommand
         $heldItem = $player->getInventory()->getItemInHand();
 
         if ($heldItem->getId() == 0) {
-            $player->sendMessage('Чтобы переименовать предмет нужно взять его в руку.');
+            $player->sendMessage('Чтобы §bпереименовать предмет §rнужно взять его §bв руку§r.');
             return;
         }
 
         if (!isset($args[0])) {
-            $player->sendMessage('Чтобы переименовать предмет нужно указать его новое название.');
+            $player->sendMessage('Чтобы §bпереименовать предмет §rнужно указать его §bновое название§r.');
             return;
         }
 
         $name = implode(' ', $args);
 
         if (strlen($name) > 12) {
-            $player->sendMessage('Название предмета уж слишком велико.');
+            $player->sendMessage('Название предмета уж §bслишком велико§r.');
             return;
         }
 
         $heldItem->setCustomName($name);
         $player->getInventory()->setItemInHand($heldItem);
 
-        $player->sendMessage('Вы сменили название предмета на ' . $name . '§r.');
+        $player->sendMessage('Вы §bсменили название§r предмета на §b' . $name . '§r.');
     }
 }
