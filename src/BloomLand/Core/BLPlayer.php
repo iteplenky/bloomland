@@ -57,6 +57,11 @@ class BLPlayer extends Player
     private bool $god = false;
 
     /**
+     * @var bool
+     */
+    private bool $offDrop = false;
+
+    /**
      * @param string $device
      */
     public function joined(string $device) : void
@@ -207,6 +212,22 @@ class BLPlayer extends Player
     public function setGod(bool $god = true) : void
     {
         $this->god = $god;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOffDrop() : bool
+    {
+        return $this->offDrop;
+    }
+
+    /**
+     * @param bool $offDrop
+     */
+    public function setOffDrop(bool $offDrop = true) : void
+    {
+        $this->offDrop = $offDrop;
     }
 
     /**
