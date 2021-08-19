@@ -20,7 +20,10 @@ class Permissions
         'kill', 'rename', 'repair',
         'xyz', 'size', 'spy',
         'kick', 'god', 'trash',
-        'kit', 'xbox', 'vanish'
+        'kit', 'xbox', 'v',
+        'btop', 'ext', 'milk',
+        'nv', 'drop', 'skin',
+        'speed', 'vlist'
     ];
 
     /**
