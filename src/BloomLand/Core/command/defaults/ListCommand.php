@@ -26,9 +26,16 @@ class ListCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-        $nowPlaying = count($player->getServer()->getOnlinePlayers());
+        $players = $player->getServer()->getOnlinePlayers();
+        
+        $nowPlaying = count($players);
         $slots = $player->getServer()->getMaxPlayers();
 
-        $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.');
+        $playerNames = array_map(function(Player $player) {
+            return ($player->isOp() ? '§b' : '§a') . $player->getName();
+        }, $players);
+
+        $player->sendMessage($this->getPrefix() . 'Сейчас играет: ' . $nowPlaying . ' из ' . $slots . '.'
+            .  ' Список: ' . implode('§r' . '§7, §r', $playerNames) . '§r.');
     }
 }
