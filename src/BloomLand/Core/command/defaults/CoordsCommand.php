@@ -14,6 +14,11 @@ class CoordsCommand extends BaseCommand
 {
 
     /**
+     * @var array
+     */
+    private array $enabled = [];
+
+    /**
      * CoordsCommand constructor.
      */
     public function __construct()
@@ -28,8 +33,12 @@ class CoordsCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
+        $name = $player->getLowerCaseName();
         $pk = new GameRulesChangedPacket();
-        $pk->gameRules = ['showcoordinates' => new BoolGameRule(true, true)];
+        $this->enabled[$name] = !($this->enabled[$name] ?? false);
+        $pk->gameRules = [
+            'showcoordinates' => new BoolGameRule($this->enabled[$name], $this->enabled[$name])
+        ];
         $player->getNetworkSession()->sendDataPacket($pk);
     }
 }
