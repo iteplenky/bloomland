@@ -26,12 +26,7 @@ class GodCommand extends BaseCommand
      */
     public function onExecute(Player $player, array $args) : void
     {
-        if ($player->isGod()) {
-            $player->setGod(false);
-            $player->sendMessage('Вы больше не бессмертный.');
-            return;
-        }
-        $player->setGod();
-        $player->sendMessage('Вы теперь бессмертный.');
+        $player->setGod(!$player->isGod());
+        $player->sendMessage('Вы ' . ($player->isGod() ? 'теперь' : 'больше не') . ' бессмертный.');
     }
 }
