@@ -23,7 +23,7 @@ class Permissions
         'kit', 'xbox', 'v',
         'btop', 'ext', 'milk',
         'nv', 'drop', 'skin',
-        'speed', 'vlist'
+        'speed', 'vlist', 'restart'
     ];
 
     /**
