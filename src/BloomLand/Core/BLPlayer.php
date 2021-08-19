@@ -5,7 +5,11 @@ namespace BloomLand\Core;
 
 
 use JetBrains\PhpStorm\Pure;
+
 use pocketmine\player\Player;
+
+use BloomLand\Core\bossbar\BossBar;
+use BloomLand\Core\scoreboard\ScoreboardFactory;
 
 class BLPlayer extends Player
 {
@@ -51,6 +55,19 @@ class BLPlayer extends Player
      * @var bool
      */
     private bool $god = false;
+
+    /**
+     * @param string $device
+     */
+    public function joined(string $device) : void
+    {
+        $this->setDevice($device);
+        ScoreboardFactory::createScoreboard($this);
+
+        $bar = (new BossBar())->setPercentage($this->getPlugin()->get('bossbar.percentage'));
+        $bar->setTitle($this->getPlugin()->get('bossbar.title'));
+        $bar->addPlayer($this);
+    }
 
     /**
      * @return string
@@ -190,5 +207,13 @@ class BLPlayer extends Player
     public function setGod(bool $god = true) : void
     {
         $this->god = $god;
+    }
+
+    /**
+     * @return Core
+     */
+    public function getPlugin() : Core
+    {
+        return Core::getInstance();
     }
 }
