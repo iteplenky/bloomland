@@ -4,33 +4,36 @@
 namespace BloomLand\Core\listener;
 
 
-use BloomLand\Core\base\Economy;
-use BloomLand\Core\bossbar\BossBar;
 use BloomLand\Core\Core;
 use BloomLand\Core\BLPlayer;
-use BloomLand\Chat\ChatManager;
 
-use BloomLand\Scoreboard\ScoreboardFactory;
+use BloomLand\Core\chat\ChatManager;
 
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityRegainHealthEvent;
+use BloomLand\Core\scoreboard\ScoreboardFactory;
+
 use pocketmine\event\Listener;
 
-use pocketmine\event\player\{PlayerChatEvent,
-    PlayerCreationEvent,
-    PlayerJoinEvent,
-    PlayerPreLoginEvent,
-    PlayerQuitEvent,
-    PlayerRespawnEvent
+use pocketmine\event\entity\{
+    EntityDamageEvent,
+    EntityRegainHealthEvent
 };
+
+use pocketmine\event\player\{
+    PlayerChatEvent,
+    PlayerJoinEvent,
+    PlayerQuitEvent,
+    PlayerRespawnEvent,
+    PlayerCreationEvent,
+    PlayerPreLoginEvent};
 
 use pocketmine\network\mcpe\protocol\{
     EmotePacket,
     PlayerActionPacket,
-    types\entity\EntityMetadataFlags
+    types\entity\EntityMetadataFlags,
 };
 
 use pocketmine\event\server\DataPacketReceiveEvent;
+
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
@@ -118,16 +121,9 @@ class PlayerListener implements Listener
 
         $player = $event->getPlayer();
 
-        $player->setDevice($this->devices[$player->getLowerCaseName()]);
+        $device = $this->devices[$player->getLowerCaseName()];
 
-        ScoreboardFactory::createScoreboard($player);
-
-        $data = $this->getPlugin()->get('bossbar');
-        $bar = (new BossBar())->setPercentage($data['percentage']);
-
-        $bar->setTitle($data['title']);
-
-        $bar->addPlayer($player);
+        $player->joined($device);
 
         $player->sendMessage('Добро пожаловать на сервер!');
 
@@ -221,17 +217,14 @@ class PlayerListener implements Listener
     public function handleDataReceive(DataPacketReceiveEvent $event) : void
     {
         $pk = $event->getPacket();
+        $player = $event->getOrigin()->getPlayer();
 
         if ($pk instanceof EmotePacket) {
-
-            $player = $event->getOrigin()->getPlayer();
 
             $this->getPlugin()->getServer()->broadcastPackets($player->getViewers(), [EmotePacket::create($player->getId(), $pk->getEmoteId(), 1 << 0)]);
         }
 
         if ($pk instanceof PlayerActionPacket) {
-
-            $player = $event->getOrigin()->getPlayer();
 
             switch ($pk->action) {
                 case PlayerActionPacket::ACTION_START_SWIMMING:
