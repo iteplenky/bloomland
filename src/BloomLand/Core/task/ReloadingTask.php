@@ -74,7 +74,7 @@ class ReloadingTask extends Task
                         }
                     }
 
-                    $server->broadcastPopup('До перезагрузки ' . $this->secondsLeft . ' секунд.');
+                    $server->broadcastPopup('§fДо перезагрузки §b' . $this->secondsLeft . '§f секунд.');
 
                     if ($this->secondsLeft <= 0) {
 
@@ -82,7 +82,10 @@ class ReloadingTask extends Task
 
                         foreach ($server->getOnlinePlayers() as $player) {
                             $player->setFighting(false);
-                            $player->kick('Перезагрузка');
+                            $player->kick(
+                                '§l| §rСервер перезагрузился, можете заходить!' . PHP_EOL .
+                                '§l| §rСообщество: §bvk.com/bl_pe'
+                            );
                         }
                         $server->shutdown();
                     }
@@ -105,5 +108,13 @@ class ReloadingTask extends Task
     public function getPlugin() : Core
     {
         return $this->plugin;
+    }
+
+    /**
+     * @param int $minutesLeft
+     */
+    public function setMinutesLeft(int $minutesLeft) : void
+    {
+        $this->minutesLeft = $minutesLeft;
     }
 }
