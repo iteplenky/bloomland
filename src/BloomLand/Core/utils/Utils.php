@@ -4,38 +4,10 @@
 namespace BloomLand\Core\utils;
 
 
-use JetBrains\PhpStorm\Pure;
-use pocketmine\player\Player;
-use pocketmine\Server;
 use InvalidArgumentException;
-use pocketmine\world\World;
 
 class Utils
 {
-
-    /**
-     * @param string $function
-     * @return array
-     */
-    public static function getPlayers(string $function = 'getLowerCaseName') : array
-    {
-        $players = [];
-
-        foreach (Server::getInstance()->getOnlinePlayers() as $player) {
-            $players[$player->{$function}()] = $player;
-        }
-        return $players;
-    }
-
-    /**
-     * @param int $id
-     * @return Player|null
-     */
-    public static function getPlayer(int $id) : ?Player
-    {
-        $player = Server::getInstance()->getWorldManager()->findEntity($id);
-        return $player instanceof Player ? $player : null;
-    }
 
     /**
      * @param int $number
@@ -48,7 +20,7 @@ class Utils
         $cases = [2, 0, 1, 1, 1, 2];
 
         if (count($after) < 3) {
-            throw new InvalidArgumentException('3 - min');
+            throw new InvalidArgumentException('Массив должен содержать 3 ключа, а у вас ' . count($after));
         }
 
         return $number . ' ' . $tag . $after[($number % 100 > 4 && $number % 100 < 20) ? 2 : $cases[min($number % 10, 5)]];
