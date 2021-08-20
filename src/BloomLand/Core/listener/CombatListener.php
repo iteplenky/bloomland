@@ -116,18 +116,18 @@ class CombatListener implements Listener
                     return;
                 }
                 if (!$damager->isFighting()) {
-                    $damager->sendMessage('Вы в §bрежиме сражения§r. Если Вы §cпокинете игру§r, §cто погибните§r.');
+                    $damager->sendMessage('Вы в §bрежиме сражения§r. Если вы §cпокинете игру§r, то погибните.');
                     $damager->sendMessage('Ваш соперник играет с §b' . $entity->getDevice() . '§r.');
                 }
                 if (!$entity->isFighting()) {
-                    $damager->sendMessage('Вы в §bрежиме сражения§r. Если Вы §cпокинете игру§r, §cто погибните§r.');
+                    $entity->sendMessage('Вы в §bрежиме сражения§r. Если вы §cпокинете игру§r, то погибните.');
                     $entity->sendMessage('Ваш соперник играет с §b' . $damager->getDevice() . '§r.');
                 }
 
                 $damager->setFighting();
                 $entity->setFighting();
 
-                $event->setKnockBack(0.415);
+                $event->setKnockBack(0.615);
             }
         }
     }

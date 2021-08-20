@@ -41,7 +41,7 @@ class Utils
         elseif ($ping < 250) {
             $status = ' §eНестабильный';
         }
-        elseif ($ping < 400) {
+        else {
             $status = ' §cПлохой';
         }
         /** @var $status */

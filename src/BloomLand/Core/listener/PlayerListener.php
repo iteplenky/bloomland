@@ -129,7 +129,9 @@ class PlayerListener implements Listener
         $status = Utils::pingToStatus($ping);
 
         $player->sendMessage(PHP_EOL . ' §r> Добро пожаловать на сервер: §bBloom§fLand §rBedrock 1.18');
-        $player->sendMessage(PHP_EOL . ' §r> Ваш статус подключения: ' . $status . ' §8(§7' . $ping . '§8)' . PHP_EOL . ' ');
+        $player->sendMessage(PHP_EOL . ' §r> Ваш статус подключения: ' . $status . ' §8(§7' . $ping . '§8)' .
+            PHP_EOL . ' ');
+        $player->sendTitle('§l§bBloom§fLand', 'Добро пожаловать!', 10, 20, 10);
 
         $this->getPlugin()->getServer()->broadcastPopup(' §f[§b+§f] §f' . $player->getName());
     }

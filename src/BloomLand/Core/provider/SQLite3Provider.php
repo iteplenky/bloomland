@@ -93,6 +93,24 @@ class SQLite3Provider implements ProviderInterface
     }
 
     /**
+     * @param string $username
+     * @return bool
+     */
+    public function isScoreboard(string $username) : bool
+    {
+        // todo.
+    }
+
+    /**
+     * @param string $username
+     * @param bool $value
+     */
+    public function setScoreboard(string $username, bool $value = true) : void
+    {
+        // todo.
+    }
+
+    /**
      * @return SQLite3
      */
     public function getDatabase() : SQLite3

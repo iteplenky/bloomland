@@ -41,6 +41,18 @@ interface ProviderInterface
     public function setCoins(string $username, int $count) : void;
 
     /**
+     * @param string $username
+     * @return bool
+     */
+    public function isScoreboard(string $username) : bool;
+
+    /**
+     * @param string $username
+     * @param bool $value
+     */
+    public function setScoreboard(string $username, bool $value = true) : void;
+
+    /**
      * @return string
      */
     public function getName() : string;
