@@ -35,7 +35,7 @@ class VanishListCommand extends BaseCommand
         }
 
         if (($nowInvisible = count($players)) < 1) {
-            $player->sendMessage('Сейчас нет ни одной невидимки.');
+            $player->sendMessage('Сейчас §bнет ни одной §rневидимки.');
             return;
         }
 
