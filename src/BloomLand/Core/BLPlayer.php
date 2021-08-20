@@ -6,6 +6,7 @@ namespace BloomLand\Core;
 
 use JetBrains\PhpStorm\Pure;
 
+use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 
 use BloomLand\Core\bossbar\BossBar;
@@ -60,6 +61,11 @@ class BLPlayer extends Player
      * @var bool
      */
     private bool $offDrop = false;
+
+    /**
+     * @var Vector3|null
+     */
+    private Vector3|null $backPosition = null;
 
     /**
      * @param string $device
@@ -231,10 +237,37 @@ class BLPlayer extends Player
     }
 
     /**
+     * @param float $fallDistance
+     */
+    public function fall(float $fallDistance) : void
+    {
+        if ($this->isGod()) {
+            return;
+        }
+        parent::fall($fallDistance);
+    }
+
+    /**
      * @return Core
      */
     public function getPlugin() : Core
     {
         return Core::getInstance();
+    }
+
+    /**
+     * @return Vector3|null
+     */
+    public function getBackPosition() : ?Vector3
+    {
+        return $this->backPosition;
+    }
+
+    /**
+     * @param Vector3|null $backPosition
+     */
+    public function setBackPosition(?Vector3 $backPosition) : void
+    {
+        $this->backPosition = $backPosition;
     }
 }
