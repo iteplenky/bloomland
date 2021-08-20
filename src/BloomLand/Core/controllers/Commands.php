@@ -4,12 +4,17 @@
 namespace BloomLand\Core\controllers;
 
 
+use JetBrains\PhpStorm\Pure;
+
 use BloomLand\Core\Core;
 
-use BloomLand\Core\command\defaults\{
+use BloomLand\Core\command\defaults\{DonateCommand,
+    HackCommand,
+    IdCommand,
     KitCommand,
     ListCommand,
     CoinsCommand,
+    RulesCommand,
     SpawnCommand,
     AfkCommand,
     NearCommand,
@@ -18,14 +23,16 @@ use BloomLand\Core\command\defaults\{
     KillCommand,
     RenameCommand,
     CoordsCommand,
+    TellCommand,
     TrashCommand,
-    XboxCommand
-};
+    XboxCommand};
 
-use BloomLand\Core\command\donators\{
+use BloomLand\Core\command\donators\{BackCommand,
     BlockTopCommand,
     ClearInventoryCommand,
+    CookCommand,
     ExtinguishCommand,
+    FireCommand,
     FlyCommand,
     GodCommand,
     HealCommand,
@@ -39,17 +46,23 @@ use BloomLand\Core\command\donators\{
     SkinCommand,
     SpeedCommand,
     SpyCommand,
+    TopCommand,
     VanishCommand,
-    VanishListCommand
-};
+    VanishListCommand};
 
 use BloomLand\Core\command\admin\RestartCommand;
 
-use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\event\Listener;
 
-use pocketmine\console\ConsoleCommandSender;
+use pocketmine\event\player\{
+    PlayerCommandPreprocessEvent,
+    PlayerDeathEvent,
+    PlayerRespawnEvent
+};
+
 use pocketmine\event\server\CommandEvent;
+use pocketmine\console\ConsoleCommandSender;
+use pocketmine\event\inventory\InventoryPickupItemEvent;
 
 use pocketmine\player\Player;
 
@@ -119,7 +132,16 @@ class Commands implements Listener
                 new SkinCommand(),
                 new SpeedCommand(),
                 new VanishListCommand(),
-                new RestartCommand()
+                new RestartCommand(),
+                new DonateCommand(),
+                new HackCommand(),
+                new IdCommand(),
+                new RulesCommand(),
+                new TellCommand(),
+                new BackCommand(),
+                new CookCommand(),
+                new FireCommand(),
+                new TopCommand()
             ]
         );
     }
@@ -220,16 +242,57 @@ class Commands implements Listener
     }
 
     /**
+     * @param PlayerCommandPreprocessEvent $event
+     */
+    #[Pure]
+    public function handlePlayerPreProccess(PlayerCommandPreprocessEvent $event) : void
+    {
+        $message = $event->getMessage();
+        $player = $event->getPlayer();
+
+        if (preg_match("#^\/([\/a-z0-9_-а-яё@\.,:;'\"]+)[ ]?(.*)$#i", $message, $matches) > 0) {
+            if (is_null($this->getPlugin()->getServer()->getCommandMap()->getCommand(
+                $command = strtolower($matches[1])
+            ))) {
+                $player->sendMessage('Команда §b' . $matches[1] . ' §rне найдена.');
+                $event->cancel();
+            }
+        }
+    }
+
+    /**
      * @param InventoryPickupItemEvent $event
      */
     public function handlePickUp(InventoryPickupItemEvent $event) : void
     {
-        $players = $event->getInventory()->getViewers();
-
-        foreach ($players as $player) {
+        foreach ($event->getInventory()->getViewers() as $player) {
             if ($player->isOffDrop()) {
                 $event->cancel();
             }
+        }
+    }
+
+    /**
+     * @param PlayerDeathEvent $event
+     */
+    public function handlePlayerDeath(PlayerDeathEvent $event) : void
+    {
+        $player = $event->getPlayer();
+
+        if ($player->hasPermission('core.command.back')) {
+            $player->setBackPosition($player->getLocation()->asVector3());
+        }
+    }
+
+    /**
+     * @param PlayerRespawnEvent $event
+     */
+    public function handleRespawnEvent(PlayerRespawnEvent $event) : void
+    {
+        $player = $event->getPlayer();
+
+        if ($player->hasPermission('core.command.back')) {
+            $player->sendMessage('Вы можете §bвернуться §rна место §cсмерти§r.');
         }
     }
 }

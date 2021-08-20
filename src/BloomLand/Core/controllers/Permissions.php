@@ -23,7 +23,10 @@ class Permissions
         'kit', 'xbox', 'v',
         'btop', 'ext', 'milk',
         'nv', 'drop', 'skin',
-        'speed', 'vlist', 'restart'
+        'speed', 'vlist', 'restart',
+        'donate', 'hack', 'id',
+        'rules', 'tell', 'back',
+        'cook', 'fire', 'top'
     ];
 
     /**
